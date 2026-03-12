@@ -1,0 +1,64 @@
+---
+description: Versioning and git tagging strategy for this project
+globs:
+alwaysApply: true
+---
+# Versioning and Tagging
+
+This rule defines how versioning and git tagging should be handled in this project. All versioning follows the strategy documented in `docs/VERSIONING.md`.
+
+## Core Principles
+
+1. **Git tags are the single source of truth** for versioning
+2. **Version is extracted from tags** in CI/CD workflows, not from variables or manual configuration
+3. **Semantic versioning** with `v` prefix: `v<major>.<minor>.<patch>`
+4. **The `v` prefix is stripped** when used in workflows (e.g., `v0.2.0` → `0.2.0`)
+
+## Version Format
+
+- **Release versions**: `v<major>.<minor>.<patch>` (e.g., `v0.2.0`, `v1.0.0`)
+- **Development tags**: `v<version>-dev-<branch-name>` (e.g., `v0.3.0-dev-improve-ui`)
+  - Use branch name **without** type prefix (`feature/`, `hotfix/`, etc.)
+  - Example: Branch `feature/improve-ui` → Tag `v0.3.0-dev-improve-ui`
+- **Pre-release tags**: `v<version>-<identifier><number>` (e.g., `v0.2.0-rc1`, `v0.2.0-beta1`, `v0.2.0-alpha1`)
+
+## Version Extraction in Workflows
+
+When creating or updating GitHub Actions workflows that need version information:
+
+1. **Extract version from git tag ref** (when triggered by tag push):
+
+   ```yaml
+   - name: Extract version from tag
+     id: version
+     run: |
+       if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+         VERSION="${GITHUB_REF#refs/tags/v}"
+         echo "Using version from tag ref: $VERSION"
+       else
+         git fetch --tags --force
+         LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+         if [ -z "$LATEST_TAG" ]; then
+           echo "Error: Cannot determine version. No tag provided."
+           exit 1
+         fi
+         VERSION="${LATEST_TAG#v}"
+         echo "Using latest tag version: $VERSION (from tag: $LATEST_TAG)"
+       fi
+       echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+   ```
+
+2. **Use extracted version** throughout the workflow (Docker tags, job outputs, etc.).
+3. **Never hardcode versions** or use GitHub variables for `APP_VERSION` in workflows
+
+## Tag Naming Guidelines
+
+- **Development**: `v<version>-dev-<branch-name>` (remove branch type prefix)
+- **Pre-release**: `v0.2.0-rc1`, `v0.2.0-beta1`, `v0.2.0-alpha1`
+- **Release**: `v0.2.0`, `v1.0.0`
+
+## When Working with Versions
+
+- **Creating workflows**: Always extract version from git tags, never use hardcoded versions
+- **Tagging**: Follow the naming conventions for development, pre-release, and release tags
+- **Documentation**: Reference `docs/VERSIONING.md` for tag/CI strategy; reference `docs/SEMVER_GUIDE.md` for when to bump MAJOR, MINOR, or PATCH
