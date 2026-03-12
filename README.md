@@ -90,6 +90,7 @@ Add `test` in `package.json` if missing (e.g. `"test": "vitest run"`).
 - **[docs/testing.md](docs/testing.md)** – Testing strategy and structure
 - **[docs/VERSIONING.md](docs/VERSIONING.md)** – Tags and version format
 - **[docs/SEMVER_GUIDE.md](docs/SEMVER_GUIDE.md)** – When to bump MAJOR/MINOR/PATCH
+- **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** – Vercel staging and production setup
 
 ## License
 
