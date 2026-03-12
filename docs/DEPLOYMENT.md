@@ -29,12 +29,14 @@ After this, configure production and staging as below so that **main** deploys t
 
 ### 2.3 Staging (develop branch)
 
+Staging works on the **free (Hobby) plan**: use **Domains** to assign a custom URL to the `develop` branch. You do **not** need “Create Pre-production Environment” (that’s a Pro feature).
+
 - **Preview URL only**: Every push to `develop` gets a preview URL (e.g. `audiometa-frontend-git-develop-username.vercel.app`). No extra config.
 - **Staging custom domain** (recommended):
-  1. **Settings → Domains**.
-  2. Click **Add** and enter your staging domain (e.g. `staging.audiometa.com`).
+  1. **Settings → Domains** (not “Environments” / “Pre-production Environment”).
+  2. Click **Add** and enter your staging domain (e.g. `staging.audiometa.themusictree.org`).
   3. When adding the domain, set **Git Branch** to `develop`. Only deployments from `develop` will be served on this domain.
-  4. Add the DNS records Vercel shows at your DNS provider.
+  4. Add the CNAME record (and any other DNS) Vercel shows at your DNS provider.
 
 Result:
 
