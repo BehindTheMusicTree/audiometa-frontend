@@ -1,3 +1,5 @@
+# Lint, test, and build on develop (staging) and main (production).
+# Vercel deploys: develop → staging, main → production (see docs/DEPLOYMENT.md).
 name: Validate
 
 on:
@@ -66,7 +68,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Set build env (staging vs production)
+        run: |
+          BRANCH="${{ github.base_ref || github.ref_name }}"
+          if [[ "$BRANCH" == "main" ]]; then
+            echo "NEXT_PUBLIC_APP_URL=https://app.audiometa.com" >> "$GITHUB_ENV"
+          else
+            echo "NEXT_PUBLIC_APP_URL=https://staging.audiometa.com" >> "$GITHUB_ENV"
+          fi
+
       - name: Build application
-        env:
-          NEXT_PUBLIC_APP_URL: https://example.com
         run: npm run build
