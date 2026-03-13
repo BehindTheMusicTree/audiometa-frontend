@@ -1,7 +1,6 @@
 import type { NextConfig } from "next";
 
 const requiredEnv = [
-  "PORT",
   "NEXT_PUBLIC_API_BASE_URL",
   "NEXT_PUBLIC_SITE_DEVELOPER",
   "NEXT_PUBLIC_SITE_DEVELOPER_GITHUB_URL",

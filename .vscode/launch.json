@@ -23,7 +23,7 @@
       "type": "chrome",
       "request": "launch",
       "name": "Open app in Chrome",
-      "url": "http://localhost:${env:PORT}",
+      "url": "http://localhost:3000",
       "webRoot": "${workspaceFolder}"
     }
   ]
