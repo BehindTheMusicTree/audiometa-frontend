@@ -83,7 +83,7 @@ export default function PageFooter() {
       <span className="flex items-center gap-2 text-sm text-slate-500">
         Powered by
         <Image
-          src="/icons/logo-round.png"
+          src="/logo-round.png"
           alt="Audiometa"
           width={28}
           height={28}
