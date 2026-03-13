@@ -16,7 +16,7 @@ function MastodonIcon() {
       alt=""
       width={20}
       height={20}
-      className="h-5 w-5 shrink-0"
+      className="h-5 w-5 min-h-5 min-w-5 shrink-0 object-contain"
       aria-hidden
     />
   );
@@ -83,7 +83,7 @@ export default function PageFooter() {
       <span className="flex items-center gap-2 text-sm text-slate-500">
         Powered by
         <Image
-          src="/logo-round.png"
+          src="/icons/logo-round.png"
           alt="Audiometa"
           width={28}
           height={28}

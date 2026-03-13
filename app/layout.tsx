@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: "Audiometa",
   description: "Audio metadata manager",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/icons/favicon.ico",
   },
 };
 
