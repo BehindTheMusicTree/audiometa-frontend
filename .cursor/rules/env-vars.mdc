@@ -1,0 +1,11 @@
+---
+description: Environment variables are required; no optional env vars. Build fails if any are missing.
+globs:
+alwaysApply: true
+---
+# Environment variables
+
+- **Env vars are never optional.** Every variable the app uses must be required at build time.
+- **Required list**: Add each env var to the `requiredEnv` array in **next.config.ts**. The build fails with a clear error if any is missing or empty.
+- **Documentation**: Every required var must appear in **.env.example** with an example value and a short comment. No commented-out or "optional" entries for vars the app actually uses.
+- **Adding a new env var**: (1) Add it to `requiredEnv` in next.config.ts, (2) Add it to .env.example with comment and example, (3) Use it in code. Do not introduce optional env vars.
