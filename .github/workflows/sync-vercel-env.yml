@@ -1,0 +1,42 @@
+# Sync environment variables from GitHub Secrets to Vercel (Production and Preview).
+# Run manually: Actions → Sync Vercel env → Run workflow.
+# Required secrets: VERCEL_TOKEN, VERCEL_PROJECT_ID.
+# Optional: ENV_NEXT_PUBLIC_APP_URL_PRODUCTION, ENV_NEXT_PUBLIC_APP_URL_PREVIEW,
+#           ENV_NEXT_PUBLIC_API_URL_PRODUCTION, ENV_NEXT_PUBLIC_API_URL_PREVIEW.
+# Steps skip when the corresponding secret is not set. See docs/DEPLOYMENT.md §3.1.
+name: Sync Vercel env
+
+on:
+  workflow_dispatch:
+
+jobs:
+  sync:
+    name: Sync env to Vercel
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      ENV_NEXT_PUBLIC_APP_URL_PRODUCTION: ${{ secrets.ENV_NEXT_PUBLIC_APP_URL_PRODUCTION }}
+      ENV_NEXT_PUBLIC_APP_URL_PREVIEW: ${{ secrets.ENV_NEXT_PUBLIC_APP_URL_PREVIEW }}
+      ENV_NEXT_PUBLIC_API_URL_PRODUCTION: ${{ secrets.ENV_NEXT_PUBLIC_API_URL_PRODUCTION }}
+      ENV_NEXT_PUBLIC_API_URL_PREVIEW: ${{ secrets.ENV_NEXT_PUBLIC_API_URL_PREVIEW }}
+    steps:
+      - name: Sync env vars to Vercel
+        run: |
+          sync_var() {
+            local value="$1"
+            local key="$2"
+            local target="$3"
+            [ -z "$value" ] && echo "Skipping $key ($target) - secret not set" && return 0
+            echo "Syncing $key to $target..."
+            body=$(jq -n --arg key "$key" --arg value "$value" --arg target "$target" '{key:$key, value:$value, type:"plain", target:[$target]}')
+            curl -sS -X POST "https://api.vercel.com/v10/projects/${VERCEL_PROJECT_ID}/env?upsert=true" \
+              -H "Authorization: Bearer ${VERCEL_TOKEN}" \
+              -H "Content-Type: application/json" \
+              -d "$body"
+          }
+          sync_var "$ENV_NEXT_PUBLIC_APP_URL_PRODUCTION" "NEXT_PUBLIC_APP_URL" "production"
+          sync_var "$ENV_NEXT_PUBLIC_APP_URL_PREVIEW" "NEXT_PUBLIC_APP_URL" "preview"
+          sync_var "$ENV_NEXT_PUBLIC_API_URL_PRODUCTION" "NEXT_PUBLIC_API_URL" "production"
+          sync_var "$ENV_NEXT_PUBLIC_API_URL_PREVIEW" "NEXT_PUBLIC_API_URL" "preview"
+          echo "Done."
