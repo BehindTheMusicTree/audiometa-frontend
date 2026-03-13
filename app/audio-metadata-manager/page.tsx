@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import Page from "@/components/Page";
+import PageLayout from "@/components/PageLayout";
 import { useGetFullMetadata } from "@/hooks/useGetFullMetadata";
 import type { AudioMetadataDetailed } from "@/schemas/audio-metadata";
 
@@ -30,7 +30,7 @@ export default function MetadataManagerPage() {
   }
 
   return (
-    <Page title="Audio Metadata Manager" dataPage="audio-metadata-manager">
+    <PageLayout title="Audio Metadata Manager" dataPage="audio-metadata-manager">
       <div className="flex flex-col gap-6">
         <div className="flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
           <input
@@ -163,6 +163,6 @@ export default function MetadataManagerPage() {
           </section>
         </div>
       </div>
-    </Page>
+    </PageLayout>
   );
 }
