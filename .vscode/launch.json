@@ -4,6 +4,15 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Launch app (dev)",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Launch app (build and run)",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "launch"],
