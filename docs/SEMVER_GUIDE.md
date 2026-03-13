@@ -25,7 +25,7 @@ A version number is structured as:
 - **MINOR**: New backward-compatible features or notable improvements
 - **PATCH**: Backward-compatible bug fixes and small improvements
 
-When updating `CHANGELOG.md` or choosing a release version, use this guide to decide whether to bump MAJOR, MINOR, or PATCH. For tag format and CI/CD behavior, see [docs/VERSIONING.md](VERSIONING.md).
+When updating [CHANGELOG.md](../CHANGELOG.md) or choosing a release version, use this guide to decide whether to bump MAJOR, MINOR, or PATCH. For tag format and CI/CD behavior, see [VERSIONING.md](VERSIONING.md).
 
 ---
 

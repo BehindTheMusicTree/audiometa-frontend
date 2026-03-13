@@ -83,6 +83,7 @@ Add `test` in `package.json` if missing (e.g. `"test": "vitest run"`).
 
 ## Documentation
 
+- **[CHANGELOG.md](CHANGELOG.md)** – Version history and notable changes
 - **[CONTRIBUTING.md](CONTRIBUTING.md)** – Git Flow, commits, PRs, releasing
 - **[docs/STYLE_GUIDE.md](docs/STYLE_GUIDE.md)** – TypeScript, React, Tailwind, naming
 - **[docs/SEMANTIC_HTML.md](docs/SEMANTIC_HTML.md)** – Semantic layout elements

@@ -70,7 +70,7 @@ See [.cursor/rules/commit-message-format.mdc](.cursor/rules/commit-message-forma
 - **Target** – Features/chores → `develop`. Hotfixes → `main`.
 - **Title** – Same format as commit messages, e.g. `feat(metadata): add batch edit`.
 - **Description** – Draft in `.pr-descriptions/<branch-name>.md` (see [.cursor/rules/pr-description-workflow.mdc](.cursor/rules/pr-description-workflow.mdc)); copy into GitHub when opening the PR. Use [.github/pull_request_template.md](.github/pull_request_template.md).
-- **Checks** – Lint, test, and build must pass. Update CHANGELOG under `[Unreleased]` when applicable.
+- **Checks** – Lint, test, and build must pass. Update [CHANGELOG.md](CHANGELOG.md) under `[Unreleased]` when applicable (see changelog best practices there).
 
 ## Releasing (maintainers)
 
@@ -82,6 +82,7 @@ See [docs/VERSIONING.md](docs/VERSIONING.md) and [docs/SEMVER_GUIDE.md](docs/SEM
 
 ## Documentation
 
+- **Changelog** – [CHANGELOG.md](CHANGELOG.md) (version history; update `[Unreleased]` in PRs)
 - **Code & UI** – [docs/STYLE_GUIDE.md](docs/STYLE_GUIDE.md)
 - **Semantic HTML** – [docs/SEMANTIC_HTML.md](docs/SEMANTIC_HTML.md)
 - **Data attributes & testing** – [docs/DATA_ATTRIBUTES.md](docs/DATA_ATTRIBUTES.md), [docs/testing.md](docs/testing.md)

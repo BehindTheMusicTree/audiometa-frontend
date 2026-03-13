@@ -4,6 +4,8 @@ This document describes how application versioning is handled in CI/CD workflows
 
 **When to bump MAJOR, MINOR, or PATCH:** See [Semantic Versioning Guide](SEMVER_GUIDE.md) for how SemVer applies to this Next.js application.
 
+**Changelog:** Update [CHANGELOG.md](../CHANGELOG.md) when releasing: move `[Unreleased]` entries into a new versioned section (e.g. `## [0.2.0] - YYYY-MM-DD`).
+
 ## Table of Contents
 
 - [Overview](#overview)
@@ -79,6 +81,9 @@ npm version 1.3.0 --no-git-tag-version   # set exact version (no commit/tag)
 Use `--no-git-tag-version` when you only want to change `package.json` without creating a commit or tag.
 
 ### Creating a Release
+
+1. Ensure [CHANGELOG.md](../CHANGELOG.md) has `[Unreleased]` entries for the release; they will be moved into the new version section when you run `npm version` (if you use a postversion script) or do it manually.
+2. Then:
 
 ```bash
 # 1. Create release branch
