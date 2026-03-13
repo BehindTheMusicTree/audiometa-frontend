@@ -61,6 +61,31 @@ Recommended:
 
 Save after editing; redeploy if needed for changes to apply.
 
+### 3.1 Automating env vars
+
+You can push environment variables to Vercel from GitHub Actions so they stay in sync with GitHub Secrets.
+
+Use the workflow [`.github/workflows/sync-vercel-env.yml`](../.github/workflows/sync-vercel-env.yml). It runs manually (**Actions → Sync Vercel env → Run workflow**) and syncs variables from GitHub Secrets to Vercel using the [Vercel REST API](https://vercel.com/docs/rest-api/reference/endpoints/projects/create-one-or-more-environment-variables).
+
+**Required** GitHub Secrets:
+
+- `VERCEL_TOKEN` – [Vercel token](https://vercel.com/account/tokens) with access to the project.
+- `VERCEL_PROJECT_ID` – Project id or name (e.g. `audiometa-frontend`).
+
+**How to get them**
+
+- **VERCEL_TOKEN**: Go to [vercel.com/account/tokens](https://vercel.com/account/tokens), click **Create Token**, give it a name (e.g. “GitHub Actions env sync”), and optionally limit it to the project. Copy the token once (it is shown only once) and store it as a GitHub secret.
+- **VERCEL_PROJECT_ID**: Open your project on Vercel → **Settings** → **General**. The **Project ID** is in the “Project ID” or “Project Name” field (you can use either the id or the project name, e.g. `audiometa-frontend`). For a team project, use the project name/slug as shown in the project URL.
+
+**Optional** (set only the ones you want to sync; steps skip when unset):
+
+- `ENV_NEXT_PUBLIC_APP_URL_PRODUCTION` – Production app URL (e.g. `https://app.audiometa.themusictree.org`).
+- `ENV_NEXT_PUBLIC_APP_URL_PREVIEW` – Staging/preview app URL (e.g. `https://staging.audiometa.themusictree.org`).
+- `ENV_NEXT_PUBLIC_API_URL_PRODUCTION` – Production API base URL.
+- `ENV_NEXT_PUBLIC_API_URL_PREVIEW` – Staging API base URL.
+
+The workflow uses `upsert` so it creates or updates each variable. After it runs, trigger a redeploy in Vercel if you want the new values on the next build.
+
 ## 4. Summary
 
 - **Deploy**: Push to `develop` → staging; push/merge to `main` → production. Vercel builds and deploys automatically via Git.
