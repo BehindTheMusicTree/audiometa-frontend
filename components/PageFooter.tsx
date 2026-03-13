@@ -46,13 +46,13 @@ function MailIcon() {
 }
 
 function DeveloperCredit() {
-  const name = process.env.NEXT_PUBLIC_SITE_DEVELOPER;
+  const name = process.env.NEXT_PUBLIC_DEVELOPER;
   if (!name) return null;
 
   return (
     <span className="flex items-center gap-2 text-sm text-slate-500">
       <a
-        href={process.env.NEXT_PUBLIC_SITE_DEVELOPER_GITHUB_URL}
+        href={process.env.NEXT_PUBLIC_GITHUB_URL}
         target="_blank"
         rel="noopener noreferrer"
         className="font-medium text-slate-700 underline decoration-slate-400 underline-offset-2 hover:text-slate-900 hover:decoration-slate-600"
@@ -61,7 +61,7 @@ function DeveloperCredit() {
       </a>
       <span className="flex items-center gap-1" aria-hidden="true">
         <a
-          href={process.env.NEXT_PUBLIC_SITE_DEVELOPER_LINKEDIN_URL}
+          href={process.env.NEXT_PUBLIC_LINKEDIN_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="rounded p-0.5 text-slate-500 transition-colors hover:text-slate-800"
@@ -70,7 +70,7 @@ function DeveloperCredit() {
           <LinkedInIcon />
         </a>
         <a
-          href={process.env.NEXT_PUBLIC_SITE_DEVELOPER_MASTODON_URL}
+          href={process.env.NEXT_PUBLIC_MASTODON_URL}
           target="_blank"
           rel="me noopener noreferrer"
           className="rounded p-0.5 text-slate-500 transition-colors hover:text-slate-800"
@@ -79,7 +79,7 @@ function DeveloperCredit() {
           <MastodonIcon />
         </a>
         <a
-          href={`mailto:${process.env.NEXT_PUBLIC_SITE_DEVELOPER_EMAIL}`}
+          href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL}`}
           className="rounded p-0.5 text-slate-500 transition-colors hover:text-slate-800"
           aria-label="Email developer"
         >
