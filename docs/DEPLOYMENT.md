@@ -48,7 +48,7 @@ Result:
 
 ## 3. Environment variables
 
-For **local** runs (`npm run dev`, `npm run launch`): copy `.env.example` to `.env` and set `PORT` and `NEXT_PUBLIC_API_BASE_URL`. The build fails if either is missing.
+For **local** runs (`npm run dev`, `npm run launch`): copy `.env.example` to `.env` and set every variable listed there. The build fails if any required env var is missing (see `requiredEnv` in next.config.ts).
 
 On **Vercel**:
 
