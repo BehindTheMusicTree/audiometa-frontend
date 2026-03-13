@@ -6,7 +6,9 @@ import { useGetFullMetadata } from "@/hooks/useGetFullMetadata";
 import type { AudioMetadataDetailed } from "@/schemas/audio-metadata";
 
 export default function MetadataManagerPage() {
-  const [audioMetadata, setAudioMetadata] = useState<AudioMetadataDetailed | undefined>();
+  const [audioMetadata, setAudioMetadata] = useState<
+    AudioMetadataDetailed | undefined
+  >();
   const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { getMetadata, isPending, error } = useGetFullMetadata();
@@ -28,7 +30,7 @@ export default function MetadataManagerPage() {
   }
 
   return (
-    <Page title="Metadata Manager" dataPage="metadata-manager">
+    <Page title="Audio Metadata Manager" dataPage="audio-metadata-manager">
       <div className="flex flex-col gap-6">
         <div className="flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
           <input
@@ -74,7 +76,9 @@ export default function MetadataManagerPage() {
                 {JSON.stringify(audioMetadata.technicalInfo, null, 2)}
               </pre>
             ) : (
-              <p className="text-sm italic text-slate-400">{noMetadataPlaceholder}</p>
+              <p className="text-sm italic text-slate-400">
+                {noMetadataPlaceholder}
+              </p>
             )}
           </section>
           <section className={sectionBoxClass}>
@@ -88,7 +92,9 @@ export default function MetadataManagerPage() {
                 {JSON.stringify(audioMetadata.unifiedMetadata, null, 2)}
               </pre>
             ) : (
-              <p className="text-sm italic text-slate-400">{noMetadataPlaceholder}</p>
+              <p className="text-sm italic text-slate-400">
+                {noMetadataPlaceholder}
+              </p>
             )}
           </section>
           <section className={sectionBoxClass}>
@@ -102,7 +108,9 @@ export default function MetadataManagerPage() {
                 {JSON.stringify(audioMetadata.metadataFormat, null, 2)}
               </pre>
             ) : (
-              <p className="text-sm italic text-slate-400">{noMetadataPlaceholder}</p>
+              <p className="text-sm italic text-slate-400">
+                {noMetadataPlaceholder}
+              </p>
             )}
           </section>
           <section className={sectionBoxClass}>
@@ -116,7 +124,9 @@ export default function MetadataManagerPage() {
                 {JSON.stringify(audioMetadata.formatPriorities, null, 2)}
               </pre>
             ) : (
-              <p className="text-sm italic text-slate-400">{noMetadataPlaceholder}</p>
+              <p className="text-sm italic text-slate-400">
+                {noMetadataPlaceholder}
+              </p>
             )}
           </section>
           <section className={sectionBoxClass}>
@@ -130,7 +140,9 @@ export default function MetadataManagerPage() {
                 {JSON.stringify(audioMetadata.headers, null, 2)}
               </pre>
             ) : (
-              <p className="text-sm italic text-slate-400">{noMetadataPlaceholder}</p>
+              <p className="text-sm italic text-slate-400">
+                {noMetadataPlaceholder}
+              </p>
             )}
           </section>
           <section className={sectionBoxClass}>
@@ -144,7 +156,9 @@ export default function MetadataManagerPage() {
                 {JSON.stringify(audioMetadata.rawMetadata, null, 2)}
               </pre>
             ) : (
-              <p className="text-sm italic text-slate-400">{noMetadataPlaceholder}</p>
+              <p className="text-sm italic text-slate-400">
+                {noMetadataPlaceholder}
+              </p>
             )}
           </section>
         </div>

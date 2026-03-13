@@ -22,7 +22,9 @@ describe("MetadataManagerPage", () => {
 
   it("renders the heading Metadata Manager", () => {
     render(<MetadataManagerPage />);
-    expect(screen.getByRole("heading", { name: /metadata manager/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /audio metadata manager/i }),
+    ).toBeInTheDocument();
   });
 
   it("shows No metadata when no file has been processed", () => {
@@ -42,7 +44,10 @@ describe("MetadataManagerPage", () => {
       "Metadata raw",
     ];
     for (const title of sectionTitles) {
-      const headings = screen.getAllByRole("heading", { level: 2, name: title });
+      const headings = screen.getAllByRole("heading", {
+        level: 2,
+        name: title,
+      });
       expect(headings.length).toBeGreaterThanOrEqual(1);
     }
   });
