@@ -50,7 +50,7 @@ Next.js frontend for audio metadata editing and management.
 ### Install and run
 
 ```bash
-git clone https://github.com/YOUR-ORG/audiometa-frontend.git
+git clone https://github.com/BehindTheMusicTree/audiometa-frontend.git
 cd audiometa-frontend
 npm install
 cp .env.example .env.local   # if present; set variables as needed
@@ -65,13 +65,13 @@ Create `.env.local` from `.env.example` (when available) and set any required `N
 
 ## Scripts
 
-| Command           | Description              |
-| ----------------- | ------------------------ |
-| `npm run dev`     | Start development server |
-| `npm run build`   | Production build         |
-| `npm run start`   | Start production server  |
-| `npm run lint`    | Run ESLint               |
-| `npm run test`    | Run tests                |
+| Command         | Description              |
+| --------------- | ------------------------ |
+| `npm run dev`   | Start development server |
+| `npm run build` | Production build         |
+| `npm run start` | Start production server  |
+| `npm run lint`  | Run ESLint               |
+| `npm run test`  | Run tests                |
 
 Add `test` in `package.json` if missing (e.g. `"test": "vitest run"`).
 
