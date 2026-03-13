@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "launch": "npm run build && npm run start",
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest"
@@ -31,5 +32,10 @@
     "typescript": "^5",
     "vite": "^6",
     "vitest": "^2"
+  },
+  "overrides": {
+    "vitest": {
+      "vite": "^6"
+    }
   }
 }

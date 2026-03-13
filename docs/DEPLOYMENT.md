@@ -48,6 +48,10 @@ Result:
 
 ## 3. Environment variables
 
+For **local** runs (`npm run dev`, `npm run launch`): copy `.env.example` to `.env` and set `PORT` and `NEXT_PUBLIC_API_BASE_URL`. The build fails if either is missing.
+
+On **Vercel**:
+
 1. **Settings → Environment Variables**.
 2. For each variable, choose:
    - **Production** – only for production deployments (branch `main`).
