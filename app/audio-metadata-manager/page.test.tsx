@@ -30,7 +30,7 @@ describe("MetadataManagerPage", () => {
   it("shows No metadata when no file has been processed", () => {
     render(<MetadataManagerPage />);
     const noMetadataElements = screen.getAllByText("No metadata");
-    expect(noMetadataElements.length).toBeGreaterThanOrEqual(5);
+    expect(noMetadataElements.length).toBeGreaterThanOrEqual(4);
   });
 
   it("renders all metadata section headings", () => {
@@ -39,7 +39,6 @@ describe("MetadataManagerPage", () => {
       "Technical information",
       "Unified metadata",
       "By metadata format",
-      "Formats headers",
       "Metadata raw",
     ];
     for (const title of sectionTitles) {

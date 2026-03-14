@@ -217,6 +217,32 @@ export default function MetadataManagerPage() {
                     </p>
                   )}
                 </div>
+                <div>
+                  <h3 className="mb-2 border-b border-slate-100 pb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    Formats headers
+                  </h3>
+                  {audioMetadata.headers != null &&
+                  (Array.isArray(audioMetadata.headers) ||
+                    typeof audioMetadata.headers === "object") ? (
+                    isPlainKeyValueObject(
+                      audioMetadata.headers as Record<string, unknown>,
+                    ) ? (
+                      <MetadataKeyValueTable
+                        entries={Object.entries(
+                          audioMetadata.headers as Record<string, unknown>,
+                        )}
+                      />
+                    ) : (
+                      <pre className="overflow-x-auto text-sm leading-relaxed text-slate-700">
+                        {JSON.stringify(audioMetadata.headers, null, 2)}
+                      </pre>
+                    )
+                  ) : (
+                    <p className="text-sm italic text-slate-400">
+                      {noMetadataPlaceholder}
+                    </p>
+                  )}
+                </div>
               </div>
             ) : (
               <p className="text-sm italic text-slate-400">
@@ -260,22 +286,6 @@ export default function MetadataManagerPage() {
             {audioMetadata ? (
               <pre className="overflow-x-auto text-sm leading-relaxed text-slate-700">
                 {JSON.stringify(audioMetadata.metadataFormat, null, 2)}
-              </pre>
-            ) : (
-              <p className="text-sm italic text-slate-400">
-                {noMetadataPlaceholder}
-              </p>
-            )}
-          </section>
-          <section className={sectionBoxClass}>
-            <header className="mb-3 border-b border-slate-100 pb-2">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">
-                Formats headers
-              </h2>
-            </header>
-            {audioMetadata ? (
-              <pre className="overflow-x-auto text-sm leading-relaxed text-slate-700">
-                {JSON.stringify(audioMetadata.headers, null, 2)}
               </pre>
             ) : (
               <p className="text-sm italic text-slate-400">
