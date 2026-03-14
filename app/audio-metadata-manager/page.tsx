@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useRef, useState } from "react";
 import PageLayout from "@/components/PageLayout";
 import { useGetFullMetadata } from "@/hooks/useGetFullMetadata";
@@ -11,6 +12,70 @@ import {
 } from "@/lib/format-number";
 import { camelToLabel } from "@/lib/format-key";
 import type { AudioMetadataDetailed } from "@/schemas/audio-metadata";
+
+function formatInlineValue(key: string, val: unknown): ReactNode {
+  if (val === null || val === undefined) return <span className="text-slate-400">—</span>;
+  if (typeof val === "boolean") return val ? "Yes" : "No";
+  if (typeof val === "number" && Number.isFinite(val)) {
+    if (key === "headerSizeBytes") return formatFileSizeBytes(val);
+    if (key === "durationSeconds") return formatDurationSeconds(val);
+    if (key === "bitrateBps") return formatBitrateBps(val);
+    if (key === "sampleRateHz") return formatSampleRateHz(val);
+    if (key === "fileSizeBytes") return formatFileSizeBytes(val);
+    return String(val);
+  }
+  if (typeof val === "string") return val;
+  if (Array.isArray(val)) {
+    const items = val.filter((v) => v !== null && v !== undefined && v !== "");
+    if (items.length === 0) return <span className="text-slate-400">—</span>;
+    return (
+      <ul className="m-0 list-none space-y-0.5 pl-0 text-slate-700">
+        {items.map((item, i) => (
+          <li
+            key={i}
+            className="border-l-2 border-slate-200 py-0.5 pl-2 text-xs"
+          >
+            {typeof item === "object" && item !== null && !Array.isArray(item) ? (
+              <ObjectValue value={item as Record<string, unknown>} />
+            ) : (
+              String(item)
+            )}
+          </li>
+        ))}
+      </ul>
+    );
+  }
+  if (typeof val === "object" && val !== null && !Array.isArray(val)) {
+    return <ObjectValue value={val as Record<string, unknown>} />;
+  }
+  return String(val);
+}
+
+function ObjectValue({ value }: { value: Record<string, unknown> }) {
+  const entries = Object.entries(value);
+  if (entries.length === 0) {
+    return <span className="text-slate-400">—</span>;
+  }
+  return (
+    <dl className="m-0 grid gap-x-3 gap-y-0.5 text-xs text-slate-700 sm:grid-cols-[auto_1fr]">
+      {entries.map(([k, v]) => (
+        <span key={k} className="contents">
+          <dt className="font-medium text-slate-600">{camelToLabel(k)}</dt>
+          <dd className="min-w-0">
+            {v !== null &&
+            typeof v === "object" &&
+            !Array.isArray(v) &&
+            Object.keys(v).length === 0 ? (
+              <span className="text-slate-400">—</span>
+            ) : (
+              formatInlineValue(k, v)
+            )}
+          </dd>
+        </span>
+      ))}
+    </dl>
+  );
+}
 
 function CellValue({ value }: { value: unknown }) {
   if (value === null || value === undefined) {
@@ -28,7 +93,9 @@ function CellValue({ value }: { value: unknown }) {
             key={i}
             className="flex items-center gap-2 border-l-2 border-slate-200 py-0.5 pl-2 text-sm"
           >
-            {typeof item === "object" ? (
+            {typeof item === "object" && item !== null && !Array.isArray(item) ? (
+              <ObjectValue value={item as Record<string, unknown>} />
+            ) : typeof item === "object" ? (
               <code className="rounded bg-slate-100 px-1.5 py-0.5 text-xs">
                 {JSON.stringify(item)}
               </code>
@@ -41,11 +108,7 @@ function CellValue({ value }: { value: unknown }) {
     );
   }
   if (typeof value === "object") {
-    return (
-      <code className="rounded bg-slate-100 px-1.5 py-0.5 text-xs">
-        {JSON.stringify(value)}
-      </code>
-    );
+    return <ObjectValue value={value as Record<string, unknown>} />;
   }
   return <span>{String(value)}</span>;
 }
