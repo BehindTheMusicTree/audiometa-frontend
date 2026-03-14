@@ -171,25 +171,53 @@ export default function MetadataManagerPage() {
               </h2>
             </header>
             {audioMetadata ? (
-              (() => {
-                const info = audioMetadata.technicalInfo;
-                if (info == null || typeof info !== "object" || Array.isArray(info)) {
-                  return (
+              <div className="flex flex-col gap-6">
+                {(() => {
+                  const info = audioMetadata.technicalInfo;
+                  if (info == null || typeof info !== "object" || Array.isArray(info)) {
+                    return (
+                      <p className="text-sm italic text-slate-400">
+                        {noMetadataPlaceholder}
+                      </p>
+                    );
+                  }
+                  const entries = Object.entries(info);
+                  if (entries.length === 0) {
+                    return (
+                      <p className="text-sm italic text-slate-400">
+                        {noMetadataPlaceholder}
+                      </p>
+                    );
+                  }
+                  return <MetadataKeyValueTable entries={entries} />;
+                })()}
+                <div>
+                  <h3 className="mb-2 border-b border-slate-100 pb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    Format priorities
+                  </h3>
+                  {audioMetadata.formatPriorities != null &&
+                  (Array.isArray(audioMetadata.formatPriorities) ||
+                    typeof audioMetadata.formatPriorities === "object") ? (
+                    isPlainKeyValueObject(
+                      audioMetadata.formatPriorities as Record<string, unknown>,
+                    ) ? (
+                      <MetadataKeyValueTable
+                        entries={Object.entries(
+                          audioMetadata.formatPriorities as Record<string, unknown>,
+                        )}
+                      />
+                    ) : (
+                      <pre className="overflow-x-auto text-sm leading-relaxed text-slate-700">
+                        {JSON.stringify(audioMetadata.formatPriorities, null, 2)}
+                      </pre>
+                    )
+                  ) : (
                     <p className="text-sm italic text-slate-400">
                       {noMetadataPlaceholder}
                     </p>
-                  );
-                }
-                const entries = Object.entries(info);
-                if (entries.length === 0) {
-                  return (
-                    <p className="text-sm italic text-slate-400">
-                      {noMetadataPlaceholder}
-                    </p>
-                  );
-                }
-                return <MetadataKeyValueTable entries={entries} />;
-              })()
+                  )}
+                </div>
+              </div>
             ) : (
               <p className="text-sm italic text-slate-400">
                 {noMetadataPlaceholder}
@@ -232,22 +260,6 @@ export default function MetadataManagerPage() {
             {audioMetadata ? (
               <pre className="overflow-x-auto text-sm leading-relaxed text-slate-700">
                 {JSON.stringify(audioMetadata.metadataFormat, null, 2)}
-              </pre>
-            ) : (
-              <p className="text-sm italic text-slate-400">
-                {noMetadataPlaceholder}
-              </p>
-            )}
-          </section>
-          <section className={sectionBoxClass}>
-            <header className="mb-3 border-b border-slate-100 pb-2">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">
-                Format priorities
-              </h2>
-            </header>
-            {audioMetadata ? (
-              <pre className="overflow-x-auto text-sm leading-relaxed text-slate-700">
-                {JSON.stringify(audioMetadata.formatPriorities, null, 2)}
               </pre>
             ) : (
               <p className="text-sm italic text-slate-400">
