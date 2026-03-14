@@ -101,9 +101,21 @@ Use the workflow [`.github/workflows/sync-vercel-env.yml`](../.github/workflows/
 
 The workflow uses `upsert` so it creates or updates each variable. After it runs, trigger a redeploy in Vercel if you want the new values on the next build.
 
-## 4. Summary
+## 4. Troubleshooting: Vercel shows old version
+
+If production or staging shows an old version after you pushed to `main` or `develop`:
+
+1. **Production branch** – Vercel → Project → **Settings → Git**. Ensure **Production Branch** is `main`. If it is `master` or something else, change it to `main` and save; the next push to `main` will deploy to production.
+2. **Which URL you’re opening** – Confirm you’re on the right URL. Production domain goes to the latest `main` deployment; preview URLs (e.g. `…-git-develop-….vercel.app`) are tied to a specific branch/commit. If you use a custom staging domain, check **Settings → Domains** and confirm which branch it’s assigned to.
+3. **Builds failing** – In Vercel → **Deployments**, check the latest deployment for your branch. If it’s **Failed**, fix the build (e.g. env vars, Node version, `npm run build` locally). Only successful builds update the live site.
+4. **Redeploy** – **Deployments** → open the latest deployment for `main` (or your branch) → **⋯** → **Redeploy** to force a fresh build from the same commit.
+5. **Cache** – Try a hard refresh (e.g. Ctrl+Shift+R / Cmd+Shift+R) or an incognito window to rule out browser cache.
+6. **Git connection** – **Settings → Git** should show the correct repository. If you renamed the repo or moved it, re-import the project or reconnect the Git integration.
+
+## 5. Summary
 
 - **Deploy**: Push to `develop` → staging; push/merge to `main` → production. Vercel builds and deploys automatically via Git.
 - **Domains**: **Settings → Domains**; assign production domain to production, staging domain to branch `develop`.
 - **Env vars**: **Settings → Environment Variables**; use Production for prod, Preview for staging and PR previews.
 - **Releases**: Tagging (e.g. `v0.2.0`) is independent; see [VERSIONING.md](VERSIONING.md). Vercel does not deploy on tag push; it deploys on branch push.
+- **Old version showing**: See [§4 Troubleshooting](#4-troubleshooting-vercel-shows-old-version).
