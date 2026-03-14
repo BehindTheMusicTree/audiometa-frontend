@@ -347,9 +347,49 @@ export default function MetadataManagerPage() {
               </h2>
             </header>
             {audioMetadata ? (
-              <pre className="overflow-x-auto text-sm leading-relaxed text-slate-700">
-                {JSON.stringify(audioMetadata.metadataFormat, null, 2)}
-              </pre>
+              (() => {
+                const data = audioMetadata.metadataFormat;
+                if (
+                  data != null &&
+                  typeof data === "object" &&
+                  !Array.isArray(data) &&
+                  Object.getPrototypeOf(data) === Object.prototype
+                ) {
+                  const entries = Object.entries(data);
+                  if (entries.length === 0) {
+                    return (
+                      <p className="text-sm italic text-slate-400">
+                        {noMetadataPlaceholder}
+                      </p>
+                    );
+                  }
+                  return (
+                    <div className="flex flex-col gap-4">
+                      {entries.map(([formatKey, formatValue]) => (
+                        <div key={formatKey}>
+                          <h3 className="mb-2 border-b border-slate-100 pb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-600">
+                            {formatKey}
+                          </h3>
+                          {formatValue !== null &&
+                          typeof formatValue === "object" &&
+                          !Array.isArray(formatValue) ? (
+                            <ObjectValue
+                              value={formatValue as Record<string, unknown>}
+                            />
+                          ) : (
+                            <CellValue value={formatValue} />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  );
+                }
+                return (
+                  <pre className="overflow-x-auto text-sm leading-relaxed text-slate-700">
+                    {JSON.stringify(audioMetadata.metadataFormat, null, 2)}
+                  </pre>
+                );
+              })()
             ) : (
               <p className="text-sm italic text-slate-400">
                 {noMetadataPlaceholder}
