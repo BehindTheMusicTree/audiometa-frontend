@@ -40,11 +40,11 @@ Staging works on the **free (Hobby) plan**: use **Domains** to assign a custom U
 
 Result:
 
-| Environment | Branch   | Deploys when      | URL example              |
-|-------------|----------|-------------------|--------------------------|
-| Production  | `main`   | Push/merge to main| `app.audiometa.com`      |
-| Staging     | `develop`| Push to develop   | `staging.audiometa.com` or preview URL |
-| PR previews | any      | Open PR           | `…-git-branch-…vercel.app` |
+| Environment | Branch    | Deploys when       | URL example                            |
+| ----------- | --------- | ------------------ | -------------------------------------- |
+| Production  | `main`    | Push/merge to main | `app.audiometa.com`                    |
+| Staging     | `develop` | Push to develop    | `staging.audiometa.com` or preview URL |
+| PR previews | any       | Open PR            | `…-git-branch-…vercel.app`             |
 
 ## 3. Environment variables
 
@@ -83,14 +83,14 @@ Use the workflow [`.github/workflows/sync-vercel-env.yml`](../.github/workflows/
 
 **GitHub → Vercel mapping** (use **Settings → Secrets and variables → Actions**: variables for non-sensitive data, secrets for tokens/keys). The workflow syncs these to the corresponding Vercel env vars for both production and preview:
 
-| GitHub variable | → Vercel env |
-|-----------------|--------------|
-| `CONTACT_MAIL` | `NEXT_PUBLIC_CONTACT_EMAIL` |
-| `MASTODON_URL` | `NEXT_PUBLIC_MASTODON_URL` |
-| `GITHUB_URL` | `NEXT_PUBLIC_GITHUB_URL` |
-| `LINKEDIN_URL` | `NEXT_PUBLIC_LINKEDIN_URL` |
-| `DEVELOPER` | `NEXT_PUBLIC_DEVELOPER` |
-| `API_BASE_URL` | `NEXT_PUBLIC_API_BASE_URL` |
+| GitHub variable    | → Vercel env                   |
+| ------------------ | ------------------------------ |
+| `CONTACT_MAIL`     | `NEXT_PUBLIC_CONTACT_EMAIL`    |
+| `MASTODON_URL`     | `NEXT_PUBLIC_MASTODON_URL`     |
+| `GITHUB_URL`       | `NEXT_PUBLIC_GITHUB_URL`       |
+| `LINKEDIN_URL`     | `NEXT_PUBLIC_LINKEDIN_URL`     |
+| `DEVELOPER`        | `NEXT_PUBLIC_DEVELOPER`        |
+| `BACKEND_BASE_URL` | `NEXT_PUBLIC_BACKEND_BASE_URL` |
 
 **Optional per-environment** (GitHub **Secrets**; steps skip when unset):
 

@@ -29,7 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **Metadata Manager page** at `/audio-metadata-manager`: file picker to choose an audio file, POST to `NEXT_PUBLIC_API_BASE_URL/audio/metadata/full/`, display full metadata in six sections (Technical information, Unified metadata, By metadata format, Format priorities, Formats headers, Metadata raw). Inline loading and error display; no popup. Includes unit tests.
+- **Metadata Manager page** at `/audio-metadata-manager`: file picker to choose an audio file, POST to `NEXT_PUBLIC_BACKEND_BASE_URL/audio/metadata/full/`, display full metadata in six sections (Technical information, Unified metadata, By metadata format, Format priorities, Formats headers, Metadata raw). Inline loading and error display; no popup. Includes unit tests.
 - **Project setup**: Cursor rules (style, Tailwind, testing, SemVer, versioning, commit format, PR workflow), docs (STYLE_GUIDE, SEMANTIC_HTML, DATA_ATTRIBUTES, testing, SEMVER_GUIDE, VERSIONING), GitHub workflows (validate, branch-protection, publish), CONTRIBUTING.md, README, PR template, `.gitignore`. Vitest + Testing Library for tests. Reusable `PageLayout` component and `useGetFullMetadata` hook with Zod schema for response validation.
 
 [Unreleased]: https://github.com/your-org/audiometa-frontend/compare/v0.1.0...HEAD

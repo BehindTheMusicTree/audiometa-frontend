@@ -7,7 +7,7 @@
 #   GITHUB_URL → NEXT_PUBLIC_GITHUB_URL
 #   LINKEDIN_URL → NEXT_PUBLIC_LINKEDIN_URL
 #   DEVELOPER → NEXT_PUBLIC_DEVELOPER
-#   API_BASE_URL → NEXT_PUBLIC_API_BASE_URL
+#   BACKEND_BASE_URL → NEXT_PUBLIC_BACKEND_BASE_URL
 # Optional per-env: ENV_NEXT_PUBLIC_APP_URL_PRODUCTION, ENV_NEXT_PUBLIC_APP_URL_PREVIEW,
 #                   ENV_NEXT_PUBLIC_API_URL_PRODUCTION, ENV_NEXT_PUBLIC_API_URL_PREVIEW.
 name: Sync Vercel env
@@ -27,7 +27,7 @@ jobs:
       GITHUB_URL: ${{ vars.GITHUB_URL }}
       LINKEDIN_URL: ${{ vars.LINKEDIN_URL }}
       DEVELOPER: ${{ vars.DEVELOPER }}
-      API_BASE_URL: ${{ vars.API_BASE_URL }}
+      BACKEND_BASE_URL: ${{ vars.BACKEND_BASE_URL }}
       ENV_NEXT_PUBLIC_APP_URL_PRODUCTION: ${{ secrets.ENV_NEXT_PUBLIC_APP_URL_PRODUCTION }}
       ENV_NEXT_PUBLIC_APP_URL_PREVIEW: ${{ secrets.ENV_NEXT_PUBLIC_APP_URL_PREVIEW }}
       ENV_NEXT_PUBLIC_API_URL_PRODUCTION: ${{ secrets.ENV_NEXT_PUBLIC_API_URL_PRODUCTION }}
@@ -43,7 +43,7 @@ jobs:
           [ -z "$GITHUB_URL" ] && missing="$missing GITHUB_URL"
           [ -z "$LINKEDIN_URL" ] && missing="$missing LINKEDIN_URL"
           [ -z "$DEVELOPER" ] && missing="$missing DEVELOPER"
-          [ -z "$API_BASE_URL" ] && missing="$missing API_BASE_URL"
+          [ -z "$BACKEND_BASE_URL" ] && missing="$missing BACKEND_BASE_URL"
           if [ -n "$missing" ]; then
             echo "Missing or empty required vars:$missing"
             exit 1
@@ -70,7 +70,7 @@ jobs:
             sync_var "$GITHUB_URL" "NEXT_PUBLIC_GITHUB_URL" "$env"
             sync_var "$LINKEDIN_URL" "NEXT_PUBLIC_LINKEDIN_URL" "$env"
             sync_var "$DEVELOPER" "NEXT_PUBLIC_DEVELOPER" "$env"
-            sync_var "$API_BASE_URL" "NEXT_PUBLIC_API_BASE_URL" "$env"
+            sync_var "$BACKEND_BASE_URL" "NEXT_PUBLIC_BACKEND_BASE_URL" "$env"
           done
           sync_var "$ENV_NEXT_PUBLIC_APP_URL_PRODUCTION" "NEXT_PUBLIC_APP_URL" "production"
           sync_var "$ENV_NEXT_PUBLIC_APP_URL_PREVIEW" "NEXT_PUBLIC_APP_URL" "preview"
