@@ -1,79 +1,115 @@
 # Sync environment variables from GitHub to Vercel (Production and Preview).
 # Run manually: Actions → Sync Vercel env → Run workflow.
-# Required secrets: VERCEL_TOKEN, VERCEL_PROJECT_ID.
-# GitHub vars/secrets → Vercel NEXT_PUBLIC_* (see docs/DEPLOYMENT.md §3.1):
-#   CONTACT_MAIL → NEXT_PUBLIC_CONTACT_EMAIL
-#   MASTODON_URL → NEXT_PUBLIC_MASTODON_URL
-#   GITHUB_URL → NEXT_PUBLIC_GITHUB_URL
-#   LINKEDIN_URL → NEXT_PUBLIC_LINKEDIN_URL
-#   DEVELOPER → NEXT_PUBLIC_DEVELOPER
-#   BACKEND_BASE_URL → NEXT_PUBLIC_BACKEND_BASE_URL
-# Optional per-env: ENV_NEXT_PUBLIC_APP_URL_PRODUCTION, ENV_NEXT_PUBLIC_APP_URL_PREVIEW,
-#                   ENV_NEXT_PUBLIC_API_URL_PRODUCTION, ENV_NEXT_PUBLIC_API_URL_PREVIEW.
+# Uses GitHub Environments so BACKEND_BASE_URL (and other per-env vars) can differ:
+#   Production env → Vercel "production"; Staging env → Vercel "preview".
+# Required: repo secrets VERCEL_TOKEN, VERCEL_PROJECT_ID; repo vars for shared fields;
+#   in each GitHub Environment (production, staging): BACKEND_BASE_URL. See docs/DEPLOYMENT.md §3.1.
 name: Sync Vercel env
 
 on:
   workflow_dispatch:
 
 jobs:
-  sync:
-    name: Sync env to Vercel
+  sync-production:
+    name: Sync to Vercel production
     runs-on: ubuntu-latest
+    environment: production
     env:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-      CONTACT_MAIL: ${{ vars.CONTACT_MAIL }}
+      CONTACT_EMAIL: ${{ vars.CONTACT_EMAIL }}
       MASTODON_URL: ${{ vars.MASTODON_URL }}
-      GITHUB_URL: ${{ vars.GITHUB_URL }}
+      DEVELOPER_GITHUB_URL: ${{ vars.DEVELOPER_GITHUB_URL }}
       LINKEDIN_URL: ${{ vars.LINKEDIN_URL }}
       DEVELOPER: ${{ vars.DEVELOPER }}
-      BACKEND_BASE_URL: ${{ vars.BACKEND_BASE_URL }}
-      ENV_NEXT_PUBLIC_APP_URL_PRODUCTION: ${{ secrets.ENV_NEXT_PUBLIC_APP_URL_PRODUCTION }}
-      ENV_NEXT_PUBLIC_APP_URL_PREVIEW: ${{ secrets.ENV_NEXT_PUBLIC_APP_URL_PREVIEW }}
-      ENV_NEXT_PUBLIC_API_URL_PRODUCTION: ${{ secrets.ENV_NEXT_PUBLIC_API_URL_PRODUCTION }}
-      ENV_NEXT_PUBLIC_API_URL_PREVIEW: ${{ secrets.ENV_NEXT_PUBLIC_API_URL_PREVIEW }}
     steps:
       - name: Validate required env vars
         run: |
           missing=""
           [ -z "$VERCEL_TOKEN" ] && missing="$missing VERCEL_TOKEN"
           [ -z "$VERCEL_PROJECT_ID" ] && missing="$missing VERCEL_PROJECT_ID"
-          [ -z "$CONTACT_MAIL" ] && missing="$missing CONTACT_MAIL"
+          [ -z "$CONTACT_EMAIL" ] && missing="$missing CONTACT_EMAIL"
           [ -z "$MASTODON_URL" ] && missing="$missing MASTODON_URL"
-          [ -z "$GITHUB_URL" ] && missing="$missing GITHUB_URL"
+          [ -z "$DEVELOPER_GITHUB_URL" ] && missing="$missing DEVELOPER_GITHUB_URL"
           [ -z "$LINKEDIN_URL" ] && missing="$missing LINKEDIN_URL"
           [ -z "$DEVELOPER" ] && missing="$missing DEVELOPER"
           [ -z "$BACKEND_BASE_URL" ] && missing="$missing BACKEND_BASE_URL"
           if [ -n "$missing" ]; then
-            echo "Missing or empty required vars:$missing"
+            echo "::error::Missing or empty (repo vars or production env):$missing"
             exit 1
           fi
           echo "All required env vars are set."
 
-      - name: Sync env vars to Vercel
+      - name: Sync to Vercel production
         run: |
+          set -e
           sync_var() {
             local value="$1"
             local key="$2"
-            local target="$3"
-            [ -z "$value" ] && echo "Skipping $key ($target) - not set" && return 0
-            echo "Syncing $key to $target..."
-            body=$(jq -n --arg key "$key" --arg value "$value" --arg target "$target" '{key:$key, value:$value, type:"plain", target:[$target]}')
+            [ -z "$value" ] && return 0
+            echo "Syncing $key to production..."
+            body=$(jq -n --arg key "$key" --arg value "$value" '{key:$key, value:$value, type:"plain", target:["production"]}')
             curl -sS -X POST "https://api.vercel.com/v10/projects/${VERCEL_PROJECT_ID}/env?upsert=true" \
               -H "Authorization: Bearer ${VERCEL_TOKEN}" \
               -H "Content-Type: application/json" \
               -d "$body"
           }
-          for env in production preview; do
-            sync_var "$CONTACT_MAIL" "NEXT_PUBLIC_CONTACT_EMAIL" "$env"
-            sync_var "$MASTODON_URL" "NEXT_PUBLIC_MASTODON_URL" "$env"
-            sync_var "$GITHUB_URL" "NEXT_PUBLIC_GITHUB_URL" "$env"
-            sync_var "$LINKEDIN_URL" "NEXT_PUBLIC_LINKEDIN_URL" "$env"
-            sync_var "$DEVELOPER" "NEXT_PUBLIC_DEVELOPER" "$env"
-            sync_var "$BACKEND_BASE_URL" "NEXT_PUBLIC_BACKEND_BASE_URL" "$env"
-          done
-          sync_var "$ENV_NEXT_PUBLIC_APP_URL_PRODUCTION" "NEXT_PUBLIC_APP_URL" "production"
-          sync_var "$ENV_NEXT_PUBLIC_APP_URL_PREVIEW" "NEXT_PUBLIC_APP_URL" "preview"
-          sync_var "$ENV_NEXT_PUBLIC_API_URL_PRODUCTION" "NEXT_PUBLIC_API_URL" "production"
-          sync_var "$ENV_NEXT_PUBLIC_API_URL_PREVIEW" "NEXT_PUBLIC_API_URL" "preview"
-          echo "Done."
+          sync_var "$CONTACT_EMAIL" "NEXT_PUBLIC_CONTACT_EMAIL"
+          sync_var "$MASTODON_URL" "NEXT_PUBLIC_MASTODON_URL"
+          sync_var "$DEVELOPER_GITHUB_URL" "NEXT_PUBLIC_GITHUB_URL"
+          sync_var "$LINKEDIN_URL" "NEXT_PUBLIC_LINKEDIN_URL"
+          sync_var "$DEVELOPER" "NEXT_PUBLIC_DEVELOPER"
+          sync_var "$BACKEND_BASE_URL" "NEXT_PUBLIC_BACKEND_BASE_URL"
+          echo "Production sync done."
+
+  sync-staging:
+    name: Sync to Vercel preview (staging)
+    runs-on: ubuntu-latest
+    environment: staging
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      CONTACT_EMAIL: ${{ vars.CONTACT_EMAIL }}
+      MASTODON_URL: ${{ vars.MASTODON_URL }}
+      DEVELOPER_GITHUB_URL: ${{ vars.DEVELOPER_GITHUB_URL }}
+      LINKEDIN_URL: ${{ vars.LINKEDIN_URL }}
+      DEVELOPER: ${{ vars.DEVELOPER }}
+    steps:
+      - name: Validate required env vars
+        run: |
+          missing=""
+          [ -z "$VERCEL_TOKEN" ] && missing="$missing VERCEL_TOKEN"
+          [ -z "$VERCEL_PROJECT_ID" ] && missing="$missing VERCEL_PROJECT_ID"
+          [ -z "$CONTACT_EMAIL" ] && missing="$missing CONTACT_EMAIL"
+          [ -z "$MASTODON_URL" ] && missing="$missing MASTODON_URL"
+          [ -z "$DEVELOPER_GITHUB_URL" ] && missing="$missing DEVELOPER_GITHUB_URL"
+          [ -z "$LINKEDIN_URL" ] && missing="$missing LINKEDIN_URL"
+          [ -z "$DEVELOPER" ] && missing="$missing DEVELOPER"
+          [ -z "$BACKEND_BASE_URL" ] && missing="$missing BACKEND_BASE_URL"
+          if [ -n "$missing" ]; then
+            echo "::error::Missing or empty (repo vars or staging env):$missing"
+            exit 1
+          fi
+          echo "All required env vars are set."
+
+      - name: Sync to Vercel preview
+        run: |
+          set -e
+          sync_var() {
+            local value="$1"
+            local key="$2"
+            [ -z "$value" ] && return 0
+            echo "Syncing $key to preview..."
+            body=$(jq -n --arg key "$key" --arg value "$value" '{key:$key, value:$value, type:"plain", target:["preview"]}')
+            curl -sS -X POST "https://api.vercel.com/v10/projects/${VERCEL_PROJECT_ID}/env?upsert=true" \
+              -H "Authorization: Bearer ${VERCEL_TOKEN}" \
+              -H "Content-Type: application/json" \
+              -d "$body"
+          }
+          sync_var "$CONTACT_EMAIL" "NEXT_PUBLIC_CONTACT_EMAIL"
+          sync_var "$MASTODON_URL" "NEXT_PUBLIC_MASTODON_URL"
+          sync_var "$DEVELOPER_GITHUB_URL" "NEXT_PUBLIC_GITHUB_URL"
+          sync_var "$LINKEDIN_URL" "NEXT_PUBLIC_LINKEDIN_URL"
+          sync_var "$DEVELOPER" "NEXT_PUBLIC_DEVELOPER"
+          sync_var "$BACKEND_BASE_URL" "NEXT_PUBLIC_BACKEND_BASE_URL"
+          echo "Preview sync done."

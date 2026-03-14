@@ -81,23 +81,21 @@ Use the workflow [`.github/workflows/sync-vercel-env.yml`](../.github/workflows/
 - **VERCEL_TOKEN**: Go to [vercel.com/account/tokens](https://vercel.com/account/tokens), click **Create Token**, give it a name (e.g. “GitHub Actions env sync”), and optionally limit it to the project. Copy the token once (it is shown only once) and store it as a GitHub secret.
 - **VERCEL_PROJECT_ID**: Open your project on Vercel → **Settings** → **General**. The **Project ID** is in the “Project ID” or “Project Name” field (you can use either the id or the project name, e.g. `audiometa-frontend`). For a team project, use the project name/slug as shown in the project URL.
 
-**GitHub → Vercel mapping** (use **Settings → Secrets and variables → Actions**: variables for non-sensitive data, secrets for tokens/keys). The workflow syncs these to the corresponding Vercel env vars for both production and preview:
+**How the sync works:** The workflow has two jobs. Each job runs in a **GitHub Environment** (production or staging), so it sees that environment’s variables. It syncs only to the matching Vercel target.
 
-| GitHub variable    | → Vercel env                   |
-| ------------------ | ------------------------------ |
-| `CONTACT_MAIL`     | `NEXT_PUBLIC_CONTACT_EMAIL`    |
-| `MASTODON_URL`     | `NEXT_PUBLIC_MASTODON_URL`     |
-| `GITHUB_URL`       | `NEXT_PUBLIC_GITHUB_URL`       |
-| `LINKEDIN_URL`     | `NEXT_PUBLIC_LINKEDIN_URL`     |
-| `DEVELOPER`        | `NEXT_PUBLIC_DEVELOPER`        |
-| `BACKEND_BASE_URL` | `NEXT_PUBLIC_BACKEND_BASE_URL` |
+| Source | → Vercel env |
+|--------|----------------|
+| **Repo variables** (Settings → Secrets and variables → Actions → Variables) – same value for both targets: |
+| `CONTACT_EMAIL` | `NEXT_PUBLIC_CONTACT_EMAIL` |
+| `MASTODON_URL` | `NEXT_PUBLIC_MASTODON_URL` |
+| `DEVELOPER_GITHUB_URL` | `NEXT_PUBLIC_GITHUB_URL` |
+| `LINKEDIN_URL` | `NEXT_PUBLIC_LINKEDIN_URL` |
+| `DEVELOPER` | `NEXT_PUBLIC_DEVELOPER` |
+| **GitHub Environment variables** (Settings → Environments → production / staging) – can differ per environment: |
+| `BACKEND_BASE_URL` (in production env) | `NEXT_PUBLIC_BACKEND_BASE_URL` on Vercel **production** |
+| `BACKEND_BASE_URL` (in staging env) | `NEXT_PUBLIC_BACKEND_BASE_URL` on Vercel **preview** |
 
-**Optional per-environment** (GitHub **Secrets**; steps skip when unset):
-
-- `ENV_NEXT_PUBLIC_APP_URL_PRODUCTION` – Production app URL (e.g. `https://app.audiometa.themusictree.org`).
-- `ENV_NEXT_PUBLIC_APP_URL_PREVIEW` – Staging/preview app URL (e.g. `https://staging.audiometa.themusictree.org`).
-- `ENV_NEXT_PUBLIC_API_URL_PRODUCTION` – Production API base URL.
-- `ENV_NEXT_PUBLIC_API_URL_PREVIEW` – Staging API base URL.
+So e.g. Production can use `https://hear-api.themusictree.org/` and Staging `https://hear-api-test.themusictree.org/` by setting `BACKEND_BASE_URL` in each GitHub Environment.
 
 The workflow uses `upsert` so it creates or updates each variable. After it runs, trigger a redeploy in Vercel if you want the new values on the next build.
 
