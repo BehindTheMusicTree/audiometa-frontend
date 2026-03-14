@@ -3,6 +3,12 @@
 import { useRef, useState } from "react";
 import PageLayout from "@/components/PageLayout";
 import { useGetFullMetadata } from "@/hooks/useGetFullMetadata";
+import { formatDurationSeconds } from "@/lib/format-duration";
+import {
+  formatBitrateBps,
+  formatFileSizeBytes,
+  formatSampleRateHz,
+} from "@/lib/format-number";
 import { camelToLabel } from "@/lib/format-key";
 import type { AudioMetadataDetailed } from "@/schemas/audio-metadata";
 
@@ -74,7 +80,21 @@ function MetadataKeyValueTable({
                 {camelToLabel(key)}
               </td>
               <td className="min-w-0 py-2 wrap-break-word">
-                <CellValue value={value} />
+                {typeof value === "number" && Number.isFinite(value) ? (
+                  key === "durationSeconds" ? (
+                    formatDurationSeconds(value)
+                  ) : key === "bitrateBps" ? (
+                    formatBitrateBps(value)
+                  ) : key === "sampleRateHz" ? (
+                    formatSampleRateHz(value)
+                  ) : key === "fileSizeBytes" ? (
+                    formatFileSizeBytes(value)
+                  ) : (
+                    <CellValue value={value} />
+                  )
+                ) : (
+                  <CellValue value={value} />
+                )}
               </td>
             </tr>
           ))}
