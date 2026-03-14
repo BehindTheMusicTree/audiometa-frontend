@@ -8,12 +8,11 @@ const requiredEnv = [
   "NEXT_PUBLIC_MASTODON_URL",
   "NEXT_PUBLIC_CONTACT_EMAIL",
 ] as const;
-for (const key of requiredEnv) {
-  if (!process.env[key]?.trim()) {
-    throw new Error(
-      `Missing required env: ${key}. Copy .env.example to .env and set values.`,
-    );
-  }
+const missing = requiredEnv.filter((key) => !process.env[key]?.trim());
+if (missing.length > 0) {
+  throw new Error(
+    `Missing required env: ${missing.join(", ")}. Copy .env.example to .env and set values (or configure them in Vercel).`,
+  );
 }
 
 const nextConfig: NextConfig = {
