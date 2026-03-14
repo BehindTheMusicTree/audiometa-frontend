@@ -3,7 +3,86 @@
 import { useRef, useState } from "react";
 import PageLayout from "@/components/PageLayout";
 import { useGetFullMetadata } from "@/hooks/useGetFullMetadata";
+import { camelToLabel } from "@/lib/format-key";
 import type { AudioMetadataDetailed } from "@/schemas/audio-metadata";
+
+function CellValue({ value }: { value: unknown }) {
+  if (value === null || value === undefined) {
+    return <span className="text-slate-400">—</span>;
+  }
+  if (Array.isArray(value)) {
+    const items = value.filter(
+      (v) => v !== null && v !== undefined && v !== "",
+    );
+    if (items.length === 0) return <span className="text-slate-400">—</span>;
+    return (
+      <ul className="m-0 list-none space-y-1 pl-0 text-slate-700">
+        {items.map((item, i) => (
+          <li
+            key={i}
+            className="flex items-center gap-2 border-l-2 border-slate-200 py-0.5 pl-2 text-sm"
+          >
+            {typeof item === "object" ? (
+              <code className="rounded bg-slate-100 px-1.5 py-0.5 text-xs">
+                {JSON.stringify(item)}
+              </code>
+            ) : (
+              String(item)
+            )}
+          </li>
+        ))}
+      </ul>
+    );
+  }
+  if (typeof value === "object") {
+    return (
+      <code className="rounded bg-slate-100 px-1.5 py-0.5 text-xs">
+        {JSON.stringify(value)}
+      </code>
+    );
+  }
+  return <span>{String(value)}</span>;
+}
+
+function isPlainKeyValueObject(
+  value: unknown,
+): value is Record<string, unknown> {
+  return (
+    value !== null &&
+    typeof value === "object" &&
+    !Array.isArray(value) &&
+    Object.getPrototypeOf(value) === Object.prototype
+  );
+}
+
+function MetadataKeyValueTable({
+  entries,
+}: {
+  entries: [string, unknown][];
+}) {
+  if (entries.length === 0) return null;
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full min-w-[240px] border-collapse text-sm text-slate-700">
+        <tbody>
+          {entries.map(([key, value]) => (
+            <tr
+              key={key}
+              className="border-b border-slate-100 last:border-0"
+            >
+              <td className="py-2 pr-4 font-medium text-slate-600">
+                {camelToLabel(key)}
+              </td>
+              <td className="min-w-0 py-2 wrap-break-word">
+                <CellValue value={value} />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
 
 export default function MetadataManagerPage() {
   const [audioMetadata, setAudioMetadata] = useState<
@@ -89,25 +168,7 @@ export default function MetadataManagerPage() {
                     </p>
                   );
                 }
-                return (
-                  <dl className="flex flex-col gap-2 text-sm text-slate-700">
-                    {entries.map(([key, value]) => (
-                      <div
-                        key={key}
-                        className="flex flex-wrap gap-x-2 border-b border-slate-100 pb-2 last:border-0 last:pb-0"
-                      >
-                        <dt className="font-medium text-slate-600">{key}</dt>
-                        <dd className="min-w-0">
-                          {value === null || value === undefined
-                            ? "—"
-                            : typeof value === "object"
-                              ? JSON.stringify(value)
-                              : String(value)}
-                        </dd>
-                      </div>
-                    ))}
-                  </dl>
-                );
+                return <MetadataKeyValueTable entries={entries} />;
               })()
             ) : (
               <p className="text-sm italic text-slate-400">
@@ -122,9 +183,20 @@ export default function MetadataManagerPage() {
               </h2>
             </header>
             {audioMetadata ? (
-              <pre className="overflow-x-auto text-sm leading-relaxed text-slate-700">
-                {JSON.stringify(audioMetadata.unifiedMetadata, null, 2)}
-              </pre>
+              (() => {
+                const data = audioMetadata.unifiedMetadata;
+                if (isPlainKeyValueObject(data)) {
+                  const entries = Object.entries(data);
+                  if (entries.length > 0) {
+                    return <MetadataKeyValueTable entries={entries} />;
+                  }
+                }
+                return (
+                  <pre className="overflow-x-auto text-sm leading-relaxed text-slate-700">
+                    {JSON.stringify(audioMetadata.unifiedMetadata, null, 2)}
+                  </pre>
+                );
+              })()
             ) : (
               <p className="text-sm italic text-slate-400">
                 {noMetadataPlaceholder}
