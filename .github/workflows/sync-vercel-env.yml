@@ -22,6 +22,7 @@ jobs:
       DEVELOPER_GITHUB_URL: ${{ vars.DEVELOPER_GITHUB_URL }}
       LINKEDIN_URL: ${{ vars.LINKEDIN_URL }}
       DEVELOPER: ${{ vars.DEVELOPER }}
+      BACKEND_BASE_URL: ${{ vars.BACKEND_BASE_URL }}
     steps:
       - name: Validate required env vars
         run: |
@@ -74,6 +75,7 @@ jobs:
       DEVELOPER_GITHUB_URL: ${{ vars.DEVELOPER_GITHUB_URL }}
       LINKEDIN_URL: ${{ vars.LINKEDIN_URL }}
       DEVELOPER: ${{ vars.DEVELOPER }}
+      BACKEND_BASE_URL: ${{ vars.BACKEND_BASE_URL }}
     steps:
       - name: Validate required env vars
         run: |
