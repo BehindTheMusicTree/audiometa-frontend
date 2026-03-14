@@ -13,6 +13,18 @@ import {
 import { camelToLabel } from "@/lib/format-key";
 import type { AudioMetadataDetailed } from "@/schemas/audio-metadata";
 
+function isNestedObject(
+  v: unknown,
+): v is Record<string, unknown> {
+  return (
+    v !== null &&
+    typeof v === "object" &&
+    !Array.isArray(v) &&
+    Object.getPrototypeOf(v) === Object.prototype &&
+    Object.keys(v).length > 0
+  );
+}
+
 function formatInlineValue(key: string, val: unknown): ReactNode {
   if (val === null || val === undefined) return <span className="text-slate-400">—</span>;
   if (typeof val === "boolean") return val ? "Yes" : "No";
@@ -45,34 +57,58 @@ function formatInlineValue(key: string, val: unknown): ReactNode {
       </ul>
     );
   }
+  if (isNestedObject(val)) {
+    return <ObjectValue value={val} />;
+  }
   if (typeof val === "object" && val !== null && !Array.isArray(val)) {
-    return <ObjectValue value={val as Record<string, unknown>} />;
+    return <span className="text-slate-400">—</span>;
   }
   return String(val);
 }
 
-function ObjectValue({ value }: { value: Record<string, unknown> }) {
+function ObjectValue({
+  value,
+  depth = 0,
+}: {
+  value: Record<string, unknown>;
+  depth?: number;
+}) {
   const entries = Object.entries(value);
   if (entries.length === 0) {
     return <span className="text-slate-400">—</span>;
   }
+  const indent = depth > 0;
   return (
-    <dl className="m-0 grid gap-x-3 gap-y-0.5 text-xs text-slate-700 sm:grid-cols-[auto_1fr]">
-      {entries.map(([k, v]) => (
-        <span key={k} className="contents">
-          <dt className="font-medium text-slate-600">{camelToLabel(k)}</dt>
-          <dd className="min-w-0">
-            {v !== null &&
-            typeof v === "object" &&
-            !Array.isArray(v) &&
-            Object.keys(v).length === 0 ? (
-              <span className="text-slate-400">—</span>
-            ) : (
-              formatInlineValue(k, v)
-            )}
-          </dd>
-        </span>
-      ))}
+    <dl
+      className={`m-0 flex flex-col gap-y-1 text-xs text-slate-700 ${indent ? "border-l-2 border-slate-200 pl-3" : ""}`}
+    >
+      {entries.map(([k, v]) => {
+        const isEmptyObj =
+          v !== null &&
+          typeof v === "object" &&
+          !Array.isArray(v) &&
+          Object.keys(v).length === 0;
+        const nested = isNestedObject(v);
+        return (
+          <div
+            key={k}
+            className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-0.5 sm:gap-y-0"
+          >
+            <dt className="font-medium text-slate-600">{camelToLabel(k)}</dt>
+            <dd className="min-w-0">
+              {isEmptyObj ? (
+                <span className="text-slate-400">—</span>
+              ) : nested ? (
+                <div className="mt-1">
+                  <ObjectValue value={v} depth={depth + 1} />
+                </div>
+              ) : (
+                formatInlineValue(k, v)
+              )}
+            </dd>
+          </div>
+        );
+      })}
     </dl>
   );
 }
@@ -403,9 +439,49 @@ export default function MetadataManagerPage() {
               </h2>
             </header>
             {audioMetadata ? (
-              <pre className="overflow-x-auto text-sm leading-relaxed text-slate-700">
-                {JSON.stringify(audioMetadata.rawMetadata, null, 2)}
-              </pre>
+              (() => {
+                const data = audioMetadata.rawMetadata;
+                if (
+                  data != null &&
+                  typeof data === "object" &&
+                  !Array.isArray(data) &&
+                  Object.getPrototypeOf(data) === Object.prototype
+                ) {
+                  const entries = Object.entries(data);
+                  if (entries.length === 0) {
+                    return (
+                      <p className="text-sm italic text-slate-400">
+                        {noMetadataPlaceholder}
+                      </p>
+                    );
+                  }
+                  return (
+                    <div className="flex flex-col gap-4">
+                      {entries.map(([formatKey, formatValue]) => (
+                        <div key={formatKey}>
+                          <h3 className="mb-2 border-b border-slate-100 pb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-600">
+                            {formatKey}
+                          </h3>
+                          {formatValue !== null &&
+                          typeof formatValue === "object" &&
+                          !Array.isArray(formatValue) ? (
+                            <ObjectValue
+                              value={formatValue as Record<string, unknown>}
+                            />
+                          ) : (
+                            <CellValue value={formatValue} />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  );
+                }
+                return (
+                  <pre className="overflow-x-auto text-sm leading-relaxed text-slate-700">
+                    {JSON.stringify(audioMetadata.rawMetadata, null, 2)}
+                  </pre>
+                );
+              })()
             ) : (
               <p className="text-sm italic text-slate-400">
                 {noMetadataPlaceholder}
