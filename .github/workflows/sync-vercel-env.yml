@@ -33,6 +33,23 @@ jobs:
       ENV_NEXT_PUBLIC_API_URL_PRODUCTION: ${{ secrets.ENV_NEXT_PUBLIC_API_URL_PRODUCTION }}
       ENV_NEXT_PUBLIC_API_URL_PREVIEW: ${{ secrets.ENV_NEXT_PUBLIC_API_URL_PREVIEW }}
     steps:
+      - name: Validate required env vars
+        run: |
+          missing=""
+          [ -z "$VERCEL_TOKEN" ] && missing="$missing VERCEL_TOKEN"
+          [ -z "$VERCEL_PROJECT_ID" ] && missing="$missing VERCEL_PROJECT_ID"
+          [ -z "$CONTACT_MAIL" ] && missing="$missing CONTACT_MAIL"
+          [ -z "$MASTODON_URL" ] && missing="$missing MASTODON_URL"
+          [ -z "$GITHUB_URL" ] && missing="$missing GITHUB_URL"
+          [ -z "$LINKEDIN_URL" ] && missing="$missing LINKEDIN_URL"
+          [ -z "$DEVELOPER" ] && missing="$missing DEVELOPER"
+          [ -z "$API_BASE_URL" ] && missing="$missing API_BASE_URL"
+          if [ -n "$missing" ]; then
+            echo "Missing or empty required vars:$missing"
+            exit 1
+          fi
+          echo "All required env vars are set."
+
       - name: Sync env vars to Vercel
         run: |
           sync_var() {
