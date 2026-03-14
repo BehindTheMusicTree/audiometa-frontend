@@ -72,9 +72,43 @@ export default function MetadataManagerPage() {
               </h2>
             </header>
             {audioMetadata ? (
-              <pre className="overflow-x-auto text-sm leading-relaxed text-slate-700">
-                {JSON.stringify(audioMetadata.technicalInfo, null, 2)}
-              </pre>
+              (() => {
+                const info = audioMetadata.technicalInfo;
+                if (info == null || typeof info !== "object" || Array.isArray(info)) {
+                  return (
+                    <p className="text-sm italic text-slate-400">
+                      {noMetadataPlaceholder}
+                    </p>
+                  );
+                }
+                const entries = Object.entries(info);
+                if (entries.length === 0) {
+                  return (
+                    <p className="text-sm italic text-slate-400">
+                      {noMetadataPlaceholder}
+                    </p>
+                  );
+                }
+                return (
+                  <dl className="flex flex-col gap-2 text-sm text-slate-700">
+                    {entries.map(([key, value]) => (
+                      <div
+                        key={key}
+                        className="flex flex-wrap gap-x-2 border-b border-slate-100 pb-2 last:border-0 last:pb-0"
+                      >
+                        <dt className="font-medium text-slate-600">{key}</dt>
+                        <dd className="min-w-0">
+                          {value === null || value === undefined
+                            ? "—"
+                            : typeof value === "object"
+                              ? JSON.stringify(value)
+                              : String(value)}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                );
+              })()
             ) : (
               <p className="text-sm italic text-slate-400">
                 {noMetadataPlaceholder}
