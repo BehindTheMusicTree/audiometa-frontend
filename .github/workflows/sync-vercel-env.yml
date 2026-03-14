@@ -1,9 +1,15 @@
-# Sync environment variables from GitHub Secrets to Vercel (Production and Preview).
+# Sync environment variables from GitHub to Vercel (Production and Preview).
 # Run manually: Actions → Sync Vercel env → Run workflow.
 # Required secrets: VERCEL_TOKEN, VERCEL_PROJECT_ID.
-# Optional: ENV_NEXT_PUBLIC_APP_URL_PRODUCTION, ENV_NEXT_PUBLIC_APP_URL_PREVIEW,
-#           ENV_NEXT_PUBLIC_API_URL_PRODUCTION, ENV_NEXT_PUBLIC_API_URL_PREVIEW.
-# Steps skip when the corresponding secret is not set. See docs/DEPLOYMENT.md §3.1.
+# GitHub vars/secrets → Vercel NEXT_PUBLIC_* (see docs/DEPLOYMENT.md §3.1):
+#   CONTACT_MAIL → NEXT_PUBLIC_CONTACT_EMAIL
+#   MASTODON_URL → NEXT_PUBLIC_MASTODON_URL
+#   GITHUB_URL → NEXT_PUBLIC_GITHUB_URL
+#   LINKEDIN_URL → NEXT_PUBLIC_LINKEDIN_URL
+#   DEVELOPER → NEXT_PUBLIC_DEVELOPER
+#   API_BASE_URL → NEXT_PUBLIC_API_BASE_URL
+# Optional per-env: ENV_NEXT_PUBLIC_APP_URL_PRODUCTION, ENV_NEXT_PUBLIC_APP_URL_PREVIEW,
+#                   ENV_NEXT_PUBLIC_API_URL_PRODUCTION, ENV_NEXT_PUBLIC_API_URL_PREVIEW.
 name: Sync Vercel env
 
 on:
@@ -16,6 +22,12 @@ jobs:
     env:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      CONTACT_MAIL: ${{ vars.CONTACT_MAIL }}
+      MASTODON_URL: ${{ vars.MASTODON_URL }}
+      GITHUB_URL: ${{ vars.GITHUB_URL }}
+      LINKEDIN_URL: ${{ vars.LINKEDIN_URL }}
+      DEVELOPER: ${{ vars.DEVELOPER }}
+      API_BASE_URL: ${{ vars.API_BASE_URL }}
       ENV_NEXT_PUBLIC_APP_URL_PRODUCTION: ${{ secrets.ENV_NEXT_PUBLIC_APP_URL_PRODUCTION }}
       ENV_NEXT_PUBLIC_APP_URL_PREVIEW: ${{ secrets.ENV_NEXT_PUBLIC_APP_URL_PREVIEW }}
       ENV_NEXT_PUBLIC_API_URL_PRODUCTION: ${{ secrets.ENV_NEXT_PUBLIC_API_URL_PRODUCTION }}
@@ -27,7 +39,7 @@ jobs:
             local value="$1"
             local key="$2"
             local target="$3"
-            [ -z "$value" ] && echo "Skipping $key ($target) - secret not set" && return 0
+            [ -z "$value" ] && echo "Skipping $key ($target) - not set" && return 0
             echo "Syncing $key to $target..."
             body=$(jq -n --arg key "$key" --arg value "$value" --arg target "$target" '{key:$key, value:$value, type:"plain", target:[$target]}')
             curl -sS -X POST "https://api.vercel.com/v10/projects/${VERCEL_PROJECT_ID}/env?upsert=true" \
@@ -35,6 +47,14 @@ jobs:
               -H "Content-Type: application/json" \
               -d "$body"
           }
+          for env in production preview; do
+            sync_var "$CONTACT_MAIL" "NEXT_PUBLIC_CONTACT_EMAIL" "$env"
+            sync_var "$MASTODON_URL" "NEXT_PUBLIC_MASTODON_URL" "$env"
+            sync_var "$GITHUB_URL" "NEXT_PUBLIC_GITHUB_URL" "$env"
+            sync_var "$LINKEDIN_URL" "NEXT_PUBLIC_LINKEDIN_URL" "$env"
+            sync_var "$DEVELOPER" "NEXT_PUBLIC_DEVELOPER" "$env"
+            sync_var "$API_BASE_URL" "NEXT_PUBLIC_API_BASE_URL" "$env"
+          done
           sync_var "$ENV_NEXT_PUBLIC_APP_URL_PRODUCTION" "NEXT_PUBLIC_APP_URL" "production"
           sync_var "$ENV_NEXT_PUBLIC_APP_URL_PREVIEW" "NEXT_PUBLIC_APP_URL" "preview"
           sync_var "$ENV_NEXT_PUBLIC_API_URL_PRODUCTION" "NEXT_PUBLIC_API_URL" "production"
