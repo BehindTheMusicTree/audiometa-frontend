@@ -57,7 +57,7 @@ cp .env.example .env.local   # if present; set variables as needed
 npm run dev
 ```
 
-App runs at `http://localhost:3000`.
+App runs at `http://localhost:3001`.
 
 ### Environment variables
 

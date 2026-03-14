@@ -8,6 +8,7 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
       "cwd": "${workspaceFolder}",
+      "env": { "PORT": "3001" },
       "console": "integratedTerminal"
     },
     {
@@ -17,13 +18,14 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "launch"],
       "cwd": "${workspaceFolder}",
+      "env": { "PORT": "3001" },
       "console": "integratedTerminal"
     },
     {
       "type": "chrome",
       "request": "launch",
       "name": "Open app in Chrome",
-      "url": "http://localhost:3000",
+      "url": "http://localhost:3001",
       "webRoot": "${workspaceFolder}"
     }
   ]
