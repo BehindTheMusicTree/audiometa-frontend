@@ -50,12 +50,12 @@ function DeveloperCredit() {
   if (!name) return null;
 
   return (
-    <span className="flex items-center gap-2 text-sm text-slate-500">
+    <span className="flex items-center gap-2 text-sm text-slate-400">
       <a
         href={process.env.NEXT_PUBLIC_GITHUB_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="font-medium text-slate-700 underline decoration-slate-400 underline-offset-2 hover:text-slate-900 hover:decoration-slate-600"
+        className="font-medium text-slate-300 underline decoration-amber-500/50 underline-offset-2 transition-colors hover:text-amber-400 hover:decoration-amber-400"
       >
         {name}
       </a>
@@ -64,7 +64,7 @@ function DeveloperCredit() {
           href={process.env.NEXT_PUBLIC_LINKEDIN_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="rounded p-0.5 text-slate-500 transition-colors hover:text-slate-800"
+          className="rounded p-0.5 text-slate-400 transition-colors hover:text-amber-400"
           aria-label="Developer on LinkedIn"
         >
           <LinkedInIcon />
@@ -73,14 +73,14 @@ function DeveloperCredit() {
           href={process.env.NEXT_PUBLIC_MASTODON_URL}
           target="_blank"
           rel="me noopener noreferrer"
-          className="rounded p-0.5 text-slate-500 transition-colors hover:text-slate-800"
+          className="rounded p-0.5 text-slate-400 transition-colors hover:text-amber-400"
           aria-label="Developer on Mastodon"
         >
           <MastodonIcon />
         </a>
         <a
           href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL}`}
-          className="rounded p-0.5 text-slate-500 transition-colors hover:text-slate-800"
+          className="rounded p-0.5 text-slate-400 transition-colors hover:text-amber-400"
           aria-label="Email developer"
         >
           <MailIcon />
@@ -92,15 +92,15 @@ function DeveloperCredit() {
 
 export default function PageFooter() {
   return (
-    <footer className="flex flex-none flex-wrap items-center justify-center gap-x-4 gap-y-1 border-t border-slate-200 bg-white/60 px-6 py-4 backdrop-blur-sm">
-      <span className="flex items-center gap-2 text-sm text-slate-500">
+    <footer className="flex flex-none flex-wrap items-center justify-center gap-x-4 gap-y-1 border-t border-amber-500/20 bg-linear-to-t from-slate-800 to-slate-900 px-6 py-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+      <span className="flex items-center gap-2 text-sm text-slate-400">
         Powered by
         <Image
           src="/logo-round.png"
           alt="Audiometa"
           width={28}
           height={28}
-          className="h-7 w-7"
+          className="h-7 w-7 rounded-full ring-1 ring-slate-600"
         />
       </span>
       <DeveloperCredit />
