@@ -23,6 +23,7 @@ jobs:
       LINKEDIN_URL: ${{ vars.LINKEDIN_URL }}
       DEVELOPER: ${{ vars.DEVELOPER }}
       BACKEND_BASE_URL: ${{ vars.BACKEND_BASE_URL }}
+      BTMT_GITHUB_LINK: ${{ vars.BTMT_GITHUB_LINK }}
     steps:
       - name: Validate required env vars
         run: |
@@ -35,6 +36,7 @@ jobs:
           [ -z "$LINKEDIN_URL" ] && missing="$missing LINKEDIN_URL"
           [ -z "$DEVELOPER" ] && missing="$missing DEVELOPER"
           [ -z "$BACKEND_BASE_URL" ] && missing="$missing BACKEND_BASE_URL"
+          [ -z "$BTMT_GITHUB_LINK" ] && missing="$missing BTMT_GITHUB_LINK"
           if [ -n "$missing" ]; then
             echo "::error::Missing or empty (repo vars or production env):$missing"
             exit 1
@@ -61,6 +63,7 @@ jobs:
           sync_var "$LINKEDIN_URL" "NEXT_PUBLIC_LINKEDIN_URL"
           sync_var "$DEVELOPER" "NEXT_PUBLIC_DEVELOPER"
           sync_var "$BACKEND_BASE_URL" "NEXT_PUBLIC_BACKEND_BASE_URL"
+          sync_var "$BTMT_GITHUB_LINK" "NEXT_PUBLIC_BTMT_GITHUB_LINK"
           echo "Production sync done."
 
   sync-staging:
@@ -76,6 +79,7 @@ jobs:
       LINKEDIN_URL: ${{ vars.LINKEDIN_URL }}
       DEVELOPER: ${{ vars.DEVELOPER }}
       BACKEND_BASE_URL: ${{ vars.BACKEND_BASE_URL }}
+      BTMT_GITHUB_LINK: ${{ vars.BTMT_GITHUB_LINK }}
     steps:
       - name: Validate required env vars
         run: |
@@ -88,6 +92,7 @@ jobs:
           [ -z "$LINKEDIN_URL" ] && missing="$missing LINKEDIN_URL"
           [ -z "$DEVELOPER" ] && missing="$missing DEVELOPER"
           [ -z "$BACKEND_BASE_URL" ] && missing="$missing BACKEND_BASE_URL"
+          [ -z "$BTMT_GITHUB_LINK" ] && missing="$missing BTMT_GITHUB_LINK"
           if [ -n "$missing" ]; then
             echo "::error::Missing or empty (repo vars or staging env):$missing"
             exit 1
@@ -114,4 +119,5 @@ jobs:
           sync_var "$LINKEDIN_URL" "NEXT_PUBLIC_LINKEDIN_URL"
           sync_var "$DEVELOPER" "NEXT_PUBLIC_DEVELOPER"
           sync_var "$BACKEND_BASE_URL" "NEXT_PUBLIC_BACKEND_BASE_URL"
+          sync_var "$BTMT_GITHUB_LINK" "NEXT_PUBLIC_BTMT_GITHUB_LINK"
           echo "Preview sync done."
