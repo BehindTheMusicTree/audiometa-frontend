@@ -91,6 +91,7 @@ Use the workflow [`.github/workflows/sync-vercel-env.yml`](../.github/workflows/
 | `DEVELOPER_GITHUB_URL` | `NEXT_PUBLIC_GITHUB_URL` |
 | `LINKEDIN_URL` | `NEXT_PUBLIC_LINKEDIN_URL` |
 | `DEVELOPER` | `NEXT_PUBLIC_DEVELOPER` |
+| `BTMT_GITHUB_LINK` | `NEXT_PUBLIC_BTMT_GITHUB_LINK` |
 | **GitHub Environment variables** (Settings → Environments → production / staging) – can differ per environment: |
 | `BACKEND_BASE_URL` (in production env) | `NEXT_PUBLIC_BACKEND_BASE_URL` on Vercel **production** |
 | `BACKEND_BASE_URL` (in staging env) | `NEXT_PUBLIC_BACKEND_BASE_URL` on Vercel **preview** |
