@@ -1,9 +1,207 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useRef, useState } from "react";
 import PageLayout from "@/components/PageLayout";
 import { useGetFullMetadata } from "@/hooks/useGetFullMetadata";
+import { formatDurationSeconds } from "@/lib/format-duration";
+import {
+  formatBitrateBps,
+  formatFileSizeBytes,
+  formatSampleRateHz,
+} from "@/lib/format-number";
+import { camelToLabel } from "@/lib/format-key";
 import type { AudioMetadataDetailed } from "@/schemas/audio-metadata";
+
+function isNestedObject(
+  v: unknown,
+): v is Record<string, unknown> {
+  return (
+    v !== null &&
+    typeof v === "object" &&
+    !Array.isArray(v) &&
+    Object.getPrototypeOf(v) === Object.prototype &&
+    Object.keys(v).length > 0
+  );
+}
+
+function formatInlineValue(key: string, val: unknown): ReactNode {
+  if (val === null || val === undefined) return <span className="text-slate-400">—</span>;
+  if (typeof val === "boolean") return val ? "Yes" : "No";
+  if (typeof val === "number" && Number.isFinite(val)) {
+    if (key === "headerSizeBytes") return formatFileSizeBytes(val);
+    if (key === "durationSeconds") return formatDurationSeconds(val);
+    if (key === "bitrateBps") return formatBitrateBps(val);
+    if (key === "sampleRateHz") return formatSampleRateHz(val);
+    if (key === "fileSizeBytes") return formatFileSizeBytes(val);
+    return String(val);
+  }
+  if (typeof val === "string") return val;
+  if (Array.isArray(val)) {
+    const items = val.filter((v) => v !== null && v !== undefined && v !== "");
+    if (items.length === 0) return <span className="text-slate-400">—</span>;
+    return (
+      <ul className="m-0 list-none space-y-0.5 pl-0 text-slate-700">
+        {items.map((item, i) => (
+          <li
+            key={i}
+            className="border-l-2 border-slate-200 py-0.5 pl-2 text-xs"
+          >
+            {typeof item === "object" && item !== null && !Array.isArray(item) ? (
+              <ObjectValue value={item as Record<string, unknown>} />
+            ) : (
+              String(item)
+            )}
+          </li>
+        ))}
+      </ul>
+    );
+  }
+  if (isNestedObject(val)) {
+    return <ObjectValue value={val} />;
+  }
+  if (typeof val === "object" && val !== null && !Array.isArray(val)) {
+    return <span className="text-slate-400">—</span>;
+  }
+  return String(val);
+}
+
+function ObjectValue({
+  value,
+  depth = 0,
+}: {
+  value: Record<string, unknown>;
+  depth?: number;
+}) {
+  const entries = Object.entries(value);
+  if (entries.length === 0) {
+    return <span className="text-slate-400">—</span>;
+  }
+  const indent = depth > 0;
+  return (
+    <dl
+      className={`m-0 flex flex-col gap-y-1 text-xs text-slate-700 ${indent ? "border-l-2 border-slate-200 pl-3" : ""}`}
+    >
+      {entries.map(([k, v]) => {
+        const isEmptyObj =
+          v !== null &&
+          typeof v === "object" &&
+          !Array.isArray(v) &&
+          Object.keys(v).length === 0;
+        const nested = isNestedObject(v);
+        return (
+          <div
+            key={k}
+            className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-0.5 sm:gap-y-0"
+          >
+            <dt className="font-medium text-slate-600">{camelToLabel(k)}</dt>
+            <dd className="min-w-0">
+              {isEmptyObj ? (
+                <span className="text-slate-400">—</span>
+              ) : nested ? (
+                <div className="mt-1">
+                  <ObjectValue value={v} depth={depth + 1} />
+                </div>
+              ) : (
+                formatInlineValue(k, v)
+              )}
+            </dd>
+          </div>
+        );
+      })}
+    </dl>
+  );
+}
+
+function CellValue({ value }: { value: unknown }) {
+  if (value === null || value === undefined) {
+    return <span className="text-slate-400">—</span>;
+  }
+  if (Array.isArray(value)) {
+    const items = value.filter(
+      (v) => v !== null && v !== undefined && v !== "",
+    );
+    if (items.length === 0) return <span className="text-slate-400">—</span>;
+    return (
+      <ul className="m-0 list-none space-y-1 pl-0 text-slate-700">
+        {items.map((item, i) => (
+          <li
+            key={i}
+            className="flex items-center gap-2 border-l-2 border-slate-200 py-0.5 pl-2 text-sm"
+          >
+            {typeof item === "object" && item !== null && !Array.isArray(item) ? (
+              <ObjectValue value={item as Record<string, unknown>} />
+            ) : typeof item === "object" ? (
+              <code className="rounded bg-slate-100 px-1.5 py-0.5 text-xs">
+                {JSON.stringify(item)}
+              </code>
+            ) : (
+              String(item)
+            )}
+          </li>
+        ))}
+      </ul>
+    );
+  }
+  if (typeof value === "object") {
+    return <ObjectValue value={value as Record<string, unknown>} />;
+  }
+  return <span>{String(value)}</span>;
+}
+
+function isPlainKeyValueObject(
+  value: unknown,
+): value is Record<string, unknown> {
+  return (
+    value !== null &&
+    typeof value === "object" &&
+    !Array.isArray(value) &&
+    Object.getPrototypeOf(value) === Object.prototype
+  );
+}
+
+function MetadataKeyValueTable({
+  entries,
+}: {
+  entries: [string, unknown][];
+}) {
+  if (entries.length === 0) return null;
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full min-w-[240px] border-collapse text-sm text-slate-700">
+        <tbody>
+          {entries.map(([key, value]) => (
+            <tr
+              key={key}
+              className="border-b border-slate-100 last:border-0"
+            >
+              <td className="py-2 pr-4 font-medium text-slate-600">
+                {camelToLabel(key)}
+              </td>
+              <td className="min-w-0 py-2 wrap-break-word">
+                {typeof value === "number" && Number.isFinite(value) ? (
+                  key === "durationSeconds" ? (
+                    formatDurationSeconds(value)
+                  ) : key === "bitrateBps" ? (
+                    formatBitrateBps(value)
+                  ) : key === "sampleRateHz" ? (
+                    formatSampleRateHz(value)
+                  ) : key === "fileSizeBytes" ? (
+                    formatFileSizeBytes(value)
+                  ) : (
+                    <CellValue value={value} />
+                  )
+                ) : (
+                  <CellValue value={value} />
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
 
 export default function MetadataManagerPage() {
   const [audioMetadata, setAudioMetadata] = useState<
@@ -72,9 +270,79 @@ export default function MetadataManagerPage() {
               </h2>
             </header>
             {audioMetadata ? (
-              <pre className="overflow-x-auto text-sm leading-relaxed text-slate-700">
-                {JSON.stringify(audioMetadata.technicalInfo, null, 2)}
-              </pre>
+              <div className="flex flex-col gap-6">
+                {(() => {
+                  const info = audioMetadata.technicalInfo;
+                  if (info == null || typeof info !== "object" || Array.isArray(info)) {
+                    return (
+                      <p className="text-sm italic text-slate-400">
+                        {noMetadataPlaceholder}
+                      </p>
+                    );
+                  }
+                  const entries = Object.entries(info);
+                  if (entries.length === 0) {
+                    return (
+                      <p className="text-sm italic text-slate-400">
+                        {noMetadataPlaceholder}
+                      </p>
+                    );
+                  }
+                  return <MetadataKeyValueTable entries={entries} />;
+                })()}
+                <div>
+                  <h3 className="mb-2 border-b border-slate-100 pb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    Format priorities
+                  </h3>
+                  {audioMetadata.formatPriorities != null &&
+                  (Array.isArray(audioMetadata.formatPriorities) ||
+                    typeof audioMetadata.formatPriorities === "object") ? (
+                    isPlainKeyValueObject(
+                      audioMetadata.formatPriorities as Record<string, unknown>,
+                    ) ? (
+                      <MetadataKeyValueTable
+                        entries={Object.entries(
+                          audioMetadata.formatPriorities as Record<string, unknown>,
+                        )}
+                      />
+                    ) : (
+                      <pre className="overflow-x-auto text-sm leading-relaxed text-slate-700">
+                        {JSON.stringify(audioMetadata.formatPriorities, null, 2)}
+                      </pre>
+                    )
+                  ) : (
+                    <p className="text-sm italic text-slate-400">
+                      {noMetadataPlaceholder}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <h3 className="mb-2 border-b border-slate-100 pb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    Formats headers
+                  </h3>
+                  {audioMetadata.headers != null &&
+                  (Array.isArray(audioMetadata.headers) ||
+                    typeof audioMetadata.headers === "object") ? (
+                    isPlainKeyValueObject(
+                      audioMetadata.headers as Record<string, unknown>,
+                    ) ? (
+                      <MetadataKeyValueTable
+                        entries={Object.entries(
+                          audioMetadata.headers as Record<string, unknown>,
+                        )}
+                      />
+                    ) : (
+                      <pre className="overflow-x-auto text-sm leading-relaxed text-slate-700">
+                        {JSON.stringify(audioMetadata.headers, null, 2)}
+                      </pre>
+                    )
+                  ) : (
+                    <p className="text-sm italic text-slate-400">
+                      {noMetadataPlaceholder}
+                    </p>
+                  )}
+                </div>
+              </div>
             ) : (
               <p className="text-sm italic text-slate-400">
                 {noMetadataPlaceholder}
@@ -88,9 +356,20 @@ export default function MetadataManagerPage() {
               </h2>
             </header>
             {audioMetadata ? (
-              <pre className="overflow-x-auto text-sm leading-relaxed text-slate-700">
-                {JSON.stringify(audioMetadata.unifiedMetadata, null, 2)}
-              </pre>
+              (() => {
+                const data = audioMetadata.unifiedMetadata;
+                if (isPlainKeyValueObject(data)) {
+                  const entries = Object.entries(data);
+                  if (entries.length > 0) {
+                    return <MetadataKeyValueTable entries={entries} />;
+                  }
+                }
+                return (
+                  <pre className="overflow-x-auto text-sm leading-relaxed text-slate-700">
+                    {JSON.stringify(audioMetadata.unifiedMetadata, null, 2)}
+                  </pre>
+                );
+              })()
             ) : (
               <p className="text-sm italic text-slate-400">
                 {noMetadataPlaceholder}
@@ -104,41 +383,49 @@ export default function MetadataManagerPage() {
               </h2>
             </header>
             {audioMetadata ? (
-              <pre className="overflow-x-auto text-sm leading-relaxed text-slate-700">
-                {JSON.stringify(audioMetadata.metadataFormat, null, 2)}
-              </pre>
-            ) : (
-              <p className="text-sm italic text-slate-400">
-                {noMetadataPlaceholder}
-              </p>
-            )}
-          </section>
-          <section className={sectionBoxClass}>
-            <header className="mb-3 border-b border-slate-100 pb-2">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">
-                Format priorities
-              </h2>
-            </header>
-            {audioMetadata ? (
-              <pre className="overflow-x-auto text-sm leading-relaxed text-slate-700">
-                {JSON.stringify(audioMetadata.formatPriorities, null, 2)}
-              </pre>
-            ) : (
-              <p className="text-sm italic text-slate-400">
-                {noMetadataPlaceholder}
-              </p>
-            )}
-          </section>
-          <section className={sectionBoxClass}>
-            <header className="mb-3 border-b border-slate-100 pb-2">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">
-                Formats headers
-              </h2>
-            </header>
-            {audioMetadata ? (
-              <pre className="overflow-x-auto text-sm leading-relaxed text-slate-700">
-                {JSON.stringify(audioMetadata.headers, null, 2)}
-              </pre>
+              (() => {
+                const data = audioMetadata.metadataFormat;
+                if (
+                  data != null &&
+                  typeof data === "object" &&
+                  !Array.isArray(data) &&
+                  Object.getPrototypeOf(data) === Object.prototype
+                ) {
+                  const entries = Object.entries(data);
+                  if (entries.length === 0) {
+                    return (
+                      <p className="text-sm italic text-slate-400">
+                        {noMetadataPlaceholder}
+                      </p>
+                    );
+                  }
+                  return (
+                    <div className="flex flex-col gap-4">
+                      {entries.map(([formatKey, formatValue]) => (
+                        <div key={formatKey}>
+                          <h3 className="mb-2 border-b border-slate-100 pb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-600">
+                            {formatKey}
+                          </h3>
+                          {formatValue !== null &&
+                          typeof formatValue === "object" &&
+                          !Array.isArray(formatValue) ? (
+                            <ObjectValue
+                              value={formatValue as Record<string, unknown>}
+                            />
+                          ) : (
+                            <CellValue value={formatValue} />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  );
+                }
+                return (
+                  <pre className="overflow-x-auto text-sm leading-relaxed text-slate-700">
+                    {JSON.stringify(audioMetadata.metadataFormat, null, 2)}
+                  </pre>
+                );
+              })()
             ) : (
               <p className="text-sm italic text-slate-400">
                 {noMetadataPlaceholder}
@@ -152,9 +439,49 @@ export default function MetadataManagerPage() {
               </h2>
             </header>
             {audioMetadata ? (
-              <pre className="overflow-x-auto text-sm leading-relaxed text-slate-700">
-                {JSON.stringify(audioMetadata.rawMetadata, null, 2)}
-              </pre>
+              (() => {
+                const data = audioMetadata.rawMetadata;
+                if (
+                  data != null &&
+                  typeof data === "object" &&
+                  !Array.isArray(data) &&
+                  Object.getPrototypeOf(data) === Object.prototype
+                ) {
+                  const entries = Object.entries(data);
+                  if (entries.length === 0) {
+                    return (
+                      <p className="text-sm italic text-slate-400">
+                        {noMetadataPlaceholder}
+                      </p>
+                    );
+                  }
+                  return (
+                    <div className="flex flex-col gap-4">
+                      {entries.map(([formatKey, formatValue]) => (
+                        <div key={formatKey}>
+                          <h3 className="mb-2 border-b border-slate-100 pb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-600">
+                            {formatKey}
+                          </h3>
+                          {formatValue !== null &&
+                          typeof formatValue === "object" &&
+                          !Array.isArray(formatValue) ? (
+                            <ObjectValue
+                              value={formatValue as Record<string, unknown>}
+                            />
+                          ) : (
+                            <CellValue value={formatValue} />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  );
+                }
+                return (
+                  <pre className="overflow-x-auto text-sm leading-relaxed text-slate-700">
+                    {JSON.stringify(audioMetadata.rawMetadata, null, 2)}
+                  </pre>
+                );
+              })()
             ) : (
               <p className="text-sm italic text-slate-400">
                 {noMetadataPlaceholder}

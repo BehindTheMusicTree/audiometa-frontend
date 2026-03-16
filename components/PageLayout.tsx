@@ -12,7 +12,7 @@ interface PageLayoutProps {
 export default function PageLayout({ title, children, dataPage }: PageLayoutProps) {
   return (
     <div
-      className="flex min-h-screen min-w-0 flex-1 flex-col bg-gradient-to-b from-slate-50 to-slate-100"
+      className="flex min-h-screen min-w-0 flex-1 flex-col bg-linear-to-b from-slate-100 via-slate-50 to-slate-200"
       data-page={dataPage}
     >
       <PageHeader title={title} />

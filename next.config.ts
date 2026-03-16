@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const requiredEnv = [
   "NEXT_PUBLIC_BACKEND_BASE_URL",
+  "NEXT_PUBLIC_BTMT_GITHUB_LINK",
   "NEXT_PUBLIC_DEVELOPER",
   "NEXT_PUBLIC_GITHUB_URL",
   "NEXT_PUBLIC_LINKEDIN_URL",
