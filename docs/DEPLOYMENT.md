@@ -96,7 +96,7 @@ Use the workflow [`.github/workflows/sync-vercel-env.yml`](../.github/workflows/
 | `LINKEDIN_URL` | `NEXT_PUBLIC_LINKEDIN_URL` |
 | `DEVELOPER` | `NEXT_PUBLIC_DEVELOPER` |
 | `AUDIOMETA_DOCS_BUNDLE_URL` | `NEXT_PUBLIC_DOCS_BUNDLE_URL` |
-| `THEMUSICTREE_URL` | `NEXT_PUBLIC_ORG_URL.` |
+| `THEMUSICTREE_URL` | `NEXT_PUBLIC_ORG_URL` |
 
 If you previously used **`BTMT_GITHUB_LINK`** → `NEXT_PUBLIC_BTMT_GITHUB_LINK`, add **`THEMUSICTREE_URL`** (e.g. `https://themusictree.org/`) and remove the old variable from repo settings and Vercel after syncing.
 
