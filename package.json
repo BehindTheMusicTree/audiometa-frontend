@@ -27,13 +27,14 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
-    "jsdom": "^25",
+    "jsdom": "^29",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vite": "^6",
     "vitest": "^2"
   },
   "overrides": {
+    "esbuild": "^0.24.3",
     "vitest": {
       "vite": "^6"
     }
