@@ -92,6 +92,9 @@ Add `test` in `package.json` if missing (e.g. `"test": "vitest run"`).
 - **[docs/VERSIONING.md](docs/VERSIONING.md)** – Tags and version format
 - **[docs/SEMVER_GUIDE.md](docs/SEMVER_GUIDE.md)** – When to bump MAJOR/MINOR/PATCH
 - **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** – Vercel staging and production setup
+- **[docs/SEO_AND_AEO.md](docs/SEO_AND_AEO.md)** – SEO and AEO strategy and opportunities
+
+The app has a **Docs** section at `/docs` that loads documentation from a published bundle (see `NEXT_PUBLIC_DOCS_BUNDLE_URL` in `.env.example`). The bundle is produced by the audiometa-python-publish-docs repo.
 
 ## License
 

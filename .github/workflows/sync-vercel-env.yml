@@ -24,6 +24,7 @@ jobs:
       DEVELOPER: ${{ vars.DEVELOPER }}
       BACKEND_BASE_URL: ${{ vars.BACKEND_BASE_URL }}
       BTMT_GITHUB_LINK: ${{ vars.BTMT_GITHUB_LINK }}
+      AUDIOMETA_DOCS_BUNDLE_URL: ${{ vars.AUDIOMETA_DOCS_BUNDLE_URL }}
     steps:
       - name: Validate required env vars
         run: |
@@ -37,6 +38,7 @@ jobs:
           [ -z "$DEVELOPER" ] && missing="$missing DEVELOPER"
           [ -z "$BACKEND_BASE_URL" ] && missing="$missing BACKEND_BASE_URL"
           [ -z "$BTMT_GITHUB_LINK" ] && missing="$missing BTMT_GITHUB_LINK"
+          [ -z "$AUDIOMETA_DOCS_BUNDLE_URL" ] && missing="$missing AUDIOMETA_DOCS_BUNDLE_URL"
           if [ -n "$missing" ]; then
             echo "::error::Missing or empty (repo vars or production env):$missing"
             exit 1
@@ -64,6 +66,7 @@ jobs:
           sync_var "$DEVELOPER" "NEXT_PUBLIC_DEVELOPER"
           sync_var "$BACKEND_BASE_URL" "NEXT_PUBLIC_BACKEND_BASE_URL"
           sync_var "$BTMT_GITHUB_LINK" "NEXT_PUBLIC_BTMT_GITHUB_LINK"
+          sync_var "$AUDIOMETA_DOCS_BUNDLE_URL" "NEXT_PUBLIC_DOCS_BUNDLE_URL"
           echo "Production sync done."
 
   sync-staging:
@@ -80,6 +83,7 @@ jobs:
       DEVELOPER: ${{ vars.DEVELOPER }}
       BACKEND_BASE_URL: ${{ vars.BACKEND_BASE_URL }}
       BTMT_GITHUB_LINK: ${{ vars.BTMT_GITHUB_LINK }}
+      AUDIOMETA_DOCS_BUNDLE_URL: ${{ vars.AUDIOMETA_DOCS_BUNDLE_URL }}
     steps:
       - name: Validate required env vars
         run: |
@@ -93,6 +97,7 @@ jobs:
           [ -z "$DEVELOPER" ] && missing="$missing DEVELOPER"
           [ -z "$BACKEND_BASE_URL" ] && missing="$missing BACKEND_BASE_URL"
           [ -z "$BTMT_GITHUB_LINK" ] && missing="$missing BTMT_GITHUB_LINK"
+          [ -z "$AUDIOMETA_DOCS_BUNDLE_URL" ] && missing="$missing AUDIOMETA_DOCS_BUNDLE_URL"
           if [ -n "$missing" ]; then
             echo "::error::Missing or empty (repo vars or staging env):$missing"
             exit 1
@@ -120,4 +125,5 @@ jobs:
           sync_var "$DEVELOPER" "NEXT_PUBLIC_DEVELOPER"
           sync_var "$BACKEND_BASE_URL" "NEXT_PUBLIC_BACKEND_BASE_URL"
           sync_var "$BTMT_GITHUB_LINK" "NEXT_PUBLIC_BTMT_GITHUB_LINK"
+          sync_var "$AUDIOMETA_DOCS_BUNDLE_URL" "NEXT_PUBLIC_DOCS_BUNDLE_URL"
           echo "Preview sync done."

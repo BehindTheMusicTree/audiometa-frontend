@@ -15,6 +15,8 @@
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "react-markdown": "^9",
+    "remark-gfm": "^4",
     "zod": "^3.23"
   },
   "devDependencies": {
@@ -34,7 +36,7 @@
     "vitest": "^2"
   },
   "overrides": {
-    "esbuild": "^0.24.3",
+    "esbuild": "^0.24.0",
     "vitest": {
       "vite": "^6"
     }
