@@ -24,8 +24,8 @@ jobs:
 
             case "$target" in
               main)
-                valid_prefixes=("hotfix/" "release/")
-                error_message="Pull requests to main must come from hotfix/* or release/* branches only.\n\nFor features, bug fixes, or chores, please target the 'develop' branch instead."
+                valid_prefixes=("hotfix/" "release/" "vercel/")
+                error_message="Pull requests to main must come from hotfix/*, release/*, or vercel/* branches only.\n\nFor features, bug fixes, or chores, please target the 'develop' branch instead."
                 ;;
               develop)
                 valid_prefixes=("feature/" "chore/" "dependabot/")
