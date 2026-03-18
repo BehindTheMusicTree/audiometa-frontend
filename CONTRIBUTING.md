@@ -35,14 +35,14 @@ Contributions are welcome. This document covers development workflow, commit for
 
 ## Branching (Git Flow)
 
-- **`main`** – Production-ready. Only receives merges from `release/*` and `hotfix/*`. No direct commits.
+- **`main`** – Production-ready. Only receives merges from `release/*`, `hotfix/*`, and `vercel/*`. No direct commits.
 - **`develop`** – Integration branch. Only receives merges from `feature/*`, `chore/*`, `dependabot/*`.
 - **`feature/<name>`** – New features. Branch from `develop`, merge back into `develop`.
 - **`chore/<name>`** – Maintenance, deps, tooling. Branch from `develop`, merge into `develop`.
 - **`hotfix/<name>`** – Urgent production fixes. Branch from `main`, merge into `main` (and back into `develop`).
 - **`release/<version>`** – Release preparation. Branch from `develop`, merge into `main` and `develop`.
 
-Branch protection is enforced by [.github/workflows/branch-protection.yml](.github/workflows/branch-protection.yml): PRs to `main` must be from `hotfix/` or `release/`; PRs to `develop` must be from `feature/`, `chore/`, or `dependabot/`.
+Branch protection is enforced by [.github/workflows/branch-protection.yml](.github/workflows/branch-protection.yml): PRs to `main` must be from `hotfix/`, `release/`, or `vercel/`; PRs to `develop` must be from `feature/`, `chore/`, or `dependabot/`.
 
 ## Committing
 
