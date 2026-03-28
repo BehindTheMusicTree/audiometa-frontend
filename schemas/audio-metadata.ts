@@ -9,7 +9,7 @@ export const TechnicalInfoSchema = z
     fileSizeBytes: z.number().optional(),
     fileExtension: z.string().optional(),
     audioFormatName: z.string().optional(),
-    isFlacMd5Valid: z.boolean().optional(),
+    isFlacMd5Valid: z.boolean().nullish(),
   })
   .passthrough();
 
