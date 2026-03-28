@@ -71,17 +71,21 @@ You can push environment variables to Vercel from GitHub Actions so they stay in
 
 Use the workflow [`.github/workflows/sync-vercel-env.yml`](../.github/workflows/sync-vercel-env.yml). It runs manually (**Actions → Sync Vercel env → Run workflow**) and syncs variables from GitHub Secrets to Vercel using the [Vercel REST API](https://vercel.com/docs/rest-api/reference/endpoints/projects/create-one-or-more-environment-variables).
 
-**Required** GitHub Secrets:
+**Required** GitHub Secrets (repository):
 
 - `VERCEL_TOKEN` – [Vercel token](https://vercel.com/account/tokens) with access to the project.
 - `VERCEL_PROJECT_ID` – Project id or name (e.g. `audiometa-frontend`).
+
+**Required** secret on **each** GitHub Environment (`PROD` and `STAGING`) — use **environment secrets** so each job gets the correct hook, not a single repo-wide value unless it is intentional:
+
+- `VERCEL_DEPLOY_HOOK` – Full URL of a [Vercel Deploy Hook](https://vercel.com/docs/deploy-hooks) for that target (e.g. one hook tied to branch `main` / Vercel Production in the **PROD** environment, and one tied to `develop` / Preview in the **STAGING** environment). After env vars are synced, the workflow `POST`s this URL to start a new deployment so `NEXT_PUBLIC_*` changes are picked up.
 
 **How to get them**
 
 - **VERCEL_TOKEN**: Go to [vercel.com/account/tokens](https://vercel.com/account/tokens), click **Create Token**, give it a name (e.g. “GitHub Actions env sync”), and optionally limit it to the project. Copy the token once (it is shown only once) and store it as a GitHub secret.
 - **VERCEL_PROJECT_ID**: Open your project on Vercel → **Settings** → **General**. The **Project ID** is in the “Project ID” or “Project Name” field (you can use either the id or the project name, e.g. `audiometa-frontend`). For a team project, use the project name/slug as shown in the project URL.
 
-**How the sync works:** The workflow has two jobs. Each job runs in a **GitHub Environment** (production or staging), so it sees that environment’s variables. It syncs only to the matching Vercel target.
+**How the sync works:** The workflow has two jobs. Each job runs in a **GitHub Environment** (`PROD` or `STAGING`), so it sees that environment’s variables. It syncs only to the matching Vercel target.
 
 | Source | → Vercel env |
 |--------|----------------|
@@ -93,14 +97,14 @@ Use the workflow [`.github/workflows/sync-vercel-env.yml`](../.github/workflows/
 | `DEVELOPER` | `NEXT_PUBLIC_DEVELOPER` |
 | `AUDIOMETA_DOCS_BUNDLE_URL` | `NEXT_PUBLIC_DOCS_BUNDLE_URL` |
 | `BTMT_GITHUB_LINK` | `NEXT_PUBLIC_BTMT_GITHUB_LINK` |
-| **GitHub Environment variables** (Settings → Environments → production / staging) – can differ per environment: |
-| `BACKEND_BASE_URL` (in production env) | `NEXT_PUBLIC_BACKEND_BASE_URL` on Vercel **production** |
-| `BACKEND_BASE_URL` (in staging env) | `NEXT_PUBLIC_BACKEND_BASE_URL` on Vercel **preview** |
+| **GitHub Environment variables** (Settings → Environments → `PROD` / `STAGING`) – can differ per environment: |
+| `BACKEND_BASE_URL` (in **PROD** env) | `NEXT_PUBLIC_BACKEND_BASE_URL` on Vercel **production** |
+| `BACKEND_BASE_URL` (in **STAGING** env) | `NEXT_PUBLIC_BACKEND_BASE_URL` on Vercel **preview** |
 | `HTMT_API_ROOT_SEGMENT` | `NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT` (path segment before `audio/…`, no slashes) |
 
 Set `BACKEND_BASE_URL` to the API host only (no trailing slash), e.g. `https://hear-api.themusictree.org`, and `HTMT_API_ROOT_SEGMENT` to the path prefix where the API is mounted (e.g. `htmt` if routes live at `https://hear-api.themusictree.org/htmt/audio/metadata/full/`). Production and Staging can use different hosts and/or segments per environment.
 
-The workflow uses `upsert` so it creates or updates each variable. After it runs, trigger a redeploy in Vercel if you want the new values on the next build.
+The workflow uses `upsert` so it creates or updates each variable, then triggers a deployment via each environment’s `VERCEL_DEPLOY_HOOK` so the new values are baked into the next build.
 
 ## 4. Troubleshooting: Vercel shows old version
 
