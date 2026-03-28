@@ -96,8 +96,9 @@ Use the workflow [`.github/workflows/sync-vercel-env.yml`](../.github/workflows/
 | **GitHub Environment variables** (Settings → Environments → production / staging) – can differ per environment: |
 | `BACKEND_BASE_URL` (in production env) | `NEXT_PUBLIC_BACKEND_BASE_URL` on Vercel **production** |
 | `BACKEND_BASE_URL` (in staging env) | `NEXT_PUBLIC_BACKEND_BASE_URL` on Vercel **preview** |
+| `HTMT_API_ROOT_SEGMENT` | `NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT` (path segment before `audio/…`, no slashes) |
 
-So e.g. Production can use `https://hear-api.themusictree.org/` and Staging `https://hear-api-test.themusictree.org/` by setting `BACKEND_BASE_URL` in each GitHub Environment.
+Set `BACKEND_BASE_URL` to the API host only (no trailing slash), e.g. `https://hear-api.themusictree.org`, and `HTMT_API_ROOT_SEGMENT` to the path prefix where the API is mounted (e.g. `htmt` if routes live at `https://hear-api.themusictree.org/htmt/audio/metadata/full/`). Production and Staging can use different hosts and/or segments per environment.
 
 The workflow uses `upsert` so it creates or updates each variable. After it runs, trigger a redeploy in Vercel if you want the new values on the next build.
 

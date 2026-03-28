@@ -5,7 +5,7 @@ import {
   AudioMetadataDetailedSchema,
   type AudioMetadataDetailed,
 } from "@/schemas/audio-metadata";
-import { audioMetadataEndpoints } from "@/lib/api-endpoints";
+import { buildAudioMetadataFullUrl } from "@/lib/api-endpoints";
 
 export function useGetFullMetadata() {
   const [isPending, setIsPending] = useState(false);
@@ -16,11 +16,7 @@ export function useGetFullMetadata() {
       setIsPending(true);
       setError(null);
       try {
-        const base = (process.env.NEXT_PUBLIC_BACKEND_BASE_URL ?? "").replace(
-          /\/+$/,
-          "",
-        );
-        const url = `${base}/${audioMetadataEndpoints.full}`;
+        const url = buildAudioMetadataFullUrl();
         const formData = new FormData();
         formData.append("file", file);
         const res = await fetch(url, { method: "POST", body: formData });

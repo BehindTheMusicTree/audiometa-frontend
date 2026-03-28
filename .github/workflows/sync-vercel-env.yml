@@ -1,9 +1,9 @@
 # Sync environment variables from GitHub to Vercel (Production and Preview).
 # Run manually: Actions → Sync Vercel env → Run workflow.
-# Uses GitHub Environments so BACKEND_BASE_URL (and other per-env vars) can differ:
+# Uses GitHub Environments so BACKEND_BASE_URL / HTMT_API_ROOT_SEGMENT (and other per-env vars) can differ:
 #   Production env → Vercel "production"; Staging env → Vercel "preview".
 # Required: repo secrets VERCEL_TOKEN, VERCEL_PROJECT_ID; repo vars for shared fields;
-#   in each GitHub Environment (production, staging): BACKEND_BASE_URL. See docs/DEPLOYMENT.md §3.1.
+#   in each GitHub Environment (production, staging): BACKEND_BASE_URL, HTMT_API_ROOT_SEGMENT. See docs/DEPLOYMENT.md §3.1.
 name: Sync Vercel env
 
 on:
@@ -23,6 +23,7 @@ jobs:
       LINKEDIN_URL: ${{ vars.LINKEDIN_URL }}
       DEVELOPER: ${{ vars.DEVELOPER }}
       BACKEND_BASE_URL: ${{ vars.BACKEND_BASE_URL }}
+      HTMT_API_ROOT_SEGMENT: ${{ vars.HTMT_API_ROOT_SEGMENT }}
       BTMT_GITHUB_LINK: ${{ vars.BTMT_GITHUB_LINK }}
       AUDIOMETA_DOCS_BUNDLE_URL: ${{ vars.AUDIOMETA_DOCS_BUNDLE_URL }}
     steps:
@@ -37,6 +38,7 @@ jobs:
           [ -z "$LINKEDIN_URL" ] && missing="$missing LINKEDIN_URL"
           [ -z "$DEVELOPER" ] && missing="$missing DEVELOPER"
           [ -z "$BACKEND_BASE_URL" ] && missing="$missing BACKEND_BASE_URL"
+          [ -z "$HTMT_API_ROOT_SEGMENT" ] && missing="$missing HTMT_API_ROOT_SEGMENT"
           [ -z "$BTMT_GITHUB_LINK" ] && missing="$missing BTMT_GITHUB_LINK"
           [ -z "$AUDIOMETA_DOCS_BUNDLE_URL" ] && missing="$missing AUDIOMETA_DOCS_BUNDLE_URL"
           if [ -n "$missing" ]; then
@@ -65,6 +67,7 @@ jobs:
           sync_var "$LINKEDIN_URL" "NEXT_PUBLIC_LINKEDIN_URL"
           sync_var "$DEVELOPER" "NEXT_PUBLIC_DEVELOPER"
           sync_var "$BACKEND_BASE_URL" "NEXT_PUBLIC_BACKEND_BASE_URL"
+          sync_var "$HTMT_API_ROOT_SEGMENT" "NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT"
           sync_var "$BTMT_GITHUB_LINK" "NEXT_PUBLIC_BTMT_GITHUB_LINK"
           sync_var "$AUDIOMETA_DOCS_BUNDLE_URL" "NEXT_PUBLIC_DOCS_BUNDLE_URL"
           echo "Production sync done."
@@ -82,6 +85,7 @@ jobs:
       LINKEDIN_URL: ${{ vars.LINKEDIN_URL }}
       DEVELOPER: ${{ vars.DEVELOPER }}
       BACKEND_BASE_URL: ${{ vars.BACKEND_BASE_URL }}
+      HTMT_API_ROOT_SEGMENT: ${{ vars.HTMT_API_ROOT_SEGMENT }}
       BTMT_GITHUB_LINK: ${{ vars.BTMT_GITHUB_LINK }}
       AUDIOMETA_DOCS_BUNDLE_URL: ${{ vars.AUDIOMETA_DOCS_BUNDLE_URL }}
     steps:
@@ -96,6 +100,7 @@ jobs:
           [ -z "$LINKEDIN_URL" ] && missing="$missing LINKEDIN_URL"
           [ -z "$DEVELOPER" ] && missing="$missing DEVELOPER"
           [ -z "$BACKEND_BASE_URL" ] && missing="$missing BACKEND_BASE_URL"
+          [ -z "$HTMT_API_ROOT_SEGMENT" ] && missing="$missing HTMT_API_ROOT_SEGMENT"
           [ -z "$BTMT_GITHUB_LINK" ] && missing="$missing BTMT_GITHUB_LINK"
           [ -z "$AUDIOMETA_DOCS_BUNDLE_URL" ] && missing="$missing AUDIOMETA_DOCS_BUNDLE_URL"
           if [ -n "$missing" ]; then
@@ -124,6 +129,7 @@ jobs:
           sync_var "$LINKEDIN_URL" "NEXT_PUBLIC_LINKEDIN_URL"
           sync_var "$DEVELOPER" "NEXT_PUBLIC_DEVELOPER"
           sync_var "$BACKEND_BASE_URL" "NEXT_PUBLIC_BACKEND_BASE_URL"
+          sync_var "$HTMT_API_ROOT_SEGMENT" "NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT"
           sync_var "$BTMT_GITHUB_LINK" "NEXT_PUBLIC_BTMT_GITHUB_LINK"
           sync_var "$AUDIOMETA_DOCS_BUNDLE_URL" "NEXT_PUBLIC_DOCS_BUNDLE_URL"
           echo "Preview sync done."
