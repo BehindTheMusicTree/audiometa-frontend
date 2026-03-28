@@ -1,9 +1,10 @@
 # Sync environment variables from GitHub to Vercel (Production and Preview).
 # Run manually: Actions → Sync Vercel env → Run workflow.
 # Uses GitHub Environments so BACKEND_BASE_URL / HTMT_API_ROOT_SEGMENT (and other per-env vars) can differ:
-#   Production env → Vercel "production"; Staging env → Vercel "preview".
+#   GitHub PROD → Vercel "production"; GitHub STAGING → Vercel "preview".
 # Required: repo secrets VERCEL_TOKEN, VERCEL_PROJECT_ID; repo vars for shared fields;
-#   in each GitHub Environment (production, staging): BACKEND_BASE_URL, HTMT_API_ROOT_SEGMENT. See docs/DEPLOYMENT.md §3.1.
+#   in each GitHub Environment (PROD, STAGING): BACKEND_BASE_URL, HTMT_API_ROOT_SEGMENT,
+#   secret VERCEL_DEPLOY_HOOK (per env, different URL for prod vs staging). See docs/DEPLOYMENT.md §3.1.
 name: Sync Vercel env
 
 on:
@@ -13,10 +14,11 @@ jobs:
   sync-production:
     name: Sync to Vercel production
     runs-on: ubuntu-latest
-    environment: production
+    environment: PROD
     env:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
       CONTACT_EMAIL: ${{ vars.CONTACT_EMAIL }}
       MASTODON_URL: ${{ vars.MASTODON_URL }}
       DEVELOPER_GITHUB_URL: ${{ vars.DEVELOPER_GITHUB_URL }}
@@ -32,6 +34,7 @@ jobs:
           missing=""
           [ -z "$VERCEL_TOKEN" ] && missing="$missing VERCEL_TOKEN"
           [ -z "$VERCEL_PROJECT_ID" ] && missing="$missing VERCEL_PROJECT_ID"
+          [ -z "$VERCEL_DEPLOY_HOOK" ] && missing="$missing VERCEL_DEPLOY_HOOK"
           [ -z "$CONTACT_EMAIL" ] && missing="$missing CONTACT_EMAIL"
           [ -z "$MASTODON_URL" ] && missing="$missing MASTODON_URL"
           [ -z "$DEVELOPER_GITHUB_URL" ] && missing="$missing DEVELOPER_GITHUB_URL"
@@ -42,7 +45,7 @@ jobs:
           [ -z "$BTMT_GITHUB_LINK" ] && missing="$missing BTMT_GITHUB_LINK"
           [ -z "$AUDIOMETA_DOCS_BUNDLE_URL" ] && missing="$missing AUDIOMETA_DOCS_BUNDLE_URL"
           if [ -n "$missing" ]; then
-            echo "::error::Missing or empty (repo vars or production env):$missing"
+            echo "::error::Missing or empty (repo vars or PROD env):$missing"
             exit 1
           fi
           echo "All required env vars are set."
@@ -72,13 +75,17 @@ jobs:
           sync_var "$AUDIOMETA_DOCS_BUNDLE_URL" "NEXT_PUBLIC_DOCS_BUNDLE_URL"
           echo "Production sync done."
 
+      - name: Trigger Vercel production deploy
+        run: curl -f -sS -X POST "$VERCEL_DEPLOY_HOOK"
+
   sync-staging:
     name: Sync to Vercel preview (staging)
     runs-on: ubuntu-latest
-    environment: staging
+    environment: STAGING
     env:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
       CONTACT_EMAIL: ${{ vars.CONTACT_EMAIL }}
       MASTODON_URL: ${{ vars.MASTODON_URL }}
       DEVELOPER_GITHUB_URL: ${{ vars.DEVELOPER_GITHUB_URL }}
@@ -94,6 +101,7 @@ jobs:
           missing=""
           [ -z "$VERCEL_TOKEN" ] && missing="$missing VERCEL_TOKEN"
           [ -z "$VERCEL_PROJECT_ID" ] && missing="$missing VERCEL_PROJECT_ID"
+          [ -z "$VERCEL_DEPLOY_HOOK" ] && missing="$missing VERCEL_DEPLOY_HOOK"
           [ -z "$CONTACT_EMAIL" ] && missing="$missing CONTACT_EMAIL"
           [ -z "$MASTODON_URL" ] && missing="$missing MASTODON_URL"
           [ -z "$DEVELOPER_GITHUB_URL" ] && missing="$missing DEVELOPER_GITHUB_URL"
@@ -104,7 +112,7 @@ jobs:
           [ -z "$BTMT_GITHUB_LINK" ] && missing="$missing BTMT_GITHUB_LINK"
           [ -z "$AUDIOMETA_DOCS_BUNDLE_URL" ] && missing="$missing AUDIOMETA_DOCS_BUNDLE_URL"
           if [ -n "$missing" ]; then
-            echo "::error::Missing or empty (repo vars or staging env):$missing"
+            echo "::error::Missing or empty (repo vars or STAGING env):$missing"
             exit 1
           fi
           echo "All required env vars are set."
@@ -133,3 +141,6 @@ jobs:
           sync_var "$BTMT_GITHUB_LINK" "NEXT_PUBLIC_BTMT_GITHUB_LINK"
           sync_var "$AUDIOMETA_DOCS_BUNDLE_URL" "NEXT_PUBLIC_DOCS_BUNDLE_URL"
           echo "Preview sync done."
+
+      - name: Trigger Vercel preview (staging) deploy
+        run: curl -f -sS -X POST "$VERCEL_DEPLOY_HOOK"
