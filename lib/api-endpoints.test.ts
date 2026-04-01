@@ -1,5 +1,9 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { buildAudioMetadataFullUrl } from "./api-endpoints";
+import {
+  buildAudioMetadataFullUrl,
+  buildAudioMetadataSessionDownloadUrl,
+  buildAudioMetadataSessionUrl,
+} from "./api-endpoints";
 
 describe("buildAudioMetadataFullUrl", () => {
   afterEach(() => {
@@ -34,5 +38,33 @@ describe("buildAudioMetadataFullUrl", () => {
     vi.stubEnv("NEXT_PUBLIC_BACKEND_BASE_URL", "https://api.test");
     vi.stubEnv("NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT", "   ");
     expect(() => buildAudioMetadataFullUrl()).toThrow();
+  });
+});
+
+describe("buildAudioMetadataSessionUrl", () => {
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
+  it("builds session path", () => {
+    vi.stubEnv("NEXT_PUBLIC_BACKEND_BASE_URL", "https://hear-api.example.org/");
+    vi.stubEnv("NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT", "v1");
+    expect(buildAudioMetadataSessionUrl()).toBe(
+      "https://hear-api.example.org/v1/audio/metadata/session/",
+    );
+  });
+});
+
+describe("buildAudioMetadataSessionDownloadUrl", () => {
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
+  it("builds session-download path", () => {
+    vi.stubEnv("NEXT_PUBLIC_BACKEND_BASE_URL", "https://hear-api.example.org/");
+    vi.stubEnv("NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT", "v1");
+    expect(buildAudioMetadataSessionDownloadUrl()).toBe(
+      "https://hear-api.example.org/v1/audio/metadata/session-download/",
+    );
   });
 });
