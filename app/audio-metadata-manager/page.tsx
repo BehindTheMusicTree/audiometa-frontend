@@ -1,9 +1,10 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PageLayout from "@/components/PageLayout";
-import { useGetFullMetadata } from "@/hooks/useGetFullMetadata";
+import WritableTagsForm from "@/components/WritableTagsForm";
+import { useMetadataSession } from "@/hooks/useMetadataSession";
 import { formatDurationSeconds } from "@/lib/format-duration";
 import {
   formatBitrateBps,
@@ -11,7 +12,15 @@ import {
   formatSampleRateHz,
 } from "@/lib/format-number";
 import { camelToLabel } from "@/lib/format-key";
+import {
+  buildWritableMetadataDownloadBody,
+  cloneWritableTagFormState,
+  emptyWritableTagFormState,
+  writableTagsFromSessionJson,
+  type WritableTagFormState,
+} from "@/lib/metadata-writable-tags";
 import type { AudioMetadataDetailed } from "@/schemas/audio-metadata";
+import { SessionExpiredError } from "@/schemas/metadata-session";
 
 function isNestedObject(
   v: unknown,
@@ -208,22 +217,99 @@ export default function MetadataManagerPage() {
     AudioMetadataDetailed | undefined
   >();
   const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
+  const [sessionToken, setSessionToken] = useState<string | null>(null);
+  const [sessionExpiresAtMs, setSessionExpiresAtMs] = useState<number | null>(
+    null,
+  );
+  const [remainingSessionSec, setRemainingSessionSec] = useState<number | null>(
+    null,
+  );
+  const [tagForm, setTagForm] = useState<WritableTagFormState>(() =>
+    emptyWritableTagFormState(),
+  );
+  const [initialTagForm, setInitialTagForm] = useState<WritableTagFormState>(
+    () => emptyWritableTagFormState(),
+  );
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { getMetadata, isPending, error } = useGetFullMetadata();
+  const {
+    createSession,
+    downloadTaggedFile,
+    isPending,
+    isDownloadPending,
+    error,
+  } = useMetadataSession();
 
   const noMetadataPlaceholder = "No metadata";
   const sectionBoxClass =
     "min-h-[200px] min-w-0 overflow-hidden rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md";
 
+  useEffect(() => {
+    if (sessionExpiresAtMs == null) return;
+    const deadlineMs = sessionExpiresAtMs;
+    function tick() {
+      setRemainingSessionSec(
+        Math.max(0, Math.ceil((deadlineMs - Date.now()) / 1000)),
+      );
+    }
+    const id = setInterval(tick, 1000);
+    const immediate = window.setTimeout(tick, 0);
+    return () => {
+      clearInterval(id);
+      window.clearTimeout(immediate);
+    };
+  }, [sessionExpiresAtMs]);
+
+  const sessionActive =
+    sessionToken != null &&
+    sessionExpiresAtMs != null &&
+    remainingSessionSec != null &&
+    remainingSessionSec > 0;
+
   async function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target?.files?.[0] ?? null;
     if (!file) return;
     setSelectedFileName(file.name);
+    setSessionToken(null);
+    setSessionExpiresAtMs(null);
+    setRemainingSessionSec(null);
     try {
-      const data = await getMetadata(file);
-      setAudioMetadata(data);
+      const result = await createSession(file);
+      setAudioMetadata(result.metadata);
+      setSessionToken(result.sessionToken);
+      const expiresAt = Date.now() + result.sessionExpiresInSeconds * 1000;
+      setSessionExpiresAtMs(expiresAt);
+      setRemainingSessionSec(
+        Math.max(0, Math.ceil((expiresAt - Date.now()) / 1000)),
+      );
+      const tags = writableTagsFromSessionJson(result.rawResponse);
+      setTagForm(tags);
+      setInitialTagForm(cloneWritableTagFormState(tags));
     } catch {
-      // error state is set in hook
+      setAudioMetadata(undefined);
+    }
+  }
+
+  function handleResetTags() {
+    setTagForm(cloneWritableTagFormState(initialTagForm));
+  }
+
+  async function handleDownloadTagged() {
+    if (!sessionToken || !sessionActive) return;
+    try {
+      const body = buildWritableMetadataDownloadBody(tagForm);
+      const { blob, filename } = await downloadTaggedFile(sessionToken, body);
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      if (e instanceof SessionExpiredError) {
+        setSessionToken(null);
+        setSessionExpiresAtMs(null);
+        setRemainingSessionSec(null);
+      }
     }
   }
 
@@ -254,13 +340,80 @@ export default function MetadataManagerPage() {
             {selectedFileName ?? "No file chosen"}
           </span>
         </div>
-        {error && (
+        {error && !(error instanceof SessionExpiredError) && (
           <p
             className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
             role="alert"
           >
             {error.message}
           </p>
+        )}
+        {error instanceof SessionExpiredError && (
+          <p
+            className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900"
+            role="alert"
+          >
+            {error.message}
+          </p>
+        )}
+        {audioMetadata && (
+          <section className="min-w-0 overflow-hidden rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+            <header className="mb-4 border-b border-slate-100 pb-3">
+              <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">
+                Edit tags
+              </h2>
+              <p className="mt-1 text-sm text-slate-500">
+                Values here are written to the file when you download. Other
+                sections below are read-only reference.
+              </p>
+            </header>
+            {sessionToken && sessionExpiresAtMs != null && sessionActive && (
+              <p
+                className="mb-4 text-sm text-slate-600"
+                aria-live="polite"
+              >
+                Session expires in{" "}
+                <span className="font-medium tabular-nums">
+                  {Math.floor(remainingSessionSec / 60)}:
+                  {String(remainingSessionSec % 60).padStart(2, "0")}
+                </span>
+              </p>
+            )}
+            {sessionToken && remainingSessionSec === 0 && (
+              <p className="mb-4 text-sm text-amber-800" role="status">
+                This session may have expired. Try downloading; if it fails,
+                upload the file again.
+              </p>
+            )}
+            {!sessionToken && (
+              <p className="mb-4 text-sm text-amber-800" role="status">
+                No active session. Upload a file again to download with tags.
+              </p>
+            )}
+            <WritableTagsForm
+              value={tagForm}
+              onChange={setTagForm}
+              disabled={!sessionActive}
+            />
+            <div className="mt-6 flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={handleDownloadTagged}
+                disabled={!sessionActive || isDownloadPending}
+                className="flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-medium text-white shadow transition-all hover:bg-indigo-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {isDownloadPending ? "Preparing download…" : "Download with these tags"}
+              </button>
+              <button
+                type="button"
+                onClick={handleResetTags}
+                disabled={!sessionActive}
+                className="rounded-lg border border-slate-200 bg-slate-50 px-5 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                Reset to loaded file
+              </button>
+            </div>
+          </section>
         )}
         <div className="flex flex-col gap-4 md:grid md:grid-cols-2 lg:grid-cols-3">
           <section className={sectionBoxClass}>

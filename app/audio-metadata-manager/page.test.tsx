@@ -1,23 +1,58 @@
 "use client";
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import {
+  render,
+  screen,
+  fireEvent,
+  cleanup,
+  waitFor,
+} from "@testing-library/react";
 import MetadataManagerPage from "./page";
 
-const getMetadataMock = vi.fn();
-vi.mock("@/hooks/useGetFullMetadata", () => ({
-  useGetFullMetadata: () => ({
-    getMetadata: getMetadataMock,
+const createSessionMock = vi.fn();
+const downloadTaggedFileMock = vi.fn();
+
+vi.mock("@/hooks/useMetadataSession", () => ({
+  useMetadataSession: () => ({
+    createSession: createSessionMock,
+    downloadTaggedFile: downloadTaggedFileMock,
     isPending: false,
+    isDownloadPending: false,
     error: null,
   }),
 }));
+
+const sessionResult = {
+  metadata: {
+    technicalInfo: null,
+    unifiedMetadata: {},
+    metadataFormat: {},
+    headers: {},
+    rawMetadata: {},
+    formatPriorities: {},
+  },
+  sessionToken: "t1",
+  sessionExpiresInSeconds: 900,
+  rawResponse: {
+    sessionToken: "t1",
+    sessionExpiresInSeconds: 900,
+    technicalInfo: null,
+    unifiedMetadata: {},
+    metadataFormat: {},
+    headers: {},
+    rawMetadata: {},
+    formatPriorities: {},
+  },
+};
 
 describe("MetadataManagerPage", () => {
   afterEach(cleanup);
 
   beforeEach(() => {
-    getMetadataMock.mockClear();
+    createSessionMock.mockClear();
+    downloadTaggedFileMock.mockClear();
+    createSessionMock.mockResolvedValue(sessionResult);
   });
 
   it("renders the heading Metadata Manager", () => {
@@ -50,15 +85,28 @@ describe("MetadataManagerPage", () => {
     }
   });
 
-  it("calls getMetadata with selected file when user selects a file", async () => {
-    getMetadataMock.mockResolvedValue({});
+  it("calls createSession with selected file when user selects a file", async () => {
     render(<MetadataManagerPage />);
     const input = screen.getByLabelText(/choose an audio file/i);
     const file = new File([], "test.mp3", { type: "audio/mpeg" });
 
     fireEvent.change(input, { target: { files: [file] } });
 
-    expect(getMetadataMock).toHaveBeenCalledTimes(1);
-    expect(getMetadataMock).toHaveBeenCalledWith(file);
+    await waitFor(() => {
+      expect(createSessionMock).toHaveBeenCalledTimes(1);
+      expect(createSessionMock).toHaveBeenCalledWith(file);
+    });
+  });
+
+  it("shows Edit tags after session is created", async () => {
+    render(<MetadataManagerPage />);
+    const input = screen.getByLabelText(/choose an audio file/i);
+    fireEvent.change(input, {
+      target: { files: [new File([], "a.mp3", { type: "audio/mpeg" })] },
+    });
+
+    expect(
+      await screen.findByRole("heading", { name: /^edit tags$/i }),
+    ).toBeInTheDocument();
   });
 });
