@@ -4,9 +4,11 @@ Next.js frontend for audio metadata editing and management.
 
 ## Ecosystem
 
-This repository is part of **[BehindTheMusicTree](https://github.com/BehindTheMusicTree)**. The public portfolio (all projects, demos, and status) is **[themusictree.org](https://themusictree.org)**. This app’s product page is **[AudioMeta Webapp](https://themusictree.org/projects/audiometa-webapp)**. The canonical source for that marketing site is **[the-music-tree-frontend](https://github.com/BehindTheMusicTree/the-music-tree-frontend)** — do not duplicate long portfolio copy here; change it there.
+Built inside the **[BehindTheMusicTree](https://github.com/BehindTheMusicTree)** ecosystem.
 
-Everything below documents **this** codebase (run, test, deploy, and contribute).
+Want the big picture? Explore the full project universe on **[themusictree.org](https://themusictree.org)**, and see where this app fits on **[AudioMeta Webapp](https://themusictree.org/projects/audiometa-webapp)**.
+
+The portfolio website content lives in **[the-music-tree-frontend](https://github.com/BehindTheMusicTree/the-music-tree-frontend)**; this README focuses on building, testing, deploying, and contributing to this app.
 
 ## Table of Contents
 
