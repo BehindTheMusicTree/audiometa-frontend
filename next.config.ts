@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const requiredEnv = [
   "NEXT_PUBLIC_BACKEND_BASE_URL",
   "NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT",
-  "NEXT_PUBLIC_BTMT_GITHUB_LINK",
+  "NEXT_PUBLIC_ORG_URL",
   "NEXT_PUBLIC_CONTACT_EMAIL",
   "NEXT_PUBLIC_DEVELOPER",
   "NEXT_PUBLIC_DOCS_BUNDLE_URL",
@@ -19,6 +19,7 @@ if (missing.length > 0) {
 }
 
 const nextConfig: NextConfig = {
+  transpilePackages: ["@behindthemusictree/assets"],
   turbopack: {
     root: __dirname,
   },

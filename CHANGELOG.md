@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **Env / deploy**: `NEXT_PUBLIC_BTMT_GITHUB_LINK` removed; **`NEXT_PUBLIC_ORG_URL.`** is required for the header lockup link. GitHub Actions / Vercel sync: repo variable **`THEMUSICTREE_URL`** maps to `NEXT_PUBLIC_ORG_URL.` (see `docs/DEPLOYMENT.md`).
+
 ### Documentation
 
 - README: ecosystem links to themusictree.org, AudioMeta Webapp project page, and the-music-tree-frontend portfolio source.
