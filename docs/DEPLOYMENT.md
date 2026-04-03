@@ -58,6 +58,14 @@ On **Vercel**:
    - **Preview** – for all non-production deployments (staging, PR previews). Use this for staging.
    - **Development** – for `vercel dev` (local).
 
+### GitHub Packages (`@behindthemusictree/*`)
+
+The repo includes a root [`.npmrc`](../.npmrc) that points `@behindthemusictree` at `npm.pkg.github.com` and uses **`${NPM_TOKEN}`** during install. **Vercel** must have a variable named **`NPM_TOKEN`** (mark it **Sensitive**) on **Production**, **Preview**, and **Development** if you use `vercel dev`. Use a GitHub **personal access token** (classic: `read:packages`; or fine-grained: **Packages → Read** for the org that owns the package). The same token works for install only; it is not read by Next.js at runtime.
+
+**Local:** export the token before install, e.g. `export NPM_TOKEN=ghp_…` then `npm ci`, or rely on your machine’s GitHub CLI / credential helper if you use one.
+
+**Optional:** Add repository secret **`GH_PACKAGES_TOKEN`** with the same PAT. The [Sync Vercel env](../.github/workflows/sync-vercel-env.yml) workflow pushes it to Vercel as **`NPM_TOKEN`** (sensitive) when that secret is set (skips if empty).
+
 Recommended:
 
 - **Production**: `NEXT_PUBLIC_APP_URL` = production URL (e.g. `https://app.audiometa.com`), `NEXT_PUBLIC_API_URL` = production API, production API keys.
@@ -98,7 +106,8 @@ Use the workflow [`.github/workflows/sync-vercel-env.yml`](../.github/workflows/
 | `AUDIOMETA_DOCS_BUNDLE_URL` | `NEXT_PUBLIC_DOCS_BUNDLE_URL` |
 | `THEMUSICTREE_URL` | `NEXT_PUBLIC_ORG_URL` |
 
-If you previously used **`BTMT_GITHUB_LINK`** → `NEXT_PUBLIC_BTMT_GITHUB_LINK`, add **`THEMUSICTREE_URL`** (e.g. `https://themusictree.org/`) and remove the old variable from repo settings and Vercel after syncing.
+| **Repository secret** (optional; used to sync GitHub Packages auth to Vercel): |
+| `GH_PACKAGES_TOKEN` | `NPM_TOKEN` on Vercel (**sensitive**), for `npm install` of `@behindthemusictree/*` |
 
 | **GitHub Environment variables** (Settings → Environments → `PROD` / `STAGING`) – can differ per environment: |
 | `BACKEND_BASE_URL` (in **PROD** env) | `NEXT_PUBLIC_BACKEND_BASE_URL` on Vercel **production** |
