@@ -19,6 +19,7 @@ jobs:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+      NPM_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
       CONTACT_EMAIL: ${{ vars.CONTACT_EMAIL }}
       MASTODON_URL: ${{ vars.MASTODON_URL }}
       DEVELOPER_GITHUB_URL: ${{ vars.DEVELOPER_GITHUB_URL }}
@@ -62,6 +63,17 @@ jobs:
               -H "Content-Type: application/json" \
               -d "$body"
           }
+          sync_secret_var() {
+            local value="$1"
+            local key="$2"
+            [ -z "$value" ] && return 0
+            echo "Syncing $key (secret) to production..."
+            body=$(jq -n --arg key "$key" --arg value "$value" '{key:$key, value:$value, type:"sensitive", target:["production"]}')
+            curl -sS -X POST "https://api.vercel.com/v10/projects/${VERCEL_PROJECT_ID}/env?upsert=true" \
+              -H "Authorization: Bearer ${VERCEL_TOKEN}" \
+              -H "Content-Type: application/json" \
+              -d "$body"
+          }
           sync_var "$CONTACT_EMAIL" "NEXT_PUBLIC_CONTACT_EMAIL"
           sync_var "$MASTODON_URL" "NEXT_PUBLIC_MASTODON_URL"
           sync_var "$DEVELOPER_GITHUB_URL" "NEXT_PUBLIC_GITHUB_URL"
@@ -70,6 +82,7 @@ jobs:
           sync_var "$BACKEND_BASE_URL" "NEXT_PUBLIC_BACKEND_BASE_URL"
           sync_var "$HTMT_API_ROOT_SEGMENT" "NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT"
           sync_var "$AUDIOMETA_DOCS_BUNDLE_URL" "NEXT_PUBLIC_DOCS_BUNDLE_URL"
+          sync_secret_var "$NPM_TOKEN" "NPM_TOKEN"
           echo "Production sync done."
 
       - name: Trigger Vercel production deploy
@@ -83,6 +96,7 @@ jobs:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+      NPM_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
       CONTACT_EMAIL: ${{ vars.CONTACT_EMAIL }}
       MASTODON_URL: ${{ vars.MASTODON_URL }}
       DEVELOPER_GITHUB_URL: ${{ vars.DEVELOPER_GITHUB_URL }}
@@ -126,6 +140,17 @@ jobs:
               -H "Content-Type: application/json" \
               -d "$body"
           }
+          sync_secret_var() {
+            local value="$1"
+            local key="$2"
+            [ -z "$value" ] && return 0
+            echo "Syncing $key (secret) to preview..."
+            body=$(jq -n --arg key "$key" --arg value "$value" '{key:$key, value:$value, type:"sensitive", target:["preview"]}')
+            curl -sS -X POST "https://api.vercel.com/v10/projects/${VERCEL_PROJECT_ID}/env?upsert=true" \
+              -H "Authorization: Bearer ${VERCEL_TOKEN}" \
+              -H "Content-Type: application/json" \
+              -d "$body"
+          }
           sync_var "$CONTACT_EMAIL" "NEXT_PUBLIC_CONTACT_EMAIL"
           sync_var "$MASTODON_URL" "NEXT_PUBLIC_MASTODON_URL"
           sync_var "$DEVELOPER_GITHUB_URL" "NEXT_PUBLIC_GITHUB_URL"
@@ -134,6 +159,7 @@ jobs:
           sync_var "$BACKEND_BASE_URL" "NEXT_PUBLIC_BACKEND_BASE_URL"
           sync_var "$HTMT_API_ROOT_SEGMENT" "NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT"
           sync_var "$AUDIOMETA_DOCS_BUNDLE_URL" "NEXT_PUBLIC_DOCS_BUNDLE_URL"
+          sync_secret_var "$NPM_TOKEN" "NPM_TOKEN"
           echo "Preview sync done."
 
       - name: Trigger Vercel preview (staging) deploy
