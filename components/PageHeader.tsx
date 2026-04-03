@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { TheMusicTreeHorizontalLink } from "@behindthemusictree/assets/components";
+import MusicTreeHorizontalLockup from "@/components/MusicTreeHorizontalLockup";
 
 interface PageHeaderProps {
   title: string;
@@ -21,7 +21,7 @@ export default function PageHeader({ title }: PageHeaderProps) {
           {title}
         </h1>
       </div>
-      <TheMusicTreeHorizontalLink
+      <MusicTreeHorizontalLockup
         variant="onDark"
         className="shrink-0 bg-slate-900/60 p-2 transition-colors hover:border-amber-400/40 hover:bg-slate-900/80"
       />
