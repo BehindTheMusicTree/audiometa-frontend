@@ -5,8 +5,6 @@ interface PageHeaderProps {
   title: string;
 }
 
-const THEMUSICTREE_URL = process.env.NEXT_PUBLIC_ORG_URL!;
-
 export default function PageHeader({ title }: PageHeaderProps) {
   return (
     <header className="relative flex flex-none flex-row flex-wrap items-center justify-between gap-4 border-b border-amber-500/20 bg-linear-to-b from-slate-900 to-slate-800 px-6 py-4 shadow-lg">
@@ -24,7 +22,6 @@ export default function PageHeader({ title }: PageHeaderProps) {
         </h1>
       </div>
       <TheMusicTreeHorizontalLink
-        href={THEMUSICTREE_URL}
         variant="onDark"
         className="shrink-0 bg-slate-900/60 p-2 transition-colors hover:border-amber-400/40 hover:bg-slate-900/80"
       />
