@@ -43,3 +43,6 @@ coverage/
 
 # Misc
 *.local
+
+# GitHub Packages
+.npmrc
