@@ -62,6 +62,56 @@ describe("MetadataManagerPage", () => {
     ).toBeInTheDocument();
   });
 
+  it("renders the feature intro section", () => {
+    render(<MetadataManagerPage />);
+    expect(
+      screen.getByRole("heading", {
+        name: /here['\u2019]s what you can do/i,
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /upload a track to inspect metadata, edit writable tags, and download your changes/i,
+      ),
+    ).toBeInTheDocument();
+    expect(screen.getByText("MP3, FLAC, WAV")).toBeInTheDocument();
+    expect(screen.getByText("RIFF, ID3v1, ID3v2, Vorbis")).toBeInTheDocument();
+    const docsLink = screen.getByRole("link", { name: /^complete documentation$/i });
+    expect(docsLink).toHaveAttribute("href", "/docs");
+    const libLink = screen.getByRole("link", {
+      name: /audiometa python library/i,
+    });
+    expect(libLink).toHaveAttribute(
+      "href",
+      "https://github.com/BehindTheMusicTree/audiometa",
+    );
+    expect(libLink).toHaveAttribute("target", "_blank");
+    expect(libLink).toHaveAttribute("rel", "noopener noreferrer");
+
+    const emailLink = screen.getByRole("link", {
+      name: /^email us with questions$/i,
+    });
+    expect(emailLink.getAttribute("href")).toMatch(/^mailto:/);
+
+    const issuesLink = screen.getByRole("link", { name: /github issues/i });
+    expect(issuesLink).toHaveAttribute(
+      "href",
+      "https://github.com/BehindTheMusicTree/audiometa-frontend/issues",
+    );
+    expect(issuesLink).toHaveAttribute("target", "_blank");
+    expect(issuesLink).toHaveAttribute("rel", "noopener noreferrer");
+
+    const sponsorLink = screen.getByRole("link", {
+      name: /sponsor us on github sponsors/i,
+    });
+    expect(sponsorLink).toHaveAttribute(
+      "href",
+      "https://github.com/sponsors/BehindTheMusicTree",
+    );
+    expect(sponsorLink).toHaveAttribute("target", "_blank");
+    expect(sponsorLink).toHaveAttribute("rel", "noopener noreferrer");
+  });
+
   it("shows No metadata when no file has been processed", () => {
     render(<MetadataManagerPage />);
     const noMetadataElements = screen.getAllByText("No metadata");
