@@ -11,26 +11,29 @@ function getBundleUrl(): string {
   return url;
 }
 
-let cached: DocsBundle | null | undefined = undefined;
+let cached: DocsBundle | undefined = undefined;
 
-export async function getDocsBundle(): Promise<DocsBundle | null> {
+export async function getDocsBundle(): Promise<DocsBundle> {
   if (cached !== undefined) return cached;
   const bundleUrl = getBundleUrl();
-  try {
-    const res = await fetch(bundleUrl, {
-      next: { revalidate: 3600 },
-    });
-    if (!res.ok) {
-      cached = null;
-      return null;
-    }
-    const data = (await res.json()) as DocsBundle;
-    cached = data;
-    return data;
-  } catch {
-    cached = null;
-    return null;
+  const res = await fetch(bundleUrl, {
+    next: { revalidate: 3600 },
+  });
+  if (!res.ok) {
+    throw new Error(
+      `Docs bundle fetch failed (${res.status} ${res.statusText}): ${bundleUrl}`,
+    );
   }
+  let data: DocsBundle;
+  try {
+    data = (await res.json()) as DocsBundle;
+  } catch (e) {
+    throw new Error(`Docs bundle is not valid JSON: ${bundleUrl}`, {
+      cause: e,
+    });
+  }
+  cached = data;
+  return data;
 }
 
 export function getDocSlugs(bundle: DocsBundle): string[] {

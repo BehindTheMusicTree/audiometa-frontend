@@ -3,11 +3,14 @@
 import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 import {
+  BTMT_ICON_LINK_CLASS,
+  BTMT_ICON_LINK_WITH_TEXT_CLASS,
   EmailSocialLink,
   GithubSocialLink,
   IconBookOpen,
   PypiSocialLink,
-  SponsorSocialLink,
+  socialBrandIconClass,
+  SponsorSocialLinkColored,
 } from "@behindthemusictree/assets/components";
 import Link from "next/link";
 import PageLayout from "@/components/PageLayout";
@@ -36,11 +39,7 @@ const AUDIOMETA_PYTHON_LIBRARY_URL =
 const FRONTEND_GITHUB_ISSUES_URL =
   "https://github.com/BehindTheMusicTree/audiometa-frontend/issues";
 
-const introDocNavLinkClassName =
-  "inline-flex min-w-0 max-w-full items-center gap-2 text-sm font-medium text-indigo-700 underline decoration-indigo-200 underline-offset-2 hover:text-indigo-900";
-
-/** Keep class names literal here so Tailwind emits them (classes from the package are not scanned). */
-const introDocNavIconClassName = "h-4 w-4 shrink-0";
+const introDocNavLinkClassName = `${BTMT_ICON_LINK_CLASS} ${BTMT_ICON_LINK_WITH_TEXT_CLASS}`;
 
 function IntroIconLookAround({ className }: { className?: string }) {
   return (
@@ -390,11 +389,11 @@ export default function MetadataManagerPage() {
   }
 
   return (
-    <PageLayout
-      title="Audio Metadata Manager"
-      dataPage="audio-metadata-manager"
-    >
+    <PageLayout dataPage="audio-metadata-manager">
       <div className="flex flex-col gap-6">
+        <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
+          Audio Metadata Manager
+        </h1>
         <section
           className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
           aria-labelledby="feature-intro-heading"
@@ -466,35 +465,35 @@ export default function MetadataManagerPage() {
             aria-label="Documentation, library, and support"
             className="mt-5 flex flex-col gap-2 border-t border-slate-100 pt-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-1"
           >
-            <Link href="/docs" className={introDocNavLinkClassName}>
-              <IconBookOpen className={introDocNavIconClassName} />
-              Complete documentation
+            <Link
+              href="/docs"
+              className={introDocNavLinkClassName}
+              title="Complete documentation"
+            >
+              <IconBookOpen className={socialBrandIconClass} />
+              <span>Complete documentation</span>
             </Link>
             <PypiSocialLink
               href={AUDIOMETA_PYTHON_LIBRARY_URL}
               text="AudioMeta Python library"
               showText
-              className={introDocNavLinkClassName}
-              iconClassName={introDocNavIconClassName}
+              iconClassName={socialBrandIconClass}
             />
             <EmailSocialLink
               text="Email us with questions"
               showText
-              className={introDocNavLinkClassName}
-              iconClassName={introDocNavIconClassName}
+              iconClassName={socialBrandIconClass}
             />
             <GithubSocialLink
               href={FRONTEND_GITHUB_ISSUES_URL}
               text="GitHub issues"
               showText
-              className={introDocNavLinkClassName}
-              iconClassName={introDocNavIconClassName}
+              iconClassName={socialBrandIconClass}
             />
-            <SponsorSocialLink
+            <SponsorSocialLinkColored
               text="Sponsor us on GitHub Sponsors"
               showText
-              className={introDocNavLinkClassName}
-              iconClassName={introDocNavIconClassName}
+              iconClassName={socialBrandIconClass}
             />
           </nav>
         </section>

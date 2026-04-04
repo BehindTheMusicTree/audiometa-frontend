@@ -13,14 +13,14 @@ export default function DocsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <PageLayout title="Docs" dataPage="docs">
+    <PageLayout dataPage="docs">
       <div className="flex min-h-0 flex-1 gap-8">
         <nav
           className="hidden w-48 shrink-0 flex-col border-r border-slate-200 pr-4 md:flex"
           aria-label="Docs"
         >
           <Link
-            href="/"
+            href="/audio-metadata-manager"
             className="mb-2 text-sm font-medium text-amber-600 underline decoration-amber-500/50 underline-offset-2 hover:text-amber-700"
           >
             Audio Metadata Manager

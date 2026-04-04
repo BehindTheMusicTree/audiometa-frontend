@@ -6,14 +6,13 @@ type PageProps = { params: Promise<{ slug: string }> };
 
 export async function generateStaticParams() {
   const bundle = await getDocsBundle();
-  if (!bundle) return [];
   return getDocSlugs(bundle).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
   const bundle = await getDocsBundle();
-  const doc = bundle?.[slug];
+  const doc = bundle[slug];
   if (!doc) return { title: "Docs | Audiometa" };
   return {
     title: `${doc.title} | Audiometa`,
@@ -24,7 +23,7 @@ export async function generateMetadata({ params }: PageProps) {
 export default async function DocPage({ params }: PageProps) {
   const { slug } = await params;
   const bundle = await getDocsBundle();
-  const doc = bundle?.[slug];
+  const doc = bundle[slug];
   if (!doc) notFound();
 
   return (

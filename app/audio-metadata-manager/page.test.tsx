@@ -106,7 +106,7 @@ describe("MetadataManagerPage", () => {
     });
     expect(sponsorLink).toHaveAttribute(
       "href",
-      "https://github.com/sponsors/BehindTheMusicTree",
+      "https://github.com/sponsors/BehindTheMusicTree/button",
     );
     expect(sponsorLink).toHaveAttribute("target", "_blank");
     expect(sponsorLink).toHaveAttribute("rel", "noopener noreferrer");
