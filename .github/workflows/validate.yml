@@ -79,9 +79,9 @@ jobs:
         run: |
           BRANCH="${{ github.base_ref || github.ref_name }}"
           if [[ "$BRANCH" == "main" ]]; then
-            echo "NEXT_PUBLIC_APP_URL=https://app.audiometa.com" >> "$GITHUB_ENV"
+            echo "NEXT_PUBLIC_SITE_URL=https://app.audiometa.com" >> "$GITHUB_ENV"
           else
-            echo "NEXT_PUBLIC_APP_URL=https://staging.audiometa.com" >> "$GITHUB_ENV"
+            echo "NEXT_PUBLIC_SITE_URL=https://staging.audiometa.com" >> "$GITHUB_ENV"
           fi
 
       - name: Build application

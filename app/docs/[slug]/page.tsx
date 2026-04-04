@@ -13,10 +13,13 @@ export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
   const bundle = await getDocsBundle();
   const doc = bundle[slug];
-  if (!doc) return { title: "Docs | Audiometa" };
+  if (!doc) return { title: "Docs" };
   return {
-    title: `${doc.title} | Audiometa`,
+    title: doc.title,
     description: `Audiometa documentation: ${doc.title}. Audio metadata formats, field support, and handling.`,
+    alternates: {
+      canonical: `/docs/${slug}`,
+    },
   };
 }
 
