@@ -8,9 +8,9 @@ export default async function DocsIndexPage() {
   return (
     <section>
       <header className="mb-6">
-        <h2 className="text-xl font-semibold text-slate-900">
+        <h1 className="text-xl font-semibold text-slate-900">
           Documentation
-        </h2>
+        </h1>
         <p className="mt-1 text-slate-600">
           Metadata formats, field support, and how Audiometa handles audio
           metadata (ID3, Vorbis, RIFF).
