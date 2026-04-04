@@ -1,7 +1,8 @@
-"use client";
+import AudioMetadataManagerClient from "@/app/audio-metadata-manager/AudioMetadataManagerClient";
+import { audioMetadataManagerMetadata } from "@/lib/audio-metadata-tool-seo";
 
-import MetadataManagerPage from "@/app/audio-metadata-manager/page";
+export const metadata = audioMetadataManagerMetadata;
 
 export default function HomePage() {
-  return <MetadataManagerPage />;
+  return <AudioMetadataManagerClient />;
 }

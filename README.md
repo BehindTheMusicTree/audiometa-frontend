@@ -44,7 +44,7 @@ The portfolio website content lives in **[the-music-tree-frontend](https://githu
 ├── docs/              # Style guide, testing, versioning
 ├── .cursor/rules/     # Cursor AI / editor rules
 ├── .github/
-│   ├── workflows/     # CI (validate, branch-protection, publish)
+│   ├── workflows/     # CI (validate, branch-protection)
 │   └── pull_request_template.md
 └── README.md
 ```
@@ -88,7 +88,6 @@ Add `test` in `package.json` if missing (e.g. `"test": "vitest run"`).
 
 - **Validate** – On push/PR to `main` and `develop`: lint, test, build. [.github/workflows/validate.yml](.github/workflows/validate.yml)
 - **Branch protection** – PRs to `main` must be from `hotfix/` or `release/`; PRs to `develop` from `feature/`, `chore/`, or `dependabot/`. [.github/workflows/branch-protection.yml](.github/workflows/branch-protection.yml)
-- **Publish** – On tag push `v*`: checks tag is on `main`, runs build. [.github/workflows/publish.yml](.github/workflows/publish.yml). Extend with Docker/deploy when ready.
 
 ## Documentation
 

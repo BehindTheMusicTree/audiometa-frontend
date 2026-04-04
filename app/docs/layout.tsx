@@ -1,10 +1,14 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import PageLayout from "@/components/PageLayout";
 
-export const metadata = {
-  title: "Docs | Audiometa",
+export const metadata: Metadata = {
+  title: "Docs",
   description:
     "Documentation on audio metadata formats, field support, and how Audiometa handles ID3, Vorbis, and RIFF.",
+  alternates: {
+    canonical: "/docs",
+  },
 };
 
 export default function DocsLayout({
