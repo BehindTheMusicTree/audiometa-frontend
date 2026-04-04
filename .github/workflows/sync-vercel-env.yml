@@ -2,9 +2,9 @@
 # Run manually: Actions → Sync Vercel env → Run workflow.
 # Uses GitHub Environments so BACKEND_BASE_URL / HTMT_API_ROOT_SEGMENT (and other per-env vars) can differ:
 #   GitHub PROD → Vercel "production"; GitHub STAGING → Vercel "preview".
-# Required: repo secrets VERCEL_TOKEN, VERCEL_PROJECT_ID; repo vars AUDIOMETA_DOCS_BUNDLE_URL;
+# Required: repo secrets VERCEL_TOKEN, VERCEL_PROJECT_ID; repo vars AUDIOMETA_DOCS_BUNDLE_URL,
+#   NEXT_PUBLIC_SITE_URL (public app URL, no trailing slash; same name on Vercel);
 #   in each GitHub Environment (PROD, STAGING): BACKEND_BASE_URL, HTMT_API_ROOT_SEGMENT,
-#   AUDIOMETA_SITE_URL (public app URL, no trailing slash; maps to NEXT_PUBLIC_SITE_URL),
 #   secret VERCEL_DEPLOY_HOOK (per env, different URL for prod vs staging). See docs/DEPLOYMENT.md §3.1.
 name: Sync Vercel env
 
@@ -22,7 +22,7 @@ jobs:
       VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
       NPM_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
       AUDIOMETA_DOCS_BUNDLE_URL: ${{ vars.AUDIOMETA_DOCS_BUNDLE_URL }}
-      AUDIOMETA_SITE_URL: ${{ vars.AUDIOMETA_SITE_URL }}
+      NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL }}
       BACKEND_BASE_URL: ${{ vars.BACKEND_BASE_URL }}
       HTMT_API_ROOT_SEGMENT: ${{ vars.HTMT_API_ROOT_SEGMENT }}
     steps:
@@ -33,7 +33,7 @@ jobs:
           [ -z "$VERCEL_PROJECT_ID" ] && missing="$missing VERCEL_PROJECT_ID"
           [ -z "$VERCEL_DEPLOY_HOOK" ] && missing="$missing VERCEL_DEPLOY_HOOK"
           [ -z "$AUDIOMETA_DOCS_BUNDLE_URL" ] && missing="$missing AUDIOMETA_DOCS_BUNDLE_URL"
-          [ -z "$AUDIOMETA_SITE_URL" ] && missing="$missing AUDIOMETA_SITE_URL"
+          [ -z "$NEXT_PUBLIC_SITE_URL" ] && missing="$missing NEXT_PUBLIC_SITE_URL"
           [ -z "$BACKEND_BASE_URL" ] && missing="$missing BACKEND_BASE_URL"
           [ -z "$HTMT_API_ROOT_SEGMENT" ] && missing="$missing HTMT_API_ROOT_SEGMENT"
           if [ -n "$missing" ]; then
@@ -68,7 +68,7 @@ jobs:
               -d "$body"
           }
           sync_var "$AUDIOMETA_DOCS_BUNDLE_URL" "NEXT_PUBLIC_DOCS_BUNDLE_URL"
-          sync_var "$AUDIOMETA_SITE_URL" "NEXT_PUBLIC_SITE_URL"
+          sync_var "$NEXT_PUBLIC_SITE_URL" "NEXT_PUBLIC_SITE_URL"
           sync_var "$BACKEND_BASE_URL" "NEXT_PUBLIC_BACKEND_BASE_URL"
           sync_var "$HTMT_API_ROOT_SEGMENT" "NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT"
           sync_secret_var "$NPM_TOKEN" "NPM_TOKEN"
@@ -87,7 +87,7 @@ jobs:
       VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
       NPM_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
       AUDIOMETA_DOCS_BUNDLE_URL: ${{ vars.AUDIOMETA_DOCS_BUNDLE_URL }}
-      AUDIOMETA_SITE_URL: ${{ vars.AUDIOMETA_SITE_URL }}
+      NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL }}
       BACKEND_BASE_URL: ${{ vars.BACKEND_BASE_URL }}
       HTMT_API_ROOT_SEGMENT: ${{ vars.HTMT_API_ROOT_SEGMENT }}
     steps:
@@ -98,7 +98,7 @@ jobs:
           [ -z "$VERCEL_PROJECT_ID" ] && missing="$missing VERCEL_PROJECT_ID"
           [ -z "$VERCEL_DEPLOY_HOOK" ] && missing="$missing VERCEL_DEPLOY_HOOK"
           [ -z "$AUDIOMETA_DOCS_BUNDLE_URL" ] && missing="$missing AUDIOMETA_DOCS_BUNDLE_URL"
-          [ -z "$AUDIOMETA_SITE_URL" ] && missing="$missing AUDIOMETA_SITE_URL"
+          [ -z "$NEXT_PUBLIC_SITE_URL" ] && missing="$missing NEXT_PUBLIC_SITE_URL"
           [ -z "$BACKEND_BASE_URL" ] && missing="$missing BACKEND_BASE_URL"
           [ -z "$HTMT_API_ROOT_SEGMENT" ] && missing="$missing HTMT_API_ROOT_SEGMENT"
           if [ -n "$missing" ]; then
@@ -133,7 +133,7 @@ jobs:
               -d "$body"
           }
           sync_var "$AUDIOMETA_DOCS_BUNDLE_URL" "NEXT_PUBLIC_DOCS_BUNDLE_URL"
-          sync_var "$AUDIOMETA_SITE_URL" "NEXT_PUBLIC_SITE_URL"
+          sync_var "$NEXT_PUBLIC_SITE_URL" "NEXT_PUBLIC_SITE_URL"
           sync_var "$BACKEND_BASE_URL" "NEXT_PUBLIC_BACKEND_BASE_URL"
           sync_var "$HTMT_API_ROOT_SEGMENT" "NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT"
           sync_secret_var "$NPM_TOKEN" "NPM_TOKEN"
