@@ -15,8 +15,11 @@ export default async function DocsIndexPage() {
           <code className="rounded bg-slate-200 px-1.5 py-0.5 font-mono text-sm">
             NEXT_PUBLIC_DOCS_BUNDLE_URL
           </code>{" "}
-          to the URL of <code className="rounded bg-slate-200 px-1.5 py-0.5 font-mono text-sm">docs-bundle.json</code> to
-          enable them.
+          to the URL of{" "}
+          <code className="rounded bg-slate-200 px-1.5 py-0.5 font-mono text-sm">
+            docs-bundle.json
+          </code>{" "}
+          to enable them.
         </p>
       </section>
     );
