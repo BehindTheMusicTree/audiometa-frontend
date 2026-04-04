@@ -23,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- **Env / deploy**: `NEXT_PUBLIC_BTMT_GITHUB_LINK` removed; **`NEXT_PUBLIC_ORG_URL`** is required for the header lockup link. GitHub Actions / Vercel sync: repo variable **`THEMUSICTREE_URL`** maps to `NEXT_PUBLIC_ORG_URL` (see `docs/DEPLOYMENT.md`).
+- **Env / deploy**: Removed app-level `NEXT_PUBLIC_*` vars for developer credit and org URL; header/footer use **`@behindthemusictree/assets`**. Build requires `NEXT_PUBLIC_BACKEND_BASE_URL`, `NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT`, and `NEXT_PUBLIC_DOCS_BUNDLE_URL` (see `docs/DEPLOYMENT.md`).
 
 ### Documentation
 

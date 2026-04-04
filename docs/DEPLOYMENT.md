@@ -98,13 +98,9 @@ Use the workflow [`.github/workflows/sync-vercel-env.yml`](../.github/workflows/
 | Source | → Vercel env |
 |--------|----------------|
 | **Repo variables** (Settings → Secrets and variables → Actions → Variables) – same value for both targets: |
-| `CONTACT_EMAIL` | `NEXT_PUBLIC_CONTACT_EMAIL` |
-| `MASTODON_URL` | `NEXT_PUBLIC_MASTODON_URL` |
-| `DEVELOPER_GITHUB_URL` | `NEXT_PUBLIC_GITHUB_URL` |
-| `LINKEDIN_URL` | `NEXT_PUBLIC_LINKEDIN_URL` |
-| `DEVELOPER` | `NEXT_PUBLIC_DEVELOPER` |
 | `AUDIOMETA_DOCS_BUNDLE_URL` | `NEXT_PUBLIC_DOCS_BUNDLE_URL` |
-| `THEMUSICTREE_URL` | `NEXT_PUBLIC_ORG_URL` |
+
+*(Organization site, social defaults, and contact targets for footer / intro links come from **`@behindthemusictree/assets`** at package build time; this app does not set other `NEXT_PUBLIC_*` vars for those.)*
 
 | **Repository secret** (optional; used to sync GitHub Packages auth to Vercel): |
 | `GH_PACKAGES_TOKEN` | `NPM_TOKEN` on Vercel (**sensitive**), for `npm install` of `@behindthemusictree/*` |

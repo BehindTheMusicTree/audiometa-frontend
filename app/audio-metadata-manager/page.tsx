@@ -2,7 +2,13 @@
 
 import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
+import {
+  EmailSocialLink,
+  GithubSocialLink,
+  IconBookOpen,
+  PypiSocialLink,
+  SponsorSocialLink,
+} from "@behindthemusictree/assets/components";
 import Link from "next/link";
 import PageLayout from "@/components/PageLayout";
 import WritableTagsForm from "@/components/WritableTagsForm";
@@ -30,10 +36,11 @@ const AUDIOMETA_PYTHON_LIBRARY_URL =
 const FRONTEND_GITHUB_ISSUES_URL =
   "https://github.com/BehindTheMusicTree/audiometa-frontend/issues";
 
-const GITHUB_SPONSORS_URL = "https://github.com/sponsors/BehindTheMusicTree";
+const introDocNavLinkClassName =
+  "inline-flex min-w-0 max-w-full items-center gap-2 text-sm font-medium text-indigo-700 underline decoration-indigo-200 underline-offset-2 hover:text-indigo-900";
 
-const GITHUB_SPONSORS_BADGE_SRC =
-  "https://img.shields.io/badge/Sponsor-EA4AAA?style=flat&logo=githubsponsors&logoColor=white&labelColor=30363D";
+/** Keep class names literal here so Tailwind emits them (classes from the package are not scanned). */
+const introDocNavIconClassName = "h-4 w-4 shrink-0";
 
 function IntroIconLookAround({ className }: { className?: string }) {
   return (
@@ -459,51 +466,36 @@ export default function MetadataManagerPage() {
             aria-label="Documentation, library, and support"
             className="mt-5 flex flex-col gap-2 border-t border-slate-100 pt-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-1"
           >
-            <Link
-              href="/docs"
-              className="text-sm font-medium text-indigo-700 underline decoration-indigo-200 underline-offset-2 hover:text-indigo-900"
-            >
+            <Link href="/docs" className={introDocNavLinkClassName}>
+              <IconBookOpen className={introDocNavIconClassName} />
               Complete documentation
             </Link>
-            <a
+            <PypiSocialLink
               href={AUDIOMETA_PYTHON_LIBRARY_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm font-medium text-indigo-700 underline decoration-indigo-200 underline-offset-2 hover:text-indigo-900"
-            >
-              AudioMeta Python library
-              <span className="sr-only"> (opens in new tab)</span>
-            </a>
-            <a
-              href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL}`}
-              className="text-sm font-medium text-indigo-700 underline decoration-indigo-200 underline-offset-2 hover:text-indigo-900"
-            >
-              Email us with questions
-            </a>
-            <a
+              text="AudioMeta Python library"
+              showText
+              className={introDocNavLinkClassName}
+              iconClassName={introDocNavIconClassName}
+            />
+            <EmailSocialLink
+              text="Email us with questions"
+              showText
+              className={introDocNavLinkClassName}
+              iconClassName={introDocNavIconClassName}
+            />
+            <GithubSocialLink
               href={FRONTEND_GITHUB_ISSUES_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm font-medium text-indigo-700 underline decoration-indigo-200 underline-offset-2 hover:text-indigo-900"
-            >
-              GitHub issues
-              <span className="sr-only"> (opens in new tab)</span>
-            </a>
-            <a
-              href={GITHUB_SPONSORS_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex shrink-0 items-center rounded-md ring-1 ring-slate-200 transition-opacity hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1"
-            >
-              <Image
-                src={GITHUB_SPONSORS_BADGE_SRC}
-                alt="Sponsor us on GitHub Sponsors"
-                width={108}
-                height={20}
-                className="block h-5 w-auto rounded-md"
-              />
-              <span className="sr-only"> (opens in new tab)</span>
-            </a>
+              text="GitHub issues"
+              showText
+              className={introDocNavLinkClassName}
+              iconClassName={introDocNavIconClassName}
+            />
+            <SponsorSocialLink
+              text="Sponsor us on GitHub Sponsors"
+              showText
+              className={introDocNavLinkClassName}
+              iconClassName={introDocNavIconClassName}
+            />
           </nav>
         </section>
         <div className="flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
