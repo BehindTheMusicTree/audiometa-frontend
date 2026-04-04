@@ -2,7 +2,7 @@
 # Run manually: Actions → Sync Vercel env → Run workflow.
 # Uses GitHub Environments so BACKEND_BASE_URL / HTMT_API_ROOT_SEGMENT (and other per-env vars) can differ:
 #   GitHub PROD → Vercel "production"; GitHub STAGING → Vercel "preview".
-# Required: repo secrets VERCEL_TOKEN, VERCEL_PROJECT_ID; repo vars for shared fields;
+# Required: repo secrets VERCEL_TOKEN, VERCEL_PROJECT_ID; repo vars AUDIOMETA_DOCS_BUNDLE_URL;
 #   in each GitHub Environment (PROD, STAGING): BACKEND_BASE_URL, HTMT_API_ROOT_SEGMENT,
 #   secret VERCEL_DEPLOY_HOOK (per env, different URL for prod vs staging). See docs/DEPLOYMENT.md §3.1.
 name: Sync Vercel env
@@ -20,14 +20,9 @@ jobs:
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
       NPM_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
-      CONTACT_EMAIL: ${{ vars.CONTACT_EMAIL }}
-      MASTODON_URL: ${{ vars.MASTODON_URL }}
-      DEVELOPER_GITHUB_URL: ${{ vars.DEVELOPER_GITHUB_URL }}
-      LINKEDIN_URL: ${{ vars.LINKEDIN_URL }}
-      DEVELOPER: ${{ vars.DEVELOPER }}
+      AUDIOMETA_DOCS_BUNDLE_URL: ${{ vars.AUDIOMETA_DOCS_BUNDLE_URL }}
       BACKEND_BASE_URL: ${{ vars.BACKEND_BASE_URL }}
       HTMT_API_ROOT_SEGMENT: ${{ vars.HTMT_API_ROOT_SEGMENT }}
-      AUDIOMETA_DOCS_BUNDLE_URL: ${{ vars.AUDIOMETA_DOCS_BUNDLE_URL }}
     steps:
       - name: Validate required env vars
         run: |
@@ -35,14 +30,9 @@ jobs:
           [ -z "$VERCEL_TOKEN" ] && missing="$missing VERCEL_TOKEN"
           [ -z "$VERCEL_PROJECT_ID" ] && missing="$missing VERCEL_PROJECT_ID"
           [ -z "$VERCEL_DEPLOY_HOOK" ] && missing="$missing VERCEL_DEPLOY_HOOK"
-          [ -z "$CONTACT_EMAIL" ] && missing="$missing CONTACT_EMAIL"
-          [ -z "$MASTODON_URL" ] && missing="$missing MASTODON_URL"
-          [ -z "$DEVELOPER_GITHUB_URL" ] && missing="$missing DEVELOPER_GITHUB_URL"
-          [ -z "$LINKEDIN_URL" ] && missing="$missing LINKEDIN_URL"
-          [ -z "$DEVELOPER" ] && missing="$missing DEVELOPER"
+          [ -z "$AUDIOMETA_DOCS_BUNDLE_URL" ] && missing="$missing AUDIOMETA_DOCS_BUNDLE_URL"
           [ -z "$BACKEND_BASE_URL" ] && missing="$missing BACKEND_BASE_URL"
           [ -z "$HTMT_API_ROOT_SEGMENT" ] && missing="$missing HTMT_API_ROOT_SEGMENT"
-          [ -z "$AUDIOMETA_DOCS_BUNDLE_URL" ] && missing="$missing AUDIOMETA_DOCS_BUNDLE_URL"
           if [ -n "$missing" ]; then
             echo "::error::Missing or empty (repo vars or PROD env):$missing"
             exit 1
@@ -74,14 +64,9 @@ jobs:
               -H "Content-Type: application/json" \
               -d "$body"
           }
-          sync_var "$CONTACT_EMAIL" "NEXT_PUBLIC_CONTACT_EMAIL"
-          sync_var "$MASTODON_URL" "NEXT_PUBLIC_MASTODON_URL"
-          sync_var "$DEVELOPER_GITHUB_URL" "NEXT_PUBLIC_GITHUB_URL"
-          sync_var "$LINKEDIN_URL" "NEXT_PUBLIC_LINKEDIN_URL"
-          sync_var "$DEVELOPER" "NEXT_PUBLIC_DEVELOPER"
+          sync_var "$AUDIOMETA_DOCS_BUNDLE_URL" "NEXT_PUBLIC_DOCS_BUNDLE_URL"
           sync_var "$BACKEND_BASE_URL" "NEXT_PUBLIC_BACKEND_BASE_URL"
           sync_var "$HTMT_API_ROOT_SEGMENT" "NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT"
-          sync_var "$AUDIOMETA_DOCS_BUNDLE_URL" "NEXT_PUBLIC_DOCS_BUNDLE_URL"
           sync_secret_var "$NPM_TOKEN" "NPM_TOKEN"
           echo "Production sync done."
 
@@ -97,14 +82,9 @@ jobs:
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
       NPM_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
-      CONTACT_EMAIL: ${{ vars.CONTACT_EMAIL }}
-      MASTODON_URL: ${{ vars.MASTODON_URL }}
-      DEVELOPER_GITHUB_URL: ${{ vars.DEVELOPER_GITHUB_URL }}
-      LINKEDIN_URL: ${{ vars.LINKEDIN_URL }}
-      DEVELOPER: ${{ vars.DEVELOPER }}
+      AUDIOMETA_DOCS_BUNDLE_URL: ${{ vars.AUDIOMETA_DOCS_BUNDLE_URL }}
       BACKEND_BASE_URL: ${{ vars.BACKEND_BASE_URL }}
       HTMT_API_ROOT_SEGMENT: ${{ vars.HTMT_API_ROOT_SEGMENT }}
-      AUDIOMETA_DOCS_BUNDLE_URL: ${{ vars.AUDIOMETA_DOCS_BUNDLE_URL }}
     steps:
       - name: Validate required env vars
         run: |
@@ -112,14 +92,9 @@ jobs:
           [ -z "$VERCEL_TOKEN" ] && missing="$missing VERCEL_TOKEN"
           [ -z "$VERCEL_PROJECT_ID" ] && missing="$missing VERCEL_PROJECT_ID"
           [ -z "$VERCEL_DEPLOY_HOOK" ] && missing="$missing VERCEL_DEPLOY_HOOK"
-          [ -z "$CONTACT_EMAIL" ] && missing="$missing CONTACT_EMAIL"
-          [ -z "$MASTODON_URL" ] && missing="$missing MASTODON_URL"
-          [ -z "$DEVELOPER_GITHUB_URL" ] && missing="$missing DEVELOPER_GITHUB_URL"
-          [ -z "$LINKEDIN_URL" ] && missing="$missing LINKEDIN_URL"
-          [ -z "$DEVELOPER" ] && missing="$missing DEVELOPER"
+          [ -z "$AUDIOMETA_DOCS_BUNDLE_URL" ] && missing="$missing AUDIOMETA_DOCS_BUNDLE_URL"
           [ -z "$BACKEND_BASE_URL" ] && missing="$missing BACKEND_BASE_URL"
           [ -z "$HTMT_API_ROOT_SEGMENT" ] && missing="$missing HTMT_API_ROOT_SEGMENT"
-          [ -z "$AUDIOMETA_DOCS_BUNDLE_URL" ] && missing="$missing AUDIOMETA_DOCS_BUNDLE_URL"
           if [ -n "$missing" ]; then
             echo "::error::Missing or empty (repo vars or STAGING env):$missing"
             exit 1
@@ -151,14 +126,9 @@ jobs:
               -H "Content-Type: application/json" \
               -d "$body"
           }
-          sync_var "$CONTACT_EMAIL" "NEXT_PUBLIC_CONTACT_EMAIL"
-          sync_var "$MASTODON_URL" "NEXT_PUBLIC_MASTODON_URL"
-          sync_var "$DEVELOPER_GITHUB_URL" "NEXT_PUBLIC_GITHUB_URL"
-          sync_var "$LINKEDIN_URL" "NEXT_PUBLIC_LINKEDIN_URL"
-          sync_var "$DEVELOPER" "NEXT_PUBLIC_DEVELOPER"
+          sync_var "$AUDIOMETA_DOCS_BUNDLE_URL" "NEXT_PUBLIC_DOCS_BUNDLE_URL"
           sync_var "$BACKEND_BASE_URL" "NEXT_PUBLIC_BACKEND_BASE_URL"
           sync_var "$HTMT_API_ROOT_SEGMENT" "NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT"
-          sync_var "$AUDIOMETA_DOCS_BUNDLE_URL" "NEXT_PUBLIC_DOCS_BUNDLE_URL"
           sync_secret_var "$NPM_TOKEN" "NPM_TOKEN"
           echo "Preview sync done."
 

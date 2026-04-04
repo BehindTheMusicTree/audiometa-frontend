@@ -75,7 +75,7 @@ The app’s existing clarity (unified metadata view, “By metadata format” se
 
 **Docs section (`/docs`)**
 
-The `/docs` section surfaces metadata documentation (formats, field support, writing, audio technical info) fetched at build time from a published docs bundle. The content comes from the audiometa-python (or audiometa-python-publish-docs) repo. Each doc page has its own title and description for SEO and AEO; the content uses semantic HTML (`<article>`, headings, tables). Set `NEXT_PUBLIC_DOCS_BUNDLE_URL` to the URL of `docs-bundle.json` to enable the docs; see `.env.example`.
+The `/docs` section surfaces metadata documentation (formats, field support, writing, audio technical info) fetched at build time from a published docs bundle. The content comes from the audiometa-python (or audiometa-python-publish-docs) repo. Each doc page has its own title and description for SEO and AEO; the content uses semantic HTML (`<article>`, headings, tables). Set **`NEXT_PUBLIC_DOCS_BUNDLE_URL`** to the URL of `docs-bundle.json`; see `.env.example`.
 
 ## Implementation checklist
 
