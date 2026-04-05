@@ -8,7 +8,7 @@ export default function PageHeader() {
       <div className="absolute inset-x-0 bottom-0 h-px bg-linear-to-r from-transparent via-amber-500/40 to-transparent" />
       <Link
         href="/audio-metadata-manager"
-        className="absolute left-1/2 top-1/2 z-0 flex max-w-[calc(100%-9rem)] -translate-x-1/2 -translate-y-1/2 items-center gap-3 text-white rounded-sm outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400/80"
+        className="absolute left-1/2 top-1/2 z-0 flex max-w-[calc(100%-8rem)] -translate-x-1/2 -translate-y-1/2 items-center gap-3 text-white rounded-sm outline-offset-4 focus-visible:outline-2 focus-visible:outline-amber-400/80"
         aria-label="Audiometa — Audio Metadata Manager"
       >
         <Image
@@ -24,7 +24,7 @@ export default function PageHeader() {
       </Link>
       <MusicTreeHorizontalLockup
         variant="onDark"
-        className="relative z-10 shrink-0 bg-slate-900/60 p-2 transition-colors hover:border-amber-400/40 hover:bg-slate-900/80"
+        className="relative z-10 origin-right scale-[0.88] shrink-0 bg-slate-900/60 p-1.5 transition-colors hover:border-amber-400/40 hover:bg-slate-900/80"
       />
     </header>
   );
