@@ -8,6 +8,11 @@ const hrefLangByLocale: Record<string, string> = {
   en: "en",
   fr: "fr",
   zh: "zh-Hans",
+  pt: "pt",
+  ja: "ja",
+  ar: "ar",
+  de: "de",
+  es: "es",
 };
 
 export default function LanguageSwitcher() {

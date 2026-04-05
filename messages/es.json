@@ -1,0 +1,122 @@
+{
+  "Site": {
+    "titleDefault": "Audiometa",
+    "titleTemplate": "%s | Audiometa",
+    "description": "Audiometa es un gestor de metadatos de audio en línea: inspecciona y edita etiquetas de MP3, FLAC y WAV en el navegador.",
+    "ogLocale": "es_ES"
+  },
+  "MetadataTool": {
+    "title": "Gestor de metadatos de audio",
+    "description": "Gestor de metadatos de audio en línea: sube una pista para inspeccionar metadatos, editar etiquetas grabables y descargar los cambios en una sesión breve y privada en el navegador.",
+    "ogTitle": "Gestor de metadatos de audio | Audiometa"
+  },
+  "PageHeader": {
+    "homeAria": "Audiometa — Gestor de metadatos de audio"
+  },
+  "PageFooter": {
+    "docsAria": "Documentación (contenido solo en inglés)",
+    "docsTitle": "Documentación (solo en inglés)"
+  },
+  "DocsLayout": {
+    "englishOnlyNotice": "Esta documentación está disponible solo en inglés por ahora.",
+    "navAria": "Documentación",
+    "audioManager": "Gestor de metadatos de audio",
+    "overview": "Resumen",
+    "metadataFormats": "Formatos de metadatos",
+    "fieldSupport": "Compatibilidad de campos",
+    "audioTechnicalInfo": "Información técnica del audio",
+    "writingMetadata": "Escribir metadatos",
+    "title": "Documentación",
+    "description": "Documentación sobre formatos de metadatos de audio, compatibilidad de campos y cómo Audiometa maneja ID3, Vorbis y RIFF."
+  },
+  "DocsIndex": {
+    "title": "Documentación",
+    "intro": "Formatos de metadatos, compatibilidad de campos y cómo Audiometa trata los metadatos de audio (ID3, Vorbis, RIFF)."
+  },
+  "DocPage": {
+    "description": "Documentación Audiometa: {title}. Formatos de metadatos de audio, campos y tratamiento.",
+    "fallbackTitle": "Documentación"
+  },
+  "Tool": {
+    "heading": "Gestor de metadatos de audio",
+    "featureIntroHeading": "Qué puedes hacer",
+    "featureIntroBody": "Sube una pista para inspeccionar metadatos, editar etiquetas grabables y descargar tus cambios en una sesión breve y privada en el navegador.",
+    "formatsSrOnly": "Formatos de audio y metadatos admitidos",
+    "audioFormatsLabel": "Formatos de audio",
+    "audioFormatsValue": "MP3, FLAC, WAV",
+    "metadataFormatsLabel": "Formatos de metadatos",
+    "metadataFormatsValue": "RIFF, ID3v1, ID3v2, Vorbis",
+    "bulletLookTitle": "Explorar",
+    "bulletLookBody": "— duración, bitrate, frecuencia de muestreo, cabeceras, vista unificada de etiquetas y metadatos en bruto por formato.",
+    "bulletTweakTitle": "Ajustar etiquetas",
+    "bulletTweakBody": "— cambia los campos grabables; los paneles de solo lectura siguen siendo útiles como referencia.",
+    "bulletSaveTitle": "Guardar una copia",
+    "bulletSaveBody": "— descarga tu archivo con las actualizaciones mientras la sesión siga abierta.",
+    "navSupportAria": "Documentación, biblioteca y soporte",
+    "completeDocsTitle": "Documentación completa",
+    "completeDocs": "Documentación completa",
+    "pythonLibrary": "Biblioteca Python AudioMeta",
+    "emailUs": "Escríbenos por correo",
+    "githubIssues": "Incidencias en GitHub",
+    "sponsorUs": "Apóyanos",
+    "chooseFileAria": "Elegir un archivo de audio",
+    "loading": "Cargando…",
+    "chooseFile": "Elegir archivo",
+    "noFileChosen": "Ningún archivo elegido",
+    "editTags": "Editar etiquetas",
+    "editTagsHelp": "Los valores aquí se escriben en el archivo al descargar. Las demás secciones son solo de referencia de lectura.",
+    "sessionExpires": "La sesión expira en",
+    "sessionExpiredHint": "Es posible que esta sesión haya caducado. Prueba a descargar; si falla, vuelve a subir el archivo.",
+    "noSessionHint": "No hay sesión activa. Sube de nuevo un archivo para descargar con etiquetas.",
+    "preparingDownload": "Preparando descarga…",
+    "downloadWithTags": "Descargar con estas etiquetas",
+    "resetTags": "Restablecer al archivo cargado",
+    "technicalInfo": "Información técnica",
+    "unifiedMetadata": "Metadatos unificados",
+    "byMetadataFormat": "Por formato de metadatos",
+    "metadataRaw": "Metadatos en bruto",
+    "formatPriorities": "Prioridades de formato",
+    "formatsHeaders": "Cabeceras de formatos",
+    "noMetadata": "Sin metadatos"
+  },
+  "Boolean": {
+    "yes": "Sí",
+    "no": "No"
+  },
+  "WritableTags": {
+    "title": "Título",
+    "album": "Álbum",
+    "artists": "Artistas",
+    "addArtist": "Añadir artista",
+    "albumArtists": "Artistas del álbum",
+    "addAlbumArtist": "Añadir artista del álbum",
+    "genres": "Géneros",
+    "addGenre": "Añadir género",
+    "rating": "Valoración (0–100)",
+    "optionalPlaceholder": "Opcional",
+    "language": "Idioma",
+    "remove": "Quitar",
+    "listItemAria": "{label} {index}"
+  },
+  "LanguageSwitcher": {
+    "label": "Idioma",
+    "en": "EN",
+    "fr": "FR",
+    "zh": "中文",
+    "pt": "PT",
+    "ja": "JA",
+    "ar": "AR",
+    "de": "DE",
+    "es": "ES"
+  },
+  "NotFound": {
+    "title": "Página no encontrada",
+    "body": "La página que solicitas no existe.",
+    "home": "Volver al inicio"
+  },
+  "OpenGraphImage": {
+    "alt": "Audiometa — gestor de metadatos de audio",
+    "title": "Audiometa",
+    "subtitle": "Gestor de metadatos de audio"
+  }
+}
