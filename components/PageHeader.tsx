@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { Link } from "@/i18n/navigation";
 import MusicTreeHorizontalLockup from "@/components/MusicTreeHorizontalLockup";
 
@@ -28,7 +29,8 @@ export default function PageHeader() {
           Audiometa
         </span>
       </Link>
-      <div className="flex min-w-0 justify-end">
+      <div className="flex min-w-0 items-center justify-end gap-3 sm:gap-4">
+        <LanguageSwitcher />
         <MusicTreeHorizontalLockup
           variant="onDark"
           className="shrink-0 bg-slate-900/60 p-2 transition-colors hover:border-amber-400/40 hover:bg-slate-900/80"

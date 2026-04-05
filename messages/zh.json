@@ -98,6 +98,12 @@
     "remove": "移除",
     "listItemAria": "{label} 第 {index} 项"
   },
+  "LanguageSwitcher": {
+    "label": "语言",
+    "en": "EN",
+    "fr": "FR",
+    "zh": "中文"
+  },
   "NotFound": {
     "title": "页面未找到",
     "body": "您请求的页面不存在。",
