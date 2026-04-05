@@ -339,8 +339,8 @@ export default function MetadataManagerPage() {
   const tBool = useTranslations("Boolean");
   const bools: BooleanLabels = { yes: tBool("yes"), no: tBool("no") };
   const noMetadataPlaceholder = t("noMetadata");
-  const sectionBoxClass =
-    "min-h-[200px] min-w-0 overflow-hidden rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md";
+  const readOnlySectionBoxClass =
+    "min-h-[200px] min-w-0 overflow-hidden rounded-xl border border-slate-200 bg-slate-50 p-6 shadow-sm transition-shadow hover:shadow-md";
 
   useEffect(() => {
     if (sessionExpiresAtMs == null) return;
@@ -563,62 +563,8 @@ export default function MetadataManagerPage() {
             {error.message}
           </p>
         )}
-        {audioMetadata && (
-          <section className="min-w-0 overflow-hidden rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-            <header className="mb-4 border-b border-slate-100 pb-3">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">
-                {t("editTags")}
-              </h2>
-              <p className="mt-1 text-sm text-slate-500">{t("editTagsHelp")}</p>
-            </header>
-            {sessionToken && sessionExpiresAtMs != null && sessionActive && (
-              <p className="mb-4 text-sm text-slate-600" aria-live="polite">
-                {t("sessionExpires")}{" "}
-                <span className="font-medium tabular-nums">
-                  {Math.floor(remainingSessionSec / 60)}:
-                  {String(remainingSessionSec % 60).padStart(2, "0")}
-                </span>
-              </p>
-            )}
-            {sessionToken && remainingSessionSec === 0 && (
-              <p className="mb-4 text-sm text-amber-800" role="status">
-                {t("sessionExpiredHint")}
-              </p>
-            )}
-            {!sessionToken && (
-              <p className="mb-4 text-sm text-amber-800" role="status">
-                {t("noSessionHint")}
-              </p>
-            )}
-            <WritableTagsForm
-              value={tagForm}
-              onChange={setTagForm}
-              disabled={!sessionActive}
-            />
-            <div className="mt-6 flex flex-wrap gap-3">
-              <button
-                type="button"
-                onClick={handleDownloadTagged}
-                disabled={!sessionActive || isDownloadPending}
-                className="flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-medium text-white shadow transition-all hover:bg-indigo-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {isDownloadPending
-                  ? t("preparingDownload")
-                  : t("downloadWithTags")}
-              </button>
-              <button
-                type="button"
-                onClick={handleResetTags}
-                disabled={!sessionActive}
-                className="rounded-lg border border-slate-200 bg-slate-50 px-5 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {t("resetTags")}
-              </button>
-            </div>
-          </section>
-        )}
         <div className="flex flex-col gap-4 md:grid md:grid-cols-2 lg:grid-cols-3">
-          <section className={sectionBoxClass}>
+          <section className={readOnlySectionBoxClass}>
             <header className="mb-3 border-b border-slate-100 pb-2">
               <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">
                 {t("technicalInfo")}
@@ -719,7 +665,7 @@ export default function MetadataManagerPage() {
               </p>
             )}
           </section>
-          <section className={sectionBoxClass}>
+          <section className={readOnlySectionBoxClass}>
             <header className="mb-3 border-b border-slate-100 pb-2">
               <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">
                 {t("unifiedMetadata")}
@@ -748,7 +694,7 @@ export default function MetadataManagerPage() {
               </p>
             )}
           </section>
-          <section className={sectionBoxClass}>
+          <section className={readOnlySectionBoxClass}>
             <header className="mb-3 border-b border-slate-100 pb-2">
               <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">
                 {t("byMetadataFormat")}
@@ -805,7 +751,7 @@ export default function MetadataManagerPage() {
               </p>
             )}
           </section>
-          <section className={sectionBoxClass}>
+          <section className={readOnlySectionBoxClass}>
             <header className="mb-3 border-b border-slate-100 pb-2">
               <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">
                 {t("metadataRaw")}
@@ -863,6 +809,60 @@ export default function MetadataManagerPage() {
             )}
           </section>
         </div>
+        {audioMetadata && (
+          <section className="min-w-0 overflow-hidden rounded-xl border border-emerald-200 bg-emerald-50 p-6 shadow-sm">
+            <header className="mb-4 border-b border-emerald-200/80 pb-3">
+              <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">
+                {t("editTags")}
+              </h2>
+              <p className="mt-1 text-sm text-slate-500">{t("editTagsHelp")}</p>
+            </header>
+            {sessionToken && sessionExpiresAtMs != null && sessionActive && (
+              <p className="mb-4 text-sm text-slate-600" aria-live="polite">
+                {t("sessionExpires")}{" "}
+                <span className="font-medium tabular-nums">
+                  {Math.floor(remainingSessionSec / 60)}:
+                  {String(remainingSessionSec % 60).padStart(2, "0")}
+                </span>
+              </p>
+            )}
+            {sessionToken && remainingSessionSec === 0 && (
+              <p className="mb-4 text-sm text-amber-800" role="status">
+                {t("sessionExpiredHint")}
+              </p>
+            )}
+            {!sessionToken && (
+              <p className="mb-4 text-sm text-amber-800" role="status">
+                {t("noSessionHint")}
+              </p>
+            )}
+            <WritableTagsForm
+              value={tagForm}
+              onChange={setTagForm}
+              disabled={!sessionActive}
+            />
+            <div className="mt-6 flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={handleDownloadTagged}
+                disabled={!sessionActive || isDownloadPending}
+                className="flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-medium text-white shadow transition-all hover:bg-indigo-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {isDownloadPending
+                  ? t("preparingDownload")
+                  : t("downloadWithTags")}
+              </button>
+              <button
+                type="button"
+                onClick={handleResetTags}
+                disabled={!sessionActive}
+                className="rounded-lg border border-slate-200 bg-slate-50 px-5 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {t("resetTags")}
+              </button>
+            </div>
+          </section>
+        )}
       </div>
     </PageLayout>
   );
