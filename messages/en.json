@@ -98,6 +98,12 @@
     "remove": "Remove",
     "listItemAria": "{label} {index}"
   },
+  "LanguageSwitcher": {
+    "label": "Language",
+    "en": "EN",
+    "fr": "FR",
+    "zh": "中文"
+  },
   "NotFound": {
     "title": "Page not found",
     "body": "The page you requested does not exist.",

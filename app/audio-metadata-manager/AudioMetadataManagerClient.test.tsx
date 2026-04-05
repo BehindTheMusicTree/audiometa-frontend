@@ -5,18 +5,30 @@ vi.mock("@/i18n/navigation", () => ({
   Link: ({
     children,
     href,
-    ...rest
+    className,
+    title,
+    "aria-label": ariaLabel,
+    hrefLang,
   }: {
     children: ReactNode;
     href: string;
+    locale?: string;
     className?: string;
     title?: string;
     "aria-label"?: string;
+    hrefLang?: string;
   }) => (
-    <a href={href} {...rest}>
+    <a
+      href={href}
+      className={className}
+      title={title}
+      aria-label={ariaLabel}
+      hrefLang={hrefLang}
+    >
       {children}
     </a>
   ),
+  usePathname: () => "/",
 }));
 import {
   render,
