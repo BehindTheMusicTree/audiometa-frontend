@@ -124,7 +124,6 @@ Use the workflow [`.github/workflows/sync-vercel-env.yml`](../.github/workflows/
 |--------|----------------|
 | **Repo variables** (Settings → Secrets and variables → Actions → Variables) – same value for both targets: |
 | `AUDIOMETA_DOCS_BUNDLE_URL` | `NEXT_PUBLIC_DOCS_BUNDLE_URL` |
-| `NEXT_PUBLIC_SITE_URL` (public site origin, no trailing slash) | `NEXT_PUBLIC_SITE_URL` |
 
 *(Organization site, social defaults, and contact targets for footer / intro links come from **`@behindthemusictree/assets`** at package build time; this app does not set other `NEXT_PUBLIC_*` vars for those.)*
 
@@ -135,6 +134,9 @@ Use the workflow [`.github/workflows/sync-vercel-env.yml`](../.github/workflows/
 | `BACKEND_BASE_URL` (in **PROD** env) | `NEXT_PUBLIC_BACKEND_BASE_URL` on Vercel **production** |
 | `BACKEND_BASE_URL` (in **STAGING** env) | `NEXT_PUBLIC_BACKEND_BASE_URL` on Vercel **preview** |
 | `HTMT_API_ROOT_SEGMENT` | `NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT` (path segment before `audio/…`, no slashes) |
+| `AUDIOMETA_SUBDOMAIN`, `DOMAIN_NAME` (host label + registrable domain, no `https://`, no slashes) | `NEXT_PUBLIC_SITE_URL` = `https://<AUDIOMETA_SUBDOMAIN>.<DOMAIN_NAME>` (trailing slash stripped if present) |
+
+`DOMAIN_NAME` can be a **repository** variable instead if it is the same for production and staging (e.g. `example.org`); set `AUDIOMETA_SUBDOMAIN` per environment (e.g. `app` vs `staging`) so each target gets the correct public origin.
 
 Set `BACKEND_BASE_URL` to the API host only (no trailing slash), e.g. `https://hear-api.themusictree.org`, and `HTMT_API_ROOT_SEGMENT` to the path prefix where the API is mounted (e.g. `htmt` if routes live at `https://hear-api.themusictree.org/htmt/audio/metadata/full/`). Production and Staging can use different hosts and/or segments per environment.
 
