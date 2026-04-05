@@ -1,0 +1,111 @@
+{
+  "Site": {
+    "titleDefault": "Audiometa",
+    "titleTemplate": "%s | Audiometa",
+    "description": "Audiometa is an online audio metadata manager: inspect and edit tags for MP3, FLAC, and WAV in the browser.",
+    "ogLocale": "en_US"
+  },
+  "MetadataTool": {
+    "title": "Audio Metadata Manager",
+    "description": "Online audio metadata manager: upload a track to inspect metadata, edit writable tags, and download your changes.",
+    "ogTitle": "Audio Metadata Manager | Audiometa"
+  },
+  "PageHeader": {
+    "homeAria": "Audiometa — Audio Metadata Manager"
+  },
+  "PageFooter": {
+    "docsAria": "Documentation",
+    "docsTitle": "Documentation"
+  },
+  "DocsLayout": {
+    "englishOnlyNotice": "",
+    "navAria": "Docs",
+    "audioManager": "Audio Metadata Manager",
+    "overview": "Overview",
+    "metadataFormats": "Metadata formats",
+    "fieldSupport": "Field support",
+    "audioTechnicalInfo": "Audio technical info",
+    "writingMetadata": "Writing metadata",
+    "title": "Docs",
+    "description": "Documentation on audio metadata formats, field support, and how Audiometa handles ID3, Vorbis, and RIFF."
+  },
+  "DocsIndex": {
+    "title": "Documentation",
+    "intro": "Metadata formats, field support, and how Audiometa handles audio metadata (ID3, Vorbis, RIFF)."
+  },
+  "DocPage": {
+    "description": "Audiometa documentation: {title}. Audio metadata formats, field support, and handling.",
+    "fallbackTitle": "Docs"
+  },
+  "Tool": {
+    "heading": "Audio Metadata Manager",
+    "featureIntroHeading": "Here's what you can do",
+    "featureIntroBody": "Upload a track to inspect metadata, edit writable tags, and download your changes.",
+    "formatsSrOnly": "Supported audio and metadata formats",
+    "audioFormatsLabel": "Audio formats",
+    "audioFormatsValue": "MP3, FLAC, WAV",
+    "metadataFormatsLabel": "Metadata formats",
+    "metadataFormatsValue": "RIFF, ID3v1, ID3v2, Vorbis",
+    "bulletLookTitle": "Look around",
+    "bulletLookBody": "— duration, bitrate, sample rate, headers, a unified tag view, and raw metadata by format.",
+    "bulletTweakTitle": "Tweak tags",
+    "bulletTweakBody": "— change writable fields; read-only panels stay handy for reference.",
+    "bulletSaveTitle": "Save a copy",
+    "bulletSaveBody": "— download your file with updates while the session is still open.",
+    "navSupportAria": "Documentation, library, and support",
+    "completeDocsTitle": "Complete documentation",
+    "completeDocs": "Complete documentation",
+    "pythonLibrary": "AudioMeta Python library",
+    "emailUs": "Email us with questions",
+    "githubIssues": "GitHub issues",
+    "sponsorUs": "Sponsor us",
+    "chooseFileAria": "Choose an audio file",
+    "loading": "Loading…",
+    "chooseFile": "Choose file",
+    "noFileChosen": "No file chosen",
+    "editTags": "Edit tags",
+    "editTagsHelp": "Values here are written to the file when you download. Other sections below are read-only reference.",
+    "sessionExpires": "Session expires in",
+    "sessionExpiredHint": "This session may have expired. Try downloading; if it fails, upload the file again.",
+    "noSessionHint": "No active session. Upload a file again to download with tags.",
+    "preparingDownload": "Preparing download…",
+    "downloadWithTags": "Download with these tags",
+    "resetTags": "Reset to loaded file",
+    "technicalInfo": "Technical information",
+    "unifiedMetadata": "Unified metadata",
+    "byMetadataFormat": "By metadata format",
+    "metadataRaw": "Metadata raw",
+    "formatPriorities": "Format priorities",
+    "formatsHeaders": "Formats headers",
+    "noMetadata": "No metadata"
+  },
+  "Boolean": {
+    "yes": "Yes",
+    "no": "No"
+  },
+  "WritableTags": {
+    "title": "Title",
+    "album": "Album",
+    "artists": "Artists",
+    "addArtist": "Add artist",
+    "albumArtists": "Album artists",
+    "addAlbumArtist": "Add album artist",
+    "genres": "Genres",
+    "addGenre": "Add genre",
+    "rating": "Rating (0–100)",
+    "optionalPlaceholder": "Optional",
+    "language": "Language",
+    "remove": "Remove",
+    "listItemAria": "{label} {index}"
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "body": "The page you requested does not exist.",
+    "home": "Back to home"
+  },
+  "OpenGraphImage": {
+    "alt": "Audiometa — audio metadata manager",
+    "title": "Audiometa",
+    "subtitle": "Audio metadata manager"
+  }
+}

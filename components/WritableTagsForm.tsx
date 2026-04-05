@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import type { WritableTagFormState } from "@/lib/metadata-writable-tags";
 
 type WritableTagsFormProps = {
@@ -32,6 +33,7 @@ export default function WritableTagsForm({
   onChange,
   disabled = false,
 }: WritableTagsFormProps) {
+  const t = useTranslations("WritableTags");
   const v = value;
 
   function patch(partial: Partial<WritableTagFormState>) {
@@ -45,7 +47,7 @@ export default function WritableTagsForm({
           htmlFor="writable-tag-title"
           className="text-sm font-medium text-slate-700"
         >
-          Title
+          {t("title")}
         </label>
         <input
           id="writable-tag-title"
@@ -59,10 +61,10 @@ export default function WritableTagsForm({
       </div>
 
       <StringListEditor
-        label="Artists"
+        label={t("artists")}
         values={v.artistsNames}
         disabled={disabled}
-        addLabel="Add artist"
+        addLabel={t("addArtist")}
         idPrefix="writable-artist"
         onChange={(next) => patch({ artistsNames: next })}
       />
@@ -72,7 +74,7 @@ export default function WritableTagsForm({
           htmlFor="writable-tag-album"
           className="text-sm font-medium text-slate-700"
         >
-          Album
+          {t("album")}
         </label>
         <input
           id="writable-tag-album"
@@ -86,19 +88,19 @@ export default function WritableTagsForm({
       </div>
 
       <StringListEditor
-        label="Album artists"
+        label={t("albumArtists")}
         values={v.albumArtistsNames}
         disabled={disabled}
-        addLabel="Add album artist"
+        addLabel={t("addAlbumArtist")}
         idPrefix="writable-album-artist"
         onChange={(next) => patch({ albumArtistsNames: next })}
       />
 
       <StringListEditor
-        label="Genres"
+        label={t("genres")}
         values={v.genresNames}
         disabled={disabled}
-        addLabel="Add genre"
+        addLabel={t("addGenre")}
         idPrefix="writable-genre"
         onChange={(next) => patch({ genresNames: next })}
       />
@@ -109,7 +111,7 @@ export default function WritableTagsForm({
             htmlFor="writable-tag-rating"
             className="text-sm font-medium text-slate-700"
           >
-            Rating (0–100)
+            {t("rating")}
           </label>
           <input
             id="writable-tag-rating"
@@ -120,7 +122,7 @@ export default function WritableTagsForm({
             value={v.rating}
             onChange={(e) => patch({ rating: e.target.value })}
             disabled={disabled}
-            placeholder="Optional"
+            placeholder={t("optionalPlaceholder")}
             className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
           />
         </div>
@@ -129,7 +131,7 @@ export default function WritableTagsForm({
             htmlFor="writable-tag-language"
             className="text-sm font-medium text-slate-700"
           >
-            Language
+            {t("language")}
           </label>
           <input
             id="writable-tag-language"
@@ -161,6 +163,8 @@ function StringListEditor({
   addLabel: string;
   idPrefix: string;
 }) {
+  const t = useTranslations("WritableTags");
+
   return (
     <fieldset className="m-0 flex flex-col gap-2 border-0 p-0">
       <legend className="mb-1.5 text-sm font-medium text-slate-700">
@@ -180,7 +184,10 @@ function StringListEditor({
                 onChange(updateStringList(values, index, e.target.value))
               }
               disabled={disabled}
-              aria-label={`${label} ${index + 1}`}
+              aria-label={t("listItemAria", {
+                label,
+                index: index + 1,
+              })}
               autoComplete="off"
               className="min-w-0 flex-1 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
             />
@@ -190,7 +197,7 @@ function StringListEditor({
               onClick={() => onChange(removeStringListIndex(values, index))}
               className="shrink-0 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              Remove
+              {t("remove")}
             </button>
           </li>
         ))}

@@ -1,20 +1,23 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { getDocsBundle, getDocSlugs } from "@/lib/docs-bundle";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
-export default async function DocsIndexPage() {
+export default async function DocsIndexPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "DocsIndex" });
   const bundle = await getDocsBundle();
   const slugs = getDocSlugs(bundle);
 
   return (
     <section>
       <header className="mb-6">
-        <h1 className="text-xl font-semibold text-slate-900">
-          Documentation
-        </h1>
-        <p className="mt-1 text-slate-600">
-          Metadata formats, field support, and how Audiometa handles audio
-          metadata (ID3, Vorbis, RIFF).
-        </p>
+        <h1 className="text-xl font-semibold text-slate-900">{t("title")}</h1>
+        <p className="mt-1 text-slate-600">{t("intro")}</p>
       </header>
       <ul className="space-y-2">
         {slugs.map((slug) => {

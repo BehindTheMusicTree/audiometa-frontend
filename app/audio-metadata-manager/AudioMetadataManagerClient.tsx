@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   BTMT_ICON_LINK_CLASS,
   BTMT_ICON_LINK_WITH_TEXT_CLASS,
@@ -12,7 +13,7 @@ import {
   socialBrandIconClass,
   SponsorSocialLinkColored,
 } from "@behindthemusictree/assets/components";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import PageLayout from "@/components/PageLayout";
 import WritableTagsForm from "@/components/WritableTagsForm";
 import { useMetadataSession } from "@/hooks/useMetadataSession";
@@ -40,6 +41,8 @@ const FRONTEND_GITHUB_ISSUES_URL =
   "https://github.com/BehindTheMusicTree/audiometa-frontend/issues";
 
 const introDocNavLinkClassName = `${BTMT_ICON_LINK_CLASS} ${BTMT_ICON_LINK_WITH_TEXT_CLASS}`;
+
+type BooleanLabels = { yes: string; no: string };
 
 function IntroIconLookAround({ className }: { className?: string }) {
   return (
@@ -111,10 +114,14 @@ function isNestedObject(v: unknown): v is Record<string, unknown> {
   );
 }
 
-function formatInlineValue(key: string, val: unknown): ReactNode {
+function formatInlineValue(
+  key: string,
+  val: unknown,
+  bools: BooleanLabels,
+): ReactNode {
   if (val === null || val === undefined)
     return <span className="text-slate-400">—</span>;
-  if (typeof val === "boolean") return val ? "Yes" : "No";
+  if (typeof val === "boolean") return val ? bools.yes : bools.no;
   if (typeof val === "number" && Number.isFinite(val)) {
     if (key === "headerSizeBytes") return formatFileSizeBytes(val);
     if (key === "durationSeconds") return formatDurationSeconds(val);
@@ -137,7 +144,7 @@ function formatInlineValue(key: string, val: unknown): ReactNode {
             {typeof item === "object" &&
             item !== null &&
             !Array.isArray(item) ? (
-              <ObjectValue value={item as Record<string, unknown>} />
+              <ObjectValue value={item as Record<string, unknown>} bools={bools} />
             ) : (
               String(item)
             )}
@@ -147,7 +154,7 @@ function formatInlineValue(key: string, val: unknown): ReactNode {
     );
   }
   if (isNestedObject(val)) {
-    return <ObjectValue value={val} />;
+    return <ObjectValue value={val} bools={bools} />;
   }
   if (typeof val === "object" && val !== null && !Array.isArray(val)) {
     return <span className="text-slate-400">—</span>;
@@ -158,9 +165,11 @@ function formatInlineValue(key: string, val: unknown): ReactNode {
 function ObjectValue({
   value,
   depth = 0,
+  bools,
 }: {
   value: Record<string, unknown>;
   depth?: number;
+  bools: BooleanLabels;
 }) {
   const entries = Object.entries(value);
   if (entries.length === 0) {
@@ -189,10 +198,10 @@ function ObjectValue({
                 <span className="text-slate-400">—</span>
               ) : nested ? (
                 <div className="mt-1">
-                  <ObjectValue value={v} depth={depth + 1} />
+                  <ObjectValue value={v} depth={depth + 1} bools={bools} />
                 </div>
               ) : (
-                formatInlineValue(k, v)
+                formatInlineValue(k, v, bools)
               )}
             </dd>
           </div>
@@ -202,7 +211,13 @@ function ObjectValue({
   );
 }
 
-function CellValue({ value }: { value: unknown }) {
+function CellValue({
+  value,
+  bools,
+}: {
+  value: unknown;
+  bools: BooleanLabels;
+}) {
   if (value === null || value === undefined) {
     return <span className="text-slate-400">—</span>;
   }
@@ -221,7 +236,7 @@ function CellValue({ value }: { value: unknown }) {
             {typeof item === "object" &&
             item !== null &&
             !Array.isArray(item) ? (
-              <ObjectValue value={item as Record<string, unknown>} />
+              <ObjectValue value={item as Record<string, unknown>} bools={bools} />
             ) : typeof item === "object" ? (
               <code className="rounded bg-slate-100 px-1.5 py-0.5 text-xs">
                 {JSON.stringify(item)}
@@ -235,7 +250,7 @@ function CellValue({ value }: { value: unknown }) {
     );
   }
   if (typeof value === "object") {
-    return <ObjectValue value={value as Record<string, unknown>} />;
+    return <ObjectValue value={value as Record<string, unknown>} bools={bools} />;
   }
   return <span>{String(value)}</span>;
 }
@@ -251,7 +266,13 @@ function isPlainKeyValueObject(
   );
 }
 
-function MetadataKeyValueTable({ entries }: { entries: [string, unknown][] }) {
+function MetadataKeyValueTable({
+  entries,
+  bools,
+}: {
+  entries: [string, unknown][];
+  bools: BooleanLabels;
+}) {
   if (entries.length === 0) return null;
   return (
     <div className="overflow-x-auto">
@@ -273,10 +294,10 @@ function MetadataKeyValueTable({ entries }: { entries: [string, unknown][] }) {
                   ) : key === "fileSizeBytes" ? (
                     formatFileSizeBytes(value)
                   ) : (
-                    <CellValue value={value} />
+                    <CellValue value={value} bools={bools} />
                   )
                 ) : (
-                  <CellValue value={value} />
+                  <CellValue value={value} bools={bools} />
                 )}
               </td>
             </tr>
@@ -314,7 +335,10 @@ export default function MetadataManagerPage() {
     error,
   } = useMetadataSession();
 
-  const noMetadataPlaceholder = "No metadata";
+  const t = useTranslations("Tool");
+  const tBool = useTranslations("Boolean");
+  const bools: BooleanLabels = { yes: tBool("yes"), no: tBool("no") };
+  const noMetadataPlaceholder = t("noMetadata");
   const sectionBoxClass =
     "min-h-[200px] min-w-0 overflow-hidden rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md";
 
@@ -392,7 +416,7 @@ export default function MetadataManagerPage() {
     <PageLayout dataPage="audio-metadata-manager">
       <div className="flex flex-col gap-6">
         <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
-          Audio Metadata Manager
+          {t("heading")}
         </h1>
         <section
           className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
@@ -402,29 +426,28 @@ export default function MetadataManagerPage() {
             id="feature-intro-heading"
             className="text-base font-semibold tracking-tight text-slate-800"
           >
-            Here’s what you can do
+            {t("featureIntroHeading")}
           </h2>
           <p className="mt-2 text-sm leading-relaxed text-slate-600">
-            Upload a track to inspect metadata, edit writable tags, and download
-            your changes—in a short, private browser session.
+            {t("featureIntroBody")}
           </p>
           <div className="mt-4 rounded-lg border border-slate-100 bg-slate-50/90 px-4 py-3">
-            <h3 className="sr-only">Supported audio and metadata formats</h3>
+            <h3 className="sr-only">{t("formatsSrOnly")}</h3>
             <dl className="m-0 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-x-10">
               <div className="min-w-0">
                 <dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                  Audio formats
+                  {t("audioFormatsLabel")}
                 </dt>
                 <dd className="m-0 mt-1 text-sm font-medium text-slate-700">
-                  MP3, FLAC, WAV
+                  {t("audioFormatsValue")}
                 </dd>
               </div>
               <div className="min-w-0">
                 <dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                  Metadata formats
+                  {t("metadataFormatsLabel")}
                 </dt>
                 <dd className="m-0 mt-1 text-sm font-medium text-slate-700">
-                  RIFF, ID3v1, ID3v2, Vorbis
+                  {t("metadataFormatsValue")}
                 </dd>
               </div>
             </dl>
@@ -435,9 +458,10 @@ export default function MetadataManagerPage() {
                 <IntroIconLookAround className="h-5 w-5" />
               </span>
               <span className="min-w-0 pt-1">
-                <span className="font-medium text-slate-700">Look around</span>{" "}
-                — duration, bitrate, sample rate, headers, a unified tag view,
-                and raw metadata by format.
+                <span className="font-medium text-slate-700">
+                  {t("bulletLookTitle")}
+                </span>{" "}
+                {t("bulletLookBody")}
               </span>
             </li>
             <li className="flex gap-3">
@@ -445,9 +469,10 @@ export default function MetadataManagerPage() {
                 <IntroIconTweakTags className="h-5 w-5" />
               </span>
               <span className="min-w-0 pt-1">
-                <span className="font-medium text-slate-700">Tweak tags</span> —
-                change writable fields; read-only panels stay handy for
-                reference.
+                <span className="font-medium text-slate-700">
+                  {t("bulletTweakTitle")}
+                </span>{" "}
+                {t("bulletTweakBody")}
               </span>
             </li>
             <li className="flex gap-3">
@@ -455,43 +480,44 @@ export default function MetadataManagerPage() {
                 <IntroIconSaveCopy className="h-5 w-5" />
               </span>
               <span className="min-w-0 pt-1">
-                <span className="font-medium text-slate-700">Save a copy</span>{" "}
-                — download your file with updates while the session is still
-                open.
+                <span className="font-medium text-slate-700">
+                  {t("bulletSaveTitle")}
+                </span>{" "}
+                {t("bulletSaveBody")}
               </span>
             </li>
           </ul>
           <nav
-            aria-label="Documentation, library, and support"
+            aria-label={t("navSupportAria")}
             className="mt-5 flex flex-col gap-2 border-t border-slate-100 pt-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-1"
           >
             <Link
               href="/docs"
               className={introDocNavLinkClassName}
-              title="Complete documentation"
+              title={t("completeDocsTitle")}
             >
               <IconBookOpen className={socialBrandIconClass} />
-              <span>Complete documentation</span>
+              <span>{t("completeDocs")}</span>
             </Link>
             <PypiSocialLink
               href={AUDIOMETA_PYTHON_LIBRARY_URL}
-              text="AudioMeta Python library"
+              text={t("pythonLibrary")}
               showText
               iconClassName={socialBrandIconClass}
             />
             <EmailSocialLink
-              text="Email us with questions"
+              text={t("emailUs")}
               showText
               iconClassName={socialBrandIconClass}
             />
             <GithubSocialLink
               href={FRONTEND_GITHUB_ISSUES_URL}
-              text="GitHub issues"
+              text={t("githubIssues")}
               showText
               iconClassName={socialBrandIconClass}
             />
             <SponsorSocialLinkColored
-              text="Sponsor us"
+              text={t("sponsorUs")}
               showText
               iconClassName={socialBrandIconClass}
             />
@@ -504,7 +530,7 @@ export default function MetadataManagerPage() {
             accept="audio/*"
             onChange={handleChange}
             className="sr-only"
-            aria-label="Choose an audio file"
+            aria-label={t("chooseFileAria")}
           />
           <button
             type="button"
@@ -512,13 +538,13 @@ export default function MetadataManagerPage() {
             className="flex shrink-0 items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-medium text-white shadow transition-all hover:bg-indigo-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50"
             disabled={isPending}
           >
-            {isPending ? "Loading…" : "Choose file"}
+            {isPending ? t("loading") : t("chooseFile")}
           </button>
           <span
             className="min-w-0 flex-1 truncate rounded-lg border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-600"
             aria-live="polite"
           >
-            {selectedFileName ?? "No file chosen"}
+            {selectedFileName ?? t("noFileChosen")}
           </span>
         </div>
         {error && !(error instanceof SessionExpiredError) && (
@@ -541,16 +567,13 @@ export default function MetadataManagerPage() {
           <section className="min-w-0 overflow-hidden rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
             <header className="mb-4 border-b border-slate-100 pb-3">
               <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">
-                Edit tags
+                {t("editTags")}
               </h2>
-              <p className="mt-1 text-sm text-slate-500">
-                Values here are written to the file when you download. Other
-                sections below are read-only reference.
-              </p>
+              <p className="mt-1 text-sm text-slate-500">{t("editTagsHelp")}</p>
             </header>
             {sessionToken && sessionExpiresAtMs != null && sessionActive && (
               <p className="mb-4 text-sm text-slate-600" aria-live="polite">
-                Session expires in{" "}
+                {t("sessionExpires")}{" "}
                 <span className="font-medium tabular-nums">
                   {Math.floor(remainingSessionSec / 60)}:
                   {String(remainingSessionSec % 60).padStart(2, "0")}
@@ -559,13 +582,12 @@ export default function MetadataManagerPage() {
             )}
             {sessionToken && remainingSessionSec === 0 && (
               <p className="mb-4 text-sm text-amber-800" role="status">
-                This session may have expired. Try downloading; if it fails,
-                upload the file again.
+                {t("sessionExpiredHint")}
               </p>
             )}
             {!sessionToken && (
               <p className="mb-4 text-sm text-amber-800" role="status">
-                No active session. Upload a file again to download with tags.
+                {t("noSessionHint")}
               </p>
             )}
             <WritableTagsForm
@@ -581,8 +603,8 @@ export default function MetadataManagerPage() {
                 className="flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-medium text-white shadow transition-all hover:bg-indigo-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {isDownloadPending
-                  ? "Preparing download…"
-                  : "Download with these tags"}
+                  ? t("preparingDownload")
+                  : t("downloadWithTags")}
               </button>
               <button
                 type="button"
@@ -590,7 +612,7 @@ export default function MetadataManagerPage() {
                 disabled={!sessionActive}
                 className="rounded-lg border border-slate-200 bg-slate-50 px-5 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                Reset to loaded file
+                {t("resetTags")}
               </button>
             </div>
           </section>
@@ -599,7 +621,7 @@ export default function MetadataManagerPage() {
           <section className={sectionBoxClass}>
             <header className="mb-3 border-b border-slate-100 pb-2">
               <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">
-                Technical information
+                {t("technicalInfo")}
               </h2>
             </header>
             {audioMetadata ? (
@@ -625,11 +647,13 @@ export default function MetadataManagerPage() {
                       </p>
                     );
                   }
-                  return <MetadataKeyValueTable entries={entries} />;
+                  return (
+                    <MetadataKeyValueTable entries={entries} bools={bools} />
+                  );
                 })()}
                 <div>
                   <h3 className="mb-2 border-b border-slate-100 pb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                    Format priorities
+                    {t("formatPriorities")}
                   </h3>
                   {audioMetadata.formatPriorities != null &&
                   (Array.isArray(audioMetadata.formatPriorities) ||
@@ -644,6 +668,7 @@ export default function MetadataManagerPage() {
                             unknown
                           >,
                         )}
+                        bools={bools}
                       />
                     ) : (
                       <pre className="overflow-x-auto text-sm leading-relaxed text-slate-700">
@@ -662,7 +687,7 @@ export default function MetadataManagerPage() {
                 </div>
                 <div>
                   <h3 className="mb-2 border-b border-slate-100 pb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                    Formats headers
+                    {t("formatsHeaders")}
                   </h3>
                   {audioMetadata.headers != null &&
                   (Array.isArray(audioMetadata.headers) ||
@@ -674,6 +699,7 @@ export default function MetadataManagerPage() {
                         entries={Object.entries(
                           audioMetadata.headers as Record<string, unknown>,
                         )}
+                        bools={bools}
                       />
                     ) : (
                       <pre className="overflow-x-auto text-sm leading-relaxed text-slate-700">
@@ -696,7 +722,7 @@ export default function MetadataManagerPage() {
           <section className={sectionBoxClass}>
             <header className="mb-3 border-b border-slate-100 pb-2">
               <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">
-                Unified metadata
+                {t("unifiedMetadata")}
               </h2>
             </header>
             {audioMetadata ? (
@@ -705,7 +731,9 @@ export default function MetadataManagerPage() {
                 if (isPlainKeyValueObject(data)) {
                   const entries = Object.entries(data);
                   if (entries.length > 0) {
-                    return <MetadataKeyValueTable entries={entries} />;
+                    return (
+                      <MetadataKeyValueTable entries={entries} bools={bools} />
+                    );
                   }
                 }
                 return (
@@ -723,7 +751,7 @@ export default function MetadataManagerPage() {
           <section className={sectionBoxClass}>
             <header className="mb-3 border-b border-slate-100 pb-2">
               <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">
-                By metadata format
+                {t("byMetadataFormat")}
               </h2>
             </header>
             {audioMetadata ? (
@@ -755,9 +783,10 @@ export default function MetadataManagerPage() {
                           !Array.isArray(formatValue) ? (
                             <ObjectValue
                               value={formatValue as Record<string, unknown>}
+                              bools={bools}
                             />
                           ) : (
-                            <CellValue value={formatValue} />
+                            <CellValue value={formatValue} bools={bools} />
                           )}
                         </div>
                       ))}
@@ -779,7 +808,7 @@ export default function MetadataManagerPage() {
           <section className={sectionBoxClass}>
             <header className="mb-3 border-b border-slate-100 pb-2">
               <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">
-                Metadata raw
+                {t("metadataRaw")}
               </h2>
             </header>
             {audioMetadata ? (
@@ -811,9 +840,10 @@ export default function MetadataManagerPage() {
                           !Array.isArray(formatValue) ? (
                             <ObjectValue
                               value={formatValue as Record<string, unknown>}
+                              bools={bools}
                             />
                           ) : (
-                            <CellValue value={formatValue} />
+                            <CellValue value={formatValue} bools={bools} />
                           )}
                         </div>
                       ))}
