@@ -96,7 +96,11 @@
     "optionalPlaceholder": "اختياري",
     "language": "اللغة",
     "remove": "إزالة",
-    "listItemAria": "{label} {index}"
+    "listItemAria": "{label} {index}",
+    "addRow": "إضافة صف",
+    "removeField": "إزالة الحقل",
+    "addField": "إضافة حقل",
+    "fieldToAddPlaceholder": "اختر حقلًا…"
   },
   "LanguageSwitcher": {
     "label": "اللغة",

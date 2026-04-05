@@ -96,7 +96,11 @@
     "optionalPlaceholder": "Facultatif",
     "language": "Langue",
     "remove": "Retirer",
-    "listItemAria": "{label} {index}"
+    "listItemAria": "{label} {index}",
+    "addRow": "Ajouter une ligne",
+    "removeField": "Retirer le champ",
+    "addField": "Ajouter un champ",
+    "fieldToAddPlaceholder": "Choisir un champ…"
   },
   "LanguageSwitcher": {
     "label": "Langue",

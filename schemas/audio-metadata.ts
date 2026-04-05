@@ -15,13 +15,15 @@ export const TechnicalInfoSchema = z
 
 export type TechnicalInfo = z.infer<typeof TechnicalInfoSchema>;
 
-export const AudioMetadataDetailedSchema = z.object({
-  technicalInfo: TechnicalInfoSchema.nullable().optional(),
-  unifiedMetadata: z.unknown(),
-  metadataFormat: z.unknown(),
-  headers: z.unknown(),
-  rawMetadata: z.unknown(),
-  formatPriorities: z.unknown(),
-});
+export const AudioMetadataDetailedSchema = z
+  .object({
+    technicalInfo: TechnicalInfoSchema.nullable().optional(),
+    unifiedMetadata: z.unknown(),
+    metadataFormat: z.unknown(),
+    headers: z.unknown(),
+    rawMetadata: z.unknown(),
+    formatPriorities: z.unknown(),
+  })
+  .passthrough();
 
 export type AudioMetadataDetailed = z.infer<typeof AudioMetadataDetailedSchema>;

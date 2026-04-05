@@ -15,6 +15,7 @@ import {
 } from "@behindthemusictree/assets/components";
 import { Link } from "@/i18n/navigation";
 import PageLayout from "@/components/PageLayout";
+import UnifiedEditableMetadataForm from "@/components/UnifiedEditableMetadataForm";
 import WritableTagsForm from "@/components/WritableTagsForm";
 import { useMetadataSession } from "@/hooks/useMetadataSession";
 import { formatDurationSeconds } from "@/lib/format-duration";
@@ -31,6 +32,12 @@ import {
   writableTagsFromSessionJson,
   type WritableTagFormState,
 } from "@/lib/metadata-writable-tags";
+import {
+  buildUnifiedFormStateFromSession,
+  buildUnifiedMetadataDownloadBody,
+  cloneUnifiedFormState,
+  type UnifiedFormState,
+} from "@/lib/unified-metadata-form";
 import type { AudioMetadataDetailed } from "@/schemas/audio-metadata";
 import { SessionExpiredError } from "@/schemas/metadata-session";
 
@@ -326,6 +333,9 @@ export default function MetadataManagerPage() {
   const [initialTagForm, setInitialTagForm] = useState<WritableTagFormState>(
     () => emptyWritableTagFormState(),
   );
+  const [unifiedForm, setUnifiedForm] = useState<UnifiedFormState | null>(null);
+  const [initialUnifiedForm, setInitialUnifiedForm] =
+    useState<UnifiedFormState | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const {
     createSession,
@@ -371,6 +381,8 @@ export default function MetadataManagerPage() {
     setSessionToken(null);
     setSessionExpiresAtMs(null);
     setRemainingSessionSec(null);
+    setUnifiedForm(null);
+    setInitialUnifiedForm(null);
     try {
       const result = await createSession(file);
       setAudioMetadata(result.metadata);
@@ -383,19 +395,40 @@ export default function MetadataManagerPage() {
       const tags = writableTagsFromSessionJson(result.rawResponse);
       setTagForm(tags);
       setInitialTagForm(cloneWritableTagFormState(tags));
+      const raw = result.rawResponse as Record<string, unknown>;
+      const ufs = buildUnifiedFormStateFromSession(raw);
+      if (ufs) {
+        setUnifiedForm(ufs);
+        setInitialUnifiedForm(cloneUnifiedFormState(ufs));
+      } else {
+        setUnifiedForm(null);
+        setInitialUnifiedForm(null);
+      }
     } catch {
       setAudioMetadata(undefined);
+      setUnifiedForm(null);
+      setInitialUnifiedForm(null);
     }
   }
 
   function handleResetTags() {
+    if (initialUnifiedForm) {
+      setUnifiedForm(cloneUnifiedFormState(initialUnifiedForm));
+      return;
+    }
     setTagForm(cloneWritableTagFormState(initialTagForm));
   }
 
   async function handleDownloadTagged() {
     if (!sessionToken || !sessionActive) return;
     try {
-      const body = buildWritableMetadataDownloadBody(tagForm);
+      const body = unifiedForm
+        ? buildUnifiedMetadataDownloadBody(
+            unifiedForm.visibleFieldIds,
+            unifiedForm.values,
+            unifiedForm.schemaById,
+          )
+        : buildWritableMetadataDownloadBody(tagForm);
       const { blob, filename } = await downloadTaggedFile(sessionToken, body);
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -836,11 +869,33 @@ export default function MetadataManagerPage() {
                 {t("noSessionHint")}
               </p>
             )}
-            <WritableTagsForm
-              value={tagForm}
-              onChange={setTagForm}
-              disabled={!sessionActive}
-            />
+            {unifiedForm ? (
+              <UnifiedEditableMetadataForm
+                schemaById={unifiedForm.schemaById}
+                supportedIds={[...unifiedForm.supported].sort((a, b) =>
+                  a.localeCompare(b),
+                )}
+                visibleFieldIds={unifiedForm.visibleFieldIds}
+                values={unifiedForm.values}
+                onValuesChange={(next) =>
+                  setUnifiedForm((prev) =>
+                    prev ? { ...prev, values: next } : prev,
+                  )
+                }
+                onVisibleChange={(next) =>
+                  setUnifiedForm((prev) =>
+                    prev ? { ...prev, visibleFieldIds: next } : prev,
+                  )
+                }
+                disabled={!sessionActive}
+              />
+            ) : (
+              <WritableTagsForm
+                value={tagForm}
+                onChange={setTagForm}
+                disabled={!sessionActive}
+              />
+            )}
             <div className="mt-6 flex flex-wrap gap-3">
               <button
                 type="button"

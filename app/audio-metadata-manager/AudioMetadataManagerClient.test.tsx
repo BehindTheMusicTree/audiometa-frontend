@@ -54,6 +54,24 @@ vi.mock("@/hooks/useMetadataSession", () => ({
   }),
 }));
 
+const UNIFIED_SCHEMA_STUB = [
+  { id: "title", label: "Title", multiple: false, valueType: "string" },
+  { id: "artists", label: "Artists", multiple: true, valueType: "strings" },
+  { id: "album", label: "Album", multiple: false, valueType: "string" },
+  {
+    id: "album_artists",
+    label: "Album artists",
+    multiple: true,
+    valueType: "strings",
+  },
+  { id: "genres_names", label: "Genres", multiple: true, valueType: "strings" },
+  { id: "rating", label: "Rating", multiple: false, valueType: "number" },
+  { id: "language", label: "Language", multiple: false, valueType: "string" },
+  { id: "composer", label: "Composers", multiple: true, valueType: "strings" },
+];
+
+const SUPPORTED_STUB = UNIFIED_SCHEMA_STUB.map((x) => x.id);
+
 const sessionResult = {
   metadata: {
     technicalInfo: null,
@@ -62,6 +80,8 @@ const sessionResult = {
     headers: {},
     rawMetadata: {},
     formatPriorities: {},
+    unifiedMetadataFieldSchema: UNIFIED_SCHEMA_STUB,
+    supportedUnifiedMetadataFieldIds: SUPPORTED_STUB,
   },
   sessionToken: "t1",
   sessionExpiresInSeconds: 900,
@@ -74,6 +94,8 @@ const sessionResult = {
     headers: {},
     rawMetadata: {},
     formatPriorities: {},
+    unifiedMetadataFieldSchema: UNIFIED_SCHEMA_STUB,
+    supportedUnifiedMetadataFieldIds: SUPPORTED_STUB,
   },
 };
 
@@ -197,5 +219,15 @@ describe("MetadataManagerPage", () => {
     expect(
       await screen.findByRole("heading", { name: /^edit tags$/i }),
     ).toBeInTheDocument();
+  });
+
+  it("shows add-field UI when unified schema is present", async () => {
+    renderWithIntl(<MetadataManagerPage />);
+    const input = screen.getByLabelText(/choose an audio file/i);
+    fireEvent.change(input, {
+      target: { files: [new File([], "a.mp3", { type: "audio/mpeg" })] },
+    });
+
+    expect(await screen.findByText(/^add field$/i)).toBeInTheDocument();
   });
 });

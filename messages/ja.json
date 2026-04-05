@@ -96,7 +96,11 @@
     "optionalPlaceholder": "任意",
     "language": "言語",
     "remove": "削除",
-    "listItemAria": "{label} {index}"
+    "listItemAria": "{label} {index}",
+    "addRow": "行を追加",
+    "removeField": "フィールドを削除",
+    "addField": "フィールドを追加",
+    "fieldToAddPlaceholder": "フィールドを選択…"
   },
   "LanguageSwitcher": {
     "label": "言語",

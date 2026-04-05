@@ -96,7 +96,11 @@
     "optionalPlaceholder": "选填",
     "language": "语言",
     "remove": "移除",
-    "listItemAria": "{label} 第 {index} 项"
+    "listItemAria": "{label} 第 {index} 项",
+    "addRow": "添加一行",
+    "removeField": "移除字段",
+    "addField": "添加字段",
+    "fieldToAddPlaceholder": "选择字段…"
   },
   "LanguageSwitcher": {
     "label": "语言",
