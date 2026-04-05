@@ -1,0 +1,111 @@
+{
+  "Site": {
+    "titleDefault": "Audiometa",
+    "titleTemplate": "%s | Audiometa",
+    "description": "Audiometa 是一款在线音频元数据管理工具：在浏览器中查看并编辑 MP3、FLAC、WAV 等文件的标签。",
+    "ogLocale": "zh_CN"
+  },
+  "MetadataTool": {
+    "title": "音频元数据管理器",
+    "description": "在线音频元数据管理：上传曲目以查看元数据、编辑可写字段，并在短时、私密的浏览器会话中下载修改后的文件。",
+    "ogTitle": "音频元数据管理器 | Audiometa"
+  },
+  "PageHeader": {
+    "homeAria": "Audiometa — 音频元数据管理器"
+  },
+  "PageFooter": {
+    "docsAria": "文档（目前仅英文正文）",
+    "docsTitle": "文档（目前仅英文正文）"
+  },
+  "DocsLayout": {
+    "englishOnlyNotice": "以下文档正文目前仅提供英文版本。",
+    "navAria": "文档",
+    "audioManager": "音频元数据管理器",
+    "overview": "概览",
+    "metadataFormats": "元数据格式",
+    "fieldSupport": "字段支持",
+    "audioTechnicalInfo": "音频技术信息",
+    "writingMetadata": "写入元数据",
+    "title": "文档",
+    "description": "关于音频元数据格式、字段支持，以及 Audiometa 如何处理 ID3、Vorbis 与 RIFF 的说明。"
+  },
+  "DocsIndex": {
+    "title": "文档",
+    "intro": "元数据格式、字段支持，以及 Audiometa 对音频元数据（ID3、Vorbis、RIFF）的处理方式。"
+  },
+  "DocPage": {
+    "description": "Audiometa 文档：{title}。音频元数据格式、字段与处理说明。",
+    "fallbackTitle": "文档"
+  },
+  "Tool": {
+    "heading": "音频元数据管理器",
+    "featureIntroHeading": "您可以做什么",
+    "featureIntroBody": "上传曲目以查看元数据、编辑可写字段，并在短时、私密的浏览器会话中下载您的修改。",
+    "formatsSrOnly": "支持的音频与元数据格式",
+    "audioFormatsLabel": "音频格式",
+    "audioFormatsValue": "MP3、FLAC、WAV",
+    "metadataFormatsLabel": "元数据格式",
+    "metadataFormatsValue": "RIFF、ID3v1、ID3v2、Vorbis",
+    "bulletLookTitle": "浏览信息",
+    "bulletLookBody": "— 时长、码率、采样率、文件头、统一标签视图，以及按格式的原始元数据。",
+    "bulletTweakTitle": "调整标签",
+    "bulletTweakBody": "— 修改可写字段；只读面板仍便于对照参考。",
+    "bulletSaveTitle": "保存副本",
+    "bulletSaveBody": "— 在会话仍有效时下载包含更新内容的文件。",
+    "navSupportAria": "文档、库与支持",
+    "completeDocsTitle": "完整文档",
+    "completeDocs": "完整文档",
+    "pythonLibrary": "AudioMeta Python 库",
+    "emailUs": "邮件咨询",
+    "githubIssues": "GitHub Issues",
+    "sponsorUs": "赞助我们",
+    "chooseFileAria": "选择音频文件",
+    "loading": "加载中…",
+    "chooseFile": "选择文件",
+    "noFileChosen": "未选择文件",
+    "editTags": "编辑标签",
+    "editTagsHelp": "此处的值会在下载时写入文件。下方其他区域为只读参考。",
+    "sessionExpires": "会话将在以下时间后过期",
+    "sessionExpiredHint": "会话可能已过期。请尝试下载；若失败，请重新上传文件。",
+    "noSessionHint": "没有活动会话。请重新上传文件以下载带标签的文件。",
+    "preparingDownload": "正在准备下载…",
+    "downloadWithTags": "使用这些标签下载",
+    "resetTags": "恢复为已加载文件",
+    "technicalInfo": "技术信息",
+    "unifiedMetadata": "统一元数据",
+    "byMetadataFormat": "按元数据格式",
+    "metadataRaw": "原始元数据",
+    "formatPriorities": "格式优先级",
+    "formatsHeaders": "格式文件头",
+    "noMetadata": "无元数据"
+  },
+  "Boolean": {
+    "yes": "是",
+    "no": "否"
+  },
+  "WritableTags": {
+    "title": "标题",
+    "album": "专辑",
+    "artists": "艺术家",
+    "addArtist": "添加艺术家",
+    "albumArtists": "专辑艺术家",
+    "addAlbumArtist": "添加专辑艺术家",
+    "genres": "流派",
+    "addGenre": "添加流派",
+    "rating": "评分（0–100）",
+    "optionalPlaceholder": "选填",
+    "language": "语言",
+    "remove": "移除",
+    "listItemAria": "{label} 第 {index} 项"
+  },
+  "NotFound": {
+    "title": "页面未找到",
+    "body": "您请求的页面不存在。",
+    "home": "返回首页"
+  },
+  "OpenGraphImage": {
+    "alt": "Audiometa — 音频元数据管理器",
+    "title": "Audiometa",
+    "subtitle": "音频元数据管理器"
+  }
+}

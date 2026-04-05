@@ -9,11 +9,12 @@ export default function PageHeader() {
   const t = useTranslations("PageHeader");
 
   return (
-    <header className="relative flex flex-none flex-row flex-wrap items-center justify-between gap-4 border-b border-amber-500/20 bg-linear-to-b from-slate-900 to-slate-800 px-6 py-4 shadow-lg">
+    <header className="relative grid flex-none grid-cols-[1fr_auto_1fr] items-center gap-4 border-b border-amber-500/20 bg-linear-to-b from-slate-900 to-slate-800 px-6 py-4 shadow-lg">
       <div className="absolute inset-x-0 bottom-0 h-px bg-linear-to-r from-transparent via-amber-500/40 to-transparent" />
+      <div aria-hidden className="min-w-0" />
       <Link
         href="/audio-metadata-manager"
-        className="flex min-w-0 flex-1 items-center gap-3 rounded-sm text-white outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400/80"
+        className="flex min-w-0 items-center gap-3 rounded-sm text-white outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400/80"
         aria-label={t("homeAria")}
       >
         <Image
@@ -27,10 +28,12 @@ export default function PageHeader() {
           Audiometa
         </span>
       </Link>
-      <MusicTreeHorizontalLockup
-        variant="onDark"
-        className="shrink-0 bg-slate-900/60 p-2 transition-colors hover:border-amber-400/40 hover:bg-slate-900/80"
-      />
+      <div className="flex min-w-0 justify-end">
+        <MusicTreeHorizontalLockup
+          variant="onDark"
+          className="shrink-0 bg-slate-900/60 p-2 transition-colors hover:border-amber-400/40 hover:bg-slate-900/80"
+        />
+      </div>
     </header>
   );
 }
