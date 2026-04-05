@@ -1,0 +1,122 @@
+{
+  "Site": {
+    "titleDefault": "Audiometa",
+    "titleTemplate": "%s | Audiometa",
+    "description": "Audiometa はオンラインのオーディオメタデータ管理ツールです。ブラウザ上で MP3、FLAC、WAV などのタグを確認・編集できます。",
+    "ogLocale": "ja_JP"
+  },
+  "MetadataTool": {
+    "title": "オーディオメタデータマネージャー",
+    "description": "オンラインでオーディオメタデータを管理。曲をアップロードしてメタデータを確認し、書き込み可能なタグを編集し、短時間のプライベートなブラウザセッションで変更をダウンロードできます。",
+    "ogTitle": "オーディオメタデータマネージャー | Audiometa"
+  },
+  "PageHeader": {
+    "homeAria": "Audiometa — オーディオメタデータマネージャー"
+  },
+  "PageFooter": {
+    "docsAria": "ドキュメント（本文は英語のみ）",
+    "docsTitle": "ドキュメント（英語のみ）"
+  },
+  "DocsLayout": {
+    "englishOnlyNotice": "このドキュメントの本文は現在英語のみです。",
+    "navAria": "ドキュメント",
+    "audioManager": "オーディオメタデータマネージャー",
+    "overview": "概要",
+    "metadataFormats": "メタデータ形式",
+    "fieldSupport": "フィールド対応",
+    "audioTechnicalInfo": "オーディオ技術情報",
+    "writingMetadata": "メタデータの書き込み",
+    "title": "ドキュメント",
+    "description": "オーディオメタデータ形式、フィールド対応、および Audiometa が ID3、Vorbis、RIFF をどう扱うかの説明です。"
+  },
+  "DocsIndex": {
+    "title": "ドキュメント",
+    "intro": "メタデータ形式、フィールド対応、Audiometa によるオーディオメタデータ（ID3、Vorbis、RIFF）の扱いについて。"
+  },
+  "DocPage": {
+    "description": "Audiometa ドキュメント：{title}。オーディオメタデータ形式、フィールド、処理について。",
+    "fallbackTitle": "ドキュメント"
+  },
+  "Tool": {
+    "heading": "オーディオメタデータマネージャー",
+    "featureIntroHeading": "できること",
+    "featureIntroBody": "曲をアップロードしてメタデータを確認し、書き込み可能なタグを編集し、短時間のプライベートなブラウザセッションで変更をダウンロードできます。",
+    "formatsSrOnly": "対応オーディオ・メタデータ形式",
+    "audioFormatsLabel": "オーディオ形式",
+    "audioFormatsValue": "MP3、FLAC、WAV",
+    "metadataFormatsLabel": "メタデータ形式",
+    "metadataFormatsValue": "RIFF、ID3v1、ID3v2、Vorbis",
+    "bulletLookTitle": "閲覧",
+    "bulletLookBody": "— 再生時間、ビットレート、サンプルレート、ヘッダー、統合タグ表示、形式ごとの生メタデータ。",
+    "bulletTweakTitle": "タグを調整",
+    "bulletTweakBody": "— 書き込み可能な項目を変更。読み取り専用パネルは参照用にそのまま利用できます。",
+    "bulletSaveTitle": "コピーを保存",
+    "bulletSaveBody": "— セッションが有効な間、更新を含むファイルをダウンロードできます。",
+    "navSupportAria": "ドキュメント、ライブラリ、サポート",
+    "completeDocsTitle": "完全なドキュメント",
+    "completeDocs": "完全なドキュメント",
+    "pythonLibrary": "AudioMeta Python ライブラリ",
+    "emailUs": "メールで問い合わせ",
+    "githubIssues": "GitHub Issues",
+    "sponsorUs": "スポンサーになる",
+    "chooseFileAria": "オーディオファイルを選択",
+    "loading": "読み込み中…",
+    "chooseFile": "ファイルを選択",
+    "noFileChosen": "ファイル未選択",
+    "editTags": "タグを編集",
+    "editTagsHelp": "ここでの値はダウンロード時にファイルに書き込まれます。下のその他のセクションは参照用の読み取り専用です。",
+    "sessionExpires": "セッションの有効期限まで",
+    "sessionExpiredHint": "セッションの期限が切れている可能性があります。ダウンロードを試し、失敗したらファイルを再アップロードしてください。",
+    "noSessionHint": "アクティブなセッションがありません。タグ付きでダウンロードするにはファイルを再アップロードしてください。",
+    "preparingDownload": "ダウンロード準備中…",
+    "downloadWithTags": "これらのタグでダウンロード",
+    "resetTags": "読み込んだファイルに戻す",
+    "technicalInfo": "技術情報",
+    "unifiedMetadata": "統合メタデータ",
+    "byMetadataFormat": "メタデータ形式別",
+    "metadataRaw": "生メタデータ",
+    "formatPriorities": "形式の優先順位",
+    "formatsHeaders": "形式ヘッダー",
+    "noMetadata": "メタデータなし"
+  },
+  "Boolean": {
+    "yes": "はい",
+    "no": "いいえ"
+  },
+  "WritableTags": {
+    "title": "タイトル",
+    "album": "アルバム",
+    "artists": "アーティスト",
+    "addArtist": "アーティストを追加",
+    "albumArtists": "アルバムアーティスト",
+    "addAlbumArtist": "アルバムアーティストを追加",
+    "genres": "ジャンル",
+    "addGenre": "ジャンルを追加",
+    "rating": "レーティング（0–100）",
+    "optionalPlaceholder": "任意",
+    "language": "言語",
+    "remove": "削除",
+    "listItemAria": "{label} {index}"
+  },
+  "LanguageSwitcher": {
+    "label": "言語",
+    "en": "EN",
+    "fr": "FR",
+    "zh": "中文",
+    "pt": "PT",
+    "ja": "JA",
+    "ar": "AR",
+    "de": "DE",
+    "es": "ES"
+  },
+  "NotFound": {
+    "title": "ページが見つかりません",
+    "body": "お探しのページは存在しません。",
+    "home": "ホームに戻る"
+  },
+  "OpenGraphImage": {
+    "alt": "Audiometa — オーディオメタデータマネージャー",
+    "title": "Audiometa",
+    "subtitle": "オーディオメタデータマネージャー"
+  }
+}

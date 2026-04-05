@@ -1,0 +1,122 @@
+{
+  "Site": {
+    "titleDefault": "Audiometa",
+    "titleTemplate": "%s | Audiometa",
+    "description": "Audiometa مدير بيانات وصفية للصوت عبر الإنترنت: اعرض وحرّر وسوم MP3 وFLAC وWAV في المتصفح.",
+    "ogLocale": "ar_SA"
+  },
+  "MetadataTool": {
+    "title": "مدير بيانات الصوت الوصفية",
+    "description": "مدير بيانات وصفية للصوت عبر الإنترنت: ارفع مقطعًا لفحص البيانات الوصفية وتحرير الحقول القابلة للكتابة وتنزيل التغييرات في جلسة متصفح قصيرة وخاصة.",
+    "ogTitle": "مدير بيانات الصوت الوصفية | Audiometa"
+  },
+  "PageHeader": {
+    "homeAria": "Audiometa — مدير بيانات الصوت الوصفية"
+  },
+  "PageFooter": {
+    "docsAria": "التوثيق (المحتوى بالإنجليزية فقط)",
+    "docsTitle": "التوثيق (إنجليزي فقط)"
+  },
+  "DocsLayout": {
+    "englishOnlyNotice": "نص هذا التوثيق متاح حاليًا بالإنجليزية فقط.",
+    "navAria": "التوثيق",
+    "audioManager": "مدير بيانات الصوت الوصفية",
+    "overview": "نظرة عامة",
+    "metadataFormats": "تنسيقات البيانات الوصفية",
+    "fieldSupport": "دعم الحقول",
+    "audioTechnicalInfo": "معلومات تقنية للصوت",
+    "writingMetadata": "كتابة البيانات الوصفية",
+    "title": "التوثيق",
+    "description": "توثيق لتنسيقات بيانات الصوت الوصفية ودعم الحقول وكيفية تعامل Audiometa مع ID3 وVorbis وRIFF."
+  },
+  "DocsIndex": {
+    "title": "التوثيق",
+    "intro": "تنسيقات البيانات الوصفية ودعم الحقول وتعامل Audiometa مع بيانات الصوت الوصفية (ID3 وVorbis وRIFF)."
+  },
+  "DocPage": {
+    "description": "توثيق Audiometa: {title}. تنسيقات بيانات الصوت الوصفية والحقول والمعالجة.",
+    "fallbackTitle": "التوثيق"
+  },
+  "Tool": {
+    "heading": "مدير بيانات الصوت الوصفية",
+    "featureIntroHeading": "ما يمكنك فعله",
+    "featureIntroBody": "ارفع مقطعًا لفحص البيانات الوصفية وتحرير الوسوم القابلة للكتابة وتنزيل تغييراتك — في جلسة متصفح قصيرة وخاصة.",
+    "formatsSrOnly": "تنسيقات الصوت والبيانات الوصفية المدعومة",
+    "audioFormatsLabel": "تنسيقات الصوت",
+    "audioFormatsValue": "MP3 وFLAC وWAV",
+    "metadataFormatsLabel": "تنسيقات البيانات الوصفية",
+    "metadataFormatsValue": "RIFF وID3v1 وID3v2 وVorbis",
+    "bulletLookTitle": "استكشاف",
+    "bulletLookBody": "— المدة ومعدل البت ومعدل العينات والرؤوس وعرض الوسوم الموحّد والبيانات الوصفية الخام حسب التنسيق.",
+    "bulletTweakTitle": "ضبط الوسوم",
+    "bulletTweakBody": "— غيّر الحقول القابلة للكتابة؛ تبقى اللوحات للقراءة فقط مفيدة كمرجع.",
+    "bulletSaveTitle": "حفظ نسخة",
+    "bulletSaveBody": "— نزّل ملفك مع التحديثات ما دامت الجلسة مفتوحة.",
+    "navSupportAria": "التوثيق والمكتبة والدعم",
+    "completeDocsTitle": "التوثيق الكامل",
+    "completeDocs": "التوثيق الكامل",
+    "pythonLibrary": "مكتبة AudioMeta لـ Python",
+    "emailUs": "راسلنا عبر البريد",
+    "githubIssues": "تذاكر GitHub",
+    "sponsorUs": "ادعمنا",
+    "chooseFileAria": "اختر ملف صوت",
+    "loading": "جارٍ التحميل…",
+    "chooseFile": "اختر ملفًا",
+    "noFileChosen": "لم يُختر ملف",
+    "editTags": "تحرير الوسوم",
+    "editTagsHelp": "تُكتب القيم هنا في الملف عند التنزيل. الأقسام الأدناه للمرجع فقط للقراءة.",
+    "sessionExpires": "تنتهي الجلسة خلال",
+    "sessionExpiredHint": "قد تكون الجلسة منتهية. جرّب التنزيل؛ إن فشل، ارفع الملف مجددًا.",
+    "noSessionHint": "لا توجد جلسة نشطة. ارفع ملفًا مرة أخرى للتنزيل مع الوسوم.",
+    "preparingDownload": "جارٍ تجهيز التنزيل…",
+    "downloadWithTags": "تنزيل مع هذه الوسوم",
+    "resetTags": "إعادة تعيين للملف المحمّل",
+    "technicalInfo": "معلومات تقنية",
+    "unifiedMetadata": "بيانات وصفية موحّدة",
+    "byMetadataFormat": "حسب تنسيق البيانات الوصفية",
+    "metadataRaw": "بيانات وصفية خام",
+    "formatPriorities": "أولويات التنسيق",
+    "formatsHeaders": "رؤوس التنسيقات",
+    "noMetadata": "لا بيانات وصفية"
+  },
+  "Boolean": {
+    "yes": "نعم",
+    "no": "لا"
+  },
+  "WritableTags": {
+    "title": "العنوان",
+    "album": "الألبوم",
+    "artists": "الفنانون",
+    "addArtist": "إضافة فنان",
+    "albumArtists": "فناني الألبوم",
+    "addAlbumArtist": "إضافة فنان ألبوم",
+    "genres": "الأنواع",
+    "addGenre": "إضافة نوع",
+    "rating": "التقييم (0–100)",
+    "optionalPlaceholder": "اختياري",
+    "language": "اللغة",
+    "remove": "إزالة",
+    "listItemAria": "{label} {index}"
+  },
+  "LanguageSwitcher": {
+    "label": "اللغة",
+    "en": "EN",
+    "fr": "FR",
+    "zh": "中文",
+    "pt": "PT",
+    "ja": "JA",
+    "ar": "AR",
+    "de": "DE",
+    "es": "ES"
+  },
+  "NotFound": {
+    "title": "الصفحة غير موجودة",
+    "body": "الصفحة التي طلبتها غير موجودة.",
+    "home": "العودة إلى الرئيسية"
+  },
+  "OpenGraphImage": {
+    "alt": "Audiometa — مدير بيانات الصوت الوصفية",
+    "title": "Audiometa",
+    "subtitle": "مدير بيانات الصوت الوصفية"
+  }
+}

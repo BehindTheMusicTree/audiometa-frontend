@@ -72,8 +72,10 @@ export default async function LocaleLayout({
   const siteOrigin = absoluteUrlForLocale(locale, "/");
   const tSite = await getTranslations({ locale, namespace: "Site" });
 
+  const dir = locale === "ar" ? "rtl" : "ltr";
+
   return (
-    <html lang={locale}>
+    <html lang={locale} dir={dir}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}
       >

@@ -102,7 +102,12 @@
     "label": "语言",
     "en": "EN",
     "fr": "FR",
-    "zh": "中文"
+    "zh": "中文",
+    "pt": "PT",
+    "ja": "JA",
+    "ar": "AR",
+    "de": "DE",
+    "es": "ES"
   },
   "NotFound": {
     "title": "页面未找到",
