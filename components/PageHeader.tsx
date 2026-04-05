@@ -33,7 +33,7 @@ export default function PageHeader() {
         <LanguageSwitcher />
         <MusicTreeHorizontalLockup
           variant="onDark"
-          className="relative z-10 origin-right scale-[0.88] shrink-0 border border-amber-500/25 bg-slate-900/60 p-1.5 transition-colors hover:border-amber-400/40 hover:bg-slate-900/80"
+          className="relative z-10 origin-right scale-[0.88] shrink-0 bg-slate-900/60 p-1.5 transition-colors hover:border-amber-400/40 hover:bg-slate-900/80"
         />
       </div>
     </header>
