@@ -1,27 +1,31 @@
-import { siteWideDescription } from "@/lib/site-description";
-
 type WebSiteJsonLdProps = {
   siteUrl: string;
+  description: string;
 };
 
-export default function WebSiteJsonLd({ siteUrl }: WebSiteJsonLdProps) {
+export default function WebSiteJsonLd({
+  siteUrl,
+  description,
+}: WebSiteJsonLdProps) {
+  const origin = siteUrl.replace(/\/$/, "");
+  const pageUrl = `${origin}/`;
   const json = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "WebSite",
-        "@id": `${siteUrl}/#website`,
+        "@id": `${origin}/#website`,
         name: "Audiometa",
-        url: `${siteUrl}/`,
-        description: siteWideDescription,
+        url: pageUrl,
+        description,
       },
       {
         "@type": "SoftwareApplication",
         name: "Audiometa",
         applicationCategory: "MultimediaApplication",
         operatingSystem: "Web",
-        url: `${siteUrl}/`,
-        description: siteWideDescription,
+        url: pageUrl,
+        description,
       },
     ],
   };

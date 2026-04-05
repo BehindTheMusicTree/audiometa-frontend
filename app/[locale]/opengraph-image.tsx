@@ -1,10 +1,23 @@
 import { ImageResponse } from "next/og";
+import { hasLocale } from "next-intl";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { notFound } from "next/navigation";
+import { routing } from "@/i18n/routing";
 
-export const alt = "Audiometa — audio metadata manager";
+export const alt = "Audiometa";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default function OpenGraphImage() {
+type Props = { params: Promise<{ locale: string }> };
+
+export default async function OpenGraphImage({ params }: Props) {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) {
+    notFound();
+  }
+  setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "OpenGraphImage" });
+
   return new ImageResponse(
     (
       <div
@@ -15,7 +28,8 @@ export default function OpenGraphImage() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          background: "linear-gradient(160deg, #0f172a 0%, #1e293b 45%, #0f172a 100%)",
+          background:
+            "linear-gradient(160deg, #0f172a 0%, #1e293b 45%, #0f172a 100%)",
           color: "#f8fafc",
         }}
       >
@@ -27,7 +41,7 @@ export default function OpenGraphImage() {
             letterSpacing: "-0.04em",
           }}
         >
-          Audiometa
+          {t("title")}
         </div>
         <div
           style={{
@@ -38,7 +52,7 @@ export default function OpenGraphImage() {
             color: "#fbbf24",
           }}
         >
-          Audio metadata manager
+          {t("subtitle")}
         </div>
       </div>
     ),

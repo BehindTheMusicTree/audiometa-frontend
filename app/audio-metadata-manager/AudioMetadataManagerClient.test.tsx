@@ -1,6 +1,23 @@
-"use client";
-
+import type { ReactElement, ReactNode } from "react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+
+vi.mock("@/i18n/navigation", () => ({
+  Link: ({
+    children,
+    href,
+    ...rest
+  }: {
+    children: ReactNode;
+    href: string;
+    className?: string;
+    title?: string;
+    "aria-label"?: string;
+  }) => (
+    <a href={href} {...rest}>
+      {children}
+    </a>
+  ),
+}));
 import {
   render,
   screen,
@@ -8,7 +25,9 @@ import {
   cleanup,
   waitFor,
 } from "@testing-library/react";
-import MetadataManagerPage from "./page";
+import { NextIntlClientProvider } from "next-intl";
+import MetadataManagerPage from "./AudioMetadataManagerClient";
+import en from "../../messages/en.json";
 
 const createSessionMock = vi.fn();
 const downloadTaggedFileMock = vi.fn();
@@ -46,6 +65,14 @@ const sessionResult = {
   },
 };
 
+function renderWithIntl(ui: ReactElement) {
+  return render(
+    <NextIntlClientProvider locale="en" messages={en}>
+      {ui}
+    </NextIntlClientProvider>,
+  );
+}
+
 describe("MetadataManagerPage", () => {
   afterEach(cleanup);
 
@@ -56,14 +83,14 @@ describe("MetadataManagerPage", () => {
   });
 
   it("renders the heading Metadata Manager", () => {
-    render(<MetadataManagerPage />);
+    renderWithIntl(<MetadataManagerPage />);
     expect(
       screen.getByRole("heading", { name: /audio metadata manager/i }),
     ).toBeInTheDocument();
   });
 
   it("renders the feature intro section", () => {
-    render(<MetadataManagerPage />);
+    renderWithIntl(<MetadataManagerPage />);
     expect(
       screen.getByRole("heading", {
         name: /here['\u2019]s what you can do/i,
@@ -76,7 +103,9 @@ describe("MetadataManagerPage", () => {
     ).toBeInTheDocument();
     expect(screen.getByText("MP3, FLAC, WAV")).toBeInTheDocument();
     expect(screen.getByText("RIFF, ID3v1, ID3v2, Vorbis")).toBeInTheDocument();
-    const docsLink = screen.getByRole("link", { name: /^complete documentation$/i });
+    const docsLink = screen.getByRole("link", {
+      name: /^complete documentation$/i,
+    });
     expect(docsLink).toHaveAttribute("href", "/docs");
     const libLink = screen.getByRole("link", {
       name: /audiometa python library/i,
@@ -101,9 +130,7 @@ describe("MetadataManagerPage", () => {
     expect(issuesLink).toHaveAttribute("target", "_blank");
     expect(issuesLink).toHaveAttribute("rel", "noopener noreferrer");
 
-    const sponsorLink = screen.getByRole("link", {
-      name: /sponsor us on github sponsors/i,
-    });
+    const sponsorLink = screen.getByRole("link", { name: /sponsor us/i });
     expect(sponsorLink).toHaveAttribute(
       "href",
       "https://github.com/sponsors/BehindTheMusicTree/button",
@@ -113,13 +140,13 @@ describe("MetadataManagerPage", () => {
   });
 
   it("shows No metadata when no file has been processed", () => {
-    render(<MetadataManagerPage />);
+    renderWithIntl(<MetadataManagerPage />);
     const noMetadataElements = screen.getAllByText("No metadata");
     expect(noMetadataElements.length).toBeGreaterThanOrEqual(4);
   });
 
   it("renders all metadata section headings", () => {
-    render(<MetadataManagerPage />);
+    renderWithIntl(<MetadataManagerPage />);
     const sectionTitles = [
       "Technical information",
       "Unified metadata",
@@ -136,7 +163,7 @@ describe("MetadataManagerPage", () => {
   });
 
   it("calls createSession with selected file when user selects a file", async () => {
-    render(<MetadataManagerPage />);
+    renderWithIntl(<MetadataManagerPage />);
     const input = screen.getByLabelText(/choose an audio file/i);
     const file = new File([], "test.mp3", { type: "audio/mpeg" });
 
@@ -149,7 +176,7 @@ describe("MetadataManagerPage", () => {
   });
 
   it("shows Edit tags after session is created", async () => {
-    render(<MetadataManagerPage />);
+    renderWithIntl(<MetadataManagerPage />);
     const input = screen.getByLabelText(/choose an audio file/i);
     fireEvent.change(input, {
       target: { files: [new File([], "a.mp3", { type: "audio/mpeg" })] },
