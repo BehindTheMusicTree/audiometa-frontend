@@ -41,7 +41,7 @@ export default function LanguageSwitcher() {
               href={pathname}
               locale={loc}
               hrefLang={hrefLangByLocale[loc] ?? loc}
-              className="underline decoration-slate-500/60 underline-offset-2 transition-colors hover:text-amber-200 hover:decoration-amber-400/80"
+              className="transition-colors hover:text-amber-200"
             >
               {t(loc)}
             </Link>
