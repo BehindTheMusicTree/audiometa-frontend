@@ -491,7 +491,7 @@ export default function MetadataManagerPage() {
               iconClassName={socialBrandIconClass}
             />
             <SponsorSocialLinkColored
-              text="Sponsor us on GitHub Sponsors"
+              text="Sponsor us"
               showText
               iconClassName={socialBrandIconClass}
             />
