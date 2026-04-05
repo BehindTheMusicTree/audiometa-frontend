@@ -33,10 +33,7 @@ export default function LanguageSwitcher() {
             </span>
           ) : null}
           {loc === locale ? (
-            <span
-              className="font-semibold text-amber-300"
-              aria-current="true"
-            >
+            <span className="font-semibold text-amber-300" aria-current="true">
               {t(loc)}
             </span>
           ) : (
