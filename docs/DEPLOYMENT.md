@@ -124,7 +124,6 @@ Use the workflow [`.github/workflows/sync-vercel-env.yml`](../.github/workflows/
 |--------|----------------|
 | **Repo variables** (Settings → Secrets and variables → Actions → Variables) – same value for both targets: |
 | `AUDIOMETA_DOCS_BUNDLE_URL` | `NEXT_PUBLIC_DOCS_BUNDLE_URL` |
-| `NEXT_PUBLIC_SITE_URL` (public site origin, no trailing slash) | `NEXT_PUBLIC_SITE_URL` |
 
 *(Organization site, social defaults, and contact targets for footer / intro links come from **`@behindthemusictree/assets`** at package build time; this app does not set other `NEXT_PUBLIC_*` vars for those.)*
 
