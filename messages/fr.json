@@ -14,6 +14,8 @@
     "homeAria": "Audiometa — Gestionnaire de métadonnées audio"
   },
   "PageFooter": {
+    "supportPrompt": "Ça vous a aidé ? Soutenez-nous — cela nous aide à garder Audiometa gratuit.",
+    "tipeeeLinkLabel": "Soutenez-nous sur Tipeee",
     "docsAria": "Documentation, contenu disponible en anglais uniquement",
     "docsTitle": "Documentation (anglais uniquement)"
   },
@@ -59,6 +61,8 @@
     "emailUs": "Nous écrire par e-mail",
     "githubIssues": "Issues GitHub",
     "sponsorUs": "Nous soutenir",
+    "supportPromptInFlow": "Utile ? Aidez-nous à garder Audiometa gratuit.",
+    "supportOnTipeee": "Nous soutenir sur Tipeee",
     "chooseFileAria": "Choisir un fichier audio",
     "loading": "Chargement…",
     "chooseFile": "Choisir un fichier",

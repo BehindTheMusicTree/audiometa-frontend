@@ -14,6 +14,8 @@
     "homeAria": "Audiometa — Audio Metadata Manager"
   },
   "PageFooter": {
+    "supportPrompt": "Found this helpful? Support us — it helps keep Audiometa free.",
+    "tipeeeLinkLabel": "Support us on Tipeee",
     "docsAria": "Documentation",
     "docsTitle": "Documentation"
   },
@@ -59,6 +61,8 @@
     "emailUs": "Email us with questions",
     "githubIssues": "GitHub issues",
     "sponsorUs": "Sponsor us",
+    "supportPromptInFlow": "Found this useful? Help us keep Audiometa free.",
+    "supportOnTipeee": "Support us on Tipeee",
     "chooseFileAria": "Choose an audio file",
     "loading": "Loading…",
     "chooseFile": "Choose file",

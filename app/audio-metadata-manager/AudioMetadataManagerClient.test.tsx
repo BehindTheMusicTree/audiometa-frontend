@@ -43,6 +43,7 @@ import en from "../../messages/en.json";
 
 const createSessionMock = vi.fn();
 const downloadTaggedFileMock = vi.fn();
+const trackMock = vi.fn();
 
 vi.mock("@/hooks/useMetadataSession", () => ({
   useMetadataSession: () => ({
@@ -52,6 +53,10 @@ vi.mock("@/hooks/useMetadataSession", () => ({
     isDownloadPending: false,
     error: null,
   }),
+}));
+
+vi.mock("@vercel/analytics", () => ({
+  track: (...args: unknown[]) => trackMock(...args),
 }));
 
 const sessionResult = {
@@ -89,8 +94,29 @@ describe("MetadataManagerPage", () => {
   afterEach(cleanup);
 
   beforeEach(() => {
+    window.localStorage.clear();
+    window.localStorage.setItem("ab_tipeee_cta_variant", "control");
+    const matchMediaMock = vi
+      .fn()
+      .mockImplementation((query: string): MediaQueryList => {
+        return {
+          media: query,
+          matches: false,
+          onchange: null,
+          addEventListener: vi.fn(),
+          removeEventListener: vi.fn(),
+          addListener: vi.fn(),
+          removeListener: vi.fn(),
+          dispatchEvent: vi.fn(),
+        } as unknown as MediaQueryList;
+      });
+    Object.defineProperty(window, "matchMedia", {
+      writable: true,
+      value: matchMediaMock,
+    });
     createSessionMock.mockClear();
     downloadTaggedFileMock.mockClear();
+    trackMock.mockClear();
     createSessionMock.mockResolvedValue(sessionResult);
   });
 
@@ -141,14 +167,6 @@ describe("MetadataManagerPage", () => {
     );
     expect(issuesLink).toHaveAttribute("target", "_blank");
     expect(issuesLink).toHaveAttribute("rel", "noopener noreferrer");
-
-    const sponsorLink = screen.getByRole("link", { name: /sponsor us/i });
-    expect(sponsorLink).toHaveAttribute(
-      "href",
-      "https://github.com/sponsors/BehindTheMusicTree/button",
-    );
-    expect(sponsorLink).toHaveAttribute("target", "_blank");
-    expect(sponsorLink).toHaveAttribute("rel", "noopener noreferrer");
   });
 
   it("shows No metadata when no file has been processed", () => {
@@ -189,6 +207,9 @@ describe("MetadataManagerPage", () => {
 
   it("shows Edit tags after session is created", async () => {
     renderWithIntl(<MetadataManagerPage />);
+    expect(
+      screen.queryByText(/found this useful\? help us keep audiometa free\./i),
+    ).not.toBeInTheDocument();
     const input = screen.getByLabelText(/choose an audio file/i);
     fireEvent.change(input, {
       target: { files: [new File([], "a.mp3", { type: "audio/mpeg" })] },
@@ -197,5 +218,45 @@ describe("MetadataManagerPage", () => {
     expect(
       await screen.findByRole("heading", { name: /^edit tags$/i }),
     ).toBeInTheDocument();
+    expect(
+      await screen.findByText(/found this useful\? help us keep audiometa free\./i),
+    ).toBeInTheDocument();
+    expect(
+      screen.getAllByRole("link", { name: /support us on tipeee/i }).length,
+    ).toBeGreaterThanOrEqual(2);
+  });
+
+  it("tracks metadata success, CTA impression, and click with variant payload", async () => {
+    renderWithIntl(<MetadataManagerPage />);
+    const input = screen.getByLabelText(/choose an audio file/i);
+    fireEvent.change(input, {
+      target: { files: [new File([], "event.mp3", { type: "audio/mpeg" })] },
+    });
+
+    await screen.findByText(/found this useful\? help us keep audiometa free\./i);
+
+    expect(trackMock).toHaveBeenCalledWith("metadata_load_success", {
+      cta_variant: "control",
+    });
+    expect(trackMock).toHaveBeenCalledWith("tipeee_cta_impression", {
+      cta_variant: "control",
+    });
+
+    const inFlowPrompt = await screen.findByText(
+      /found this useful\? help us keep audiometa free\./i,
+    );
+    const inFlowCtaContainer = inFlowPrompt.closest(
+      '[data-track="tipeee-cta-container"]',
+    );
+    expect(inFlowCtaContainer).not.toBeNull();
+    const inFlowLink =
+      inFlowCtaContainer?.querySelector<HTMLAnchorElement>(
+        'a[aria-label="Support us on Tipeee"]',
+      ) ?? null;
+    expect(inFlowLink).not.toBeNull();
+    fireEvent.click(inFlowLink!);
+    expect(trackMock).toHaveBeenCalledWith("tipeee_cta_click", {
+      cta_variant: "control",
+    });
   });
 });

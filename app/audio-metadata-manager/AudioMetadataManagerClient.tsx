@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
+import { track } from "@vercel/analytics";
 import { useTranslations } from "next-intl";
 import {
   BTMT_ICON_LINK_CLASS,
@@ -11,7 +12,7 @@ import {
   IconBookOpen,
   PypiSocialLink,
   socialBrandIconClass,
-  SponsorSocialLinkColored,
+  TipeeeSocialLink,
 } from "@behindthemusictree/assets/components";
 import { Link } from "@/i18n/navigation";
 import PageLayout from "@/components/PageLayout";
@@ -43,6 +44,7 @@ const FRONTEND_GITHUB_ISSUES_URL =
 const introDocNavLinkClassName = `${BTMT_ICON_LINK_CLASS} ${BTMT_ICON_LINK_WITH_TEXT_CLASS}`;
 
 type BooleanLabels = { yes: string; no: string };
+type TipeeeCtaVariant = "control" | "variant_micro";
 
 function IntroIconLookAround({ className }: { className?: string }) {
   return (
@@ -326,6 +328,14 @@ export default function MetadataManagerPage() {
   const [initialTagForm, setInitialTagForm] = useState<WritableTagFormState>(
     () => emptyWritableTagFormState(),
   );
+  const [tipeeeCtaVariant] = useState<TipeeeCtaVariant>(() => {
+    if (typeof window === "undefined") return "control";
+    const stored = window.localStorage.getItem("ab_tipeee_cta_variant");
+    if (stored === "control" || stored === "variant_micro") return stored;
+    return Math.random() < 0.5 ? "control" : "variant_micro";
+  });
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const impressionSessionTokenRef = useRef<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const {
     createSession,
@@ -363,6 +373,35 @@ export default function MetadataManagerPage() {
     sessionExpiresAtMs != null &&
     remainingSessionSec != null &&
     remainingSessionSec > 0;
+  const showInFlowTipeeeCta = audioMetadata != null && sessionActive;
+
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setPrefersReducedMotion(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem("ab_tipeee_cta_variant", tipeeeCtaVariant);
+  }, [tipeeeCtaVariant]);
+
+  useEffect(() => {
+    if (!showInFlowTipeeeCta || !sessionToken) return;
+    if (impressionSessionTokenRef.current === sessionToken) return;
+    impressionSessionTokenRef.current = sessionToken;
+    track("metadata_load_success", { cta_variant: tipeeeCtaVariant });
+    track("tipeee_cta_impression", { cta_variant: tipeeeCtaVariant });
+  }, [showInFlowTipeeeCta, sessionToken, tipeeeCtaVariant]);
+
+  function handleTipeeeCtaClickCapture(
+    event: React.MouseEvent<HTMLDivElement>,
+  ) {
+    const target = event.target as HTMLElement;
+    if (!target.closest("a")) return;
+    track("tipeee_cta_click", { cta_variant: tipeeeCtaVariant });
+  }
 
   async function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target?.files?.[0] ?? null;
@@ -516,12 +555,28 @@ export default function MetadataManagerPage() {
               showText
               iconClassName={socialBrandIconClass}
             />
-            <SponsorSocialLinkColored
-              text={t("sponsorUs")}
-              showText
-              iconClassName={socialBrandIconClass}
-            />
           </nav>
+          {showInFlowTipeeeCta ? (
+            <div
+              className={`mt-4 flex flex-col items-start gap-2 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 transition-all duration-700 sm:flex-row sm:items-center sm:justify-between ${
+                tipeeeCtaVariant === "variant_micro" && !prefersReducedMotion
+                  ? "motion-safe:animate-[ping_1s_ease-out_1]"
+                  : ""
+              }`}
+              data-track="tipeee-cta-container"
+              data-analytics-event="tipeee_cta_impression"
+              data-state={tipeeeCtaVariant}
+              onClickCapture={handleTipeeeCtaClickCapture}
+            >
+              <p className="text-sm text-amber-900">{t("supportPromptInFlow")}</p>
+              <TipeeeSocialLink
+                text={t("supportOnTipeee")}
+                title={t("supportOnTipeee")}
+                showText
+                iconClassName={socialBrandIconClass}
+              />
+            </div>
+          ) : null}
         </section>
         <div className="flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
           <input

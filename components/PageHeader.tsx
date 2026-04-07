@@ -8,6 +8,7 @@ import MusicTreeHorizontalLockup from "@/components/MusicTreeHorizontalLockup";
 
 export default function PageHeader() {
   const t = useTranslations("PageHeader");
+  const tLang = useTranslations("LanguageSwitcher");
 
   return (
     <header className="relative grid flex-none grid-cols-[1fr_auto_1fr] items-center gap-4 border-b border-amber-500/20 bg-linear-to-b from-slate-900 to-slate-800 px-6 py-4 shadow-lg">
@@ -15,12 +16,13 @@ export default function PageHeader() {
       <div className="flex min-w-0 items-center justify-start">
         <MusicTreeHorizontalLockup
           variant="onDark"
-          className="relative z-10 origin-left scale-[0.88] shrink-0 bg-slate-900/60 p-1.5 transition-colors hover:border-amber-400/40 hover:bg-slate-900/80"
+          className="relative z-10 origin-left shrink-0 scale-[0.78] bg-slate-900/60 p-1.5 transition-colors hover:border-amber-400/40 hover:bg-slate-900/80 sm:scale-[0.88]"
+          imageClassName="h-9 w-auto sm:h-14 sm:w-auto"
         />
       </div>
       <Link
         href="/audio-metadata-manager"
-        className="flex min-w-0 items-center gap-3 rounded-sm text-white outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400/80"
+        className="flex min-w-0 items-center gap-3 rounded-sm text-white outline-offset-4 focus-visible:outline-2 focus-visible:outline-amber-400/80"
         aria-label={t("homeAria")}
       >
         <Image
@@ -28,14 +30,27 @@ export default function PageHeader() {
           alt=""
           width={72}
           height={72}
-          className="h-[72px] w-[72px] shrink-0 rounded-full ring-2 ring-amber-500/30"
+          className="hidden h-[72px] w-[72px] shrink-0 rounded-full ring-2 ring-amber-500/30 sm:block"
         />
-        <span className="min-w-0 truncate text-3xl font-semibold tracking-tight">
+        <span className="min-w-0 truncate text-2xl font-semibold tracking-tight sm:text-3xl">
           Audiometa
         </span>
       </Link>
       <div className="flex min-w-0 items-center justify-end gap-3 sm:gap-4">
-        <LanguageSwitcher />
+        <div className="hidden sm:block">
+          <LanguageSwitcher />
+        </div>
+        <details className="relative sm:hidden">
+          <summary
+            className="cursor-pointer list-none rounded border border-amber-500/30 bg-slate-900/70 px-3 py-1.5 text-sm font-medium text-amber-200 hover:bg-slate-900"
+            aria-label={tLang("label")}
+          >
+            {tLang("label")}
+          </summary>
+          <div className="absolute right-0 z-20 mt-2 w-max rounded border border-amber-500/20 bg-slate-900/95 p-3 shadow-lg">
+            <LanguageSwitcher />
+          </div>
+        </details>
       </div>
     </header>
   );

@@ -8,6 +8,7 @@ import {
   IconBookOpen,
   LinkedInSocialLink,
   MastodonSocialLink,
+  TipeeeSocialLink,
 } from "@behindthemusictree/assets/components";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -39,8 +40,18 @@ export default function PageFooter() {
   const t = useTranslations("PageFooter");
 
   return (
-    <footer className="flex flex-none flex-wrap items-center justify-center gap-x-2 gap-y-1 border-t border-amber-500/20 bg-linear-to-t from-slate-800 to-slate-900 px-6 py-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
-      <span className="flex flex-wrap items-center gap-x-2 text-sm text-slate-400">
+    <footer className="flex flex-none flex-col items-center justify-center gap-4 border-t border-amber-500/20 bg-linear-to-t from-slate-800 to-slate-900 px-6 py-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+      <div className="flex max-w-xl flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-4">
+        <p className="text-center text-sm leading-snug text-slate-400">
+          {t("supportPrompt")}
+        </p>
+        <TipeeeSocialLink
+          className={BTMT_ICON_LINK_DARK_CLASS}
+          text={t("tipeeeLinkLabel")}
+          title={t("tipeeeLinkLabel")}
+        />
+      </div>
+      <span className="flex flex-wrap items-center justify-center gap-x-2 text-sm text-slate-400">
         <OrgSocialLinks />
         <Link
           href="/docs"
