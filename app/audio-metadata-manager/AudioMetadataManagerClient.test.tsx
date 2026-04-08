@@ -190,6 +190,17 @@ describe("MetadataManagerPage", () => {
     }
   });
 
+  it("tracks choose-file button click before opening file dialog", () => {
+    renderWithIntl(
+      <MetadataManagerPage
+        audiometaPythonGithubUrl={TEST_AUDIOMETA_PYTHON_GITHUB_URL}
+      />,
+    );
+    const chooseButton = screen.getByRole("button", { name: /^choose file$/i });
+    fireEvent.click(chooseButton);
+    expect(trackMock).toHaveBeenCalledWith("metadata_choose_file_click");
+  });
+
   it("calls createSession with selected file when user selects a file", async () => {
     renderWithIntl(
       <MetadataManagerPage

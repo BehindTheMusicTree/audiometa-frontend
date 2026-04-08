@@ -613,7 +613,11 @@ export default function MetadataManagerPage({
           />
           <button
             type="button"
-            onClick={() => fileInputRef.current?.click()}
+            data-analytics-event="metadata-choose-file-click"
+            onClick={() => {
+              track("metadata_choose_file_click");
+              fileInputRef.current?.click();
+            }}
             className="flex min-h-11 w-full shrink-0 items-center justify-center rounded-lg bg-indigo-600 px-7 py-3.5 text-base font-semibold text-white shadow transition-all hover:bg-indigo-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 sm:w-auto sm:min-h-12 sm:px-8 sm:py-4"
             disabled={isPending}
           >
