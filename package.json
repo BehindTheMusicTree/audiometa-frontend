@@ -13,9 +13,9 @@
   },
   "dependencies": {
     "@behindthemusictree/assets": "^7.0.2",
-    "@vercel/analytics": "^2.0.1",
     "next": "16.2.2",
     "next-intl": "^4.9.0",
+    "posthog-js": "^1.365.4",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-markdown": "^9",

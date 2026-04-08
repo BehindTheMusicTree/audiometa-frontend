@@ -2,7 +2,8 @@
 
 import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
-import { track } from "@vercel/analytics";
+import posthog from "posthog-js";
+import { trackEvent } from "@/lib/track-event";
 import { useTranslations } from "next-intl";
 import {
   BTMT_ICON_LINK_CLASS,
@@ -401,11 +402,11 @@ export default function MetadataManagerPage({
     if (!showInFlowTipeeeCta || !sessionToken) return;
     if (impressionSessionTokenRef.current === sessionToken) return;
     impressionSessionTokenRef.current = sessionToken;
-    track("metadata_load_success", {
+    trackEvent("metadata_load_success", {
       cta_position: tipeeeCtaPosition,
       prefers_reduced_motion: prefersReducedMotion,
     });
-    track("tipeee_cta_impression", {
+    trackEvent("tipeee_cta_impression", {
       cta_position: tipeeeCtaPosition,
       prefers_reduced_motion: prefersReducedMotion,
     });
@@ -421,7 +422,7 @@ export default function MetadataManagerPage({
   ) {
     const target = event.target as HTMLElement;
     if (!target.closest("a")) return;
-    track("tipeee_cta_click", {
+    trackEvent("tipeee_cta_click", {
       cta_position: tipeeeCtaPosition,
       prefers_reduced_motion: prefersReducedMotion,
     });
@@ -478,17 +479,22 @@ export default function MetadataManagerPage({
       const tags = writableTagsFromSessionJson(result.rawResponse);
       setTagForm(tags);
       setInitialTagForm(cloneWritableTagFormState(tags));
-    } catch {
+    } catch (e) {
+      const err = e instanceof Error ? e : new Error(String(e));
+      trackEvent("metadata_load_error", { error_message: err.message });
+      posthog.captureException(err);
       setAudioMetadata(undefined);
     }
   }
 
   function handleResetTags() {
+    trackEvent("metadata_tags_reset");
     setTagForm(cloneWritableTagFormState(initialTagForm));
   }
 
   async function handleDownloadTagged() {
     if (!sessionToken || !sessionActive) return;
+    trackEvent("metadata_download_click");
     try {
       const body = buildWritableMetadataDownloadBody(tagForm);
       const { blob, filename } = await downloadTaggedFile(sessionToken, body);
@@ -498,8 +504,16 @@ export default function MetadataManagerPage({
       a.download = filename;
       a.click();
       URL.revokeObjectURL(url);
+      trackEvent("metadata_download_success", { filename });
     } catch (e) {
-      if (e instanceof SessionExpiredError) {
+      const isExpired = e instanceof SessionExpiredError;
+      const err = e instanceof Error ? e : new Error(String(e));
+      trackEvent("metadata_download_error", {
+        error_message: err.message,
+        session_expired: isExpired,
+      });
+      if (!isExpired) posthog.captureException(err);
+      if (isExpired) {
         setSessionToken(null);
         setSessionExpiresAtMs(null);
         setRemainingSessionSec(null);
@@ -615,7 +629,7 @@ export default function MetadataManagerPage({
             type="button"
             data-analytics-event="metadata-choose-file-click"
             onClick={() => {
-              track("metadata_choose_file_click");
+              trackEvent("metadata_choose_file_click");
               fileInputRef.current?.click();
             }}
             className="flex min-h-11 w-full shrink-0 items-center justify-center rounded-lg bg-indigo-600 px-7 py-3.5 text-base font-semibold text-white shadow transition-all hover:bg-indigo-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 sm:w-auto sm:min-h-12 sm:px-8 sm:py-4"

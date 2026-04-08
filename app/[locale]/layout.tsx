@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Analytics } from "@vercel/analytics/next";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import HtmlLangSync from "@/components/HtmlLangSync";
+import { PostHogProvider } from "@/components/PostHogProvider";
 import WebSiteJsonLd from "@/components/WebSiteJsonLd";
 import { routing } from "@/i18n/routing";
 import { absoluteUrlForLocale } from "@/lib/language-alternates";
@@ -64,13 +64,14 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider messages={messages}>
-      <HtmlLangSync />
-      <WebSiteJsonLd
-        siteUrl={siteOrigin}
-        description={tSite("description")}
-      />
-      {children}
-      <Analytics />
+      <PostHogProvider>
+        <HtmlLangSync />
+        <WebSiteJsonLd
+          siteUrl={siteOrigin}
+          description={tSite("description")}
+        />
+        {children}
+      </PostHogProvider>
     </NextIntlClientProvider>
   );
 }
