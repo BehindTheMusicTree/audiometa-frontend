@@ -1,0 +1,23 @@
+---
+description: Keep locale message files aligned when text changes
+alwaysApply: true
+---
+
+# Translation Alignment
+
+When updating user-facing copy in `messages/*.json`:
+
+- If a key's text changes in one locale, update the same key in all supported locales in the same task.
+- If a new key is added in one locale, add it in all locale files before finishing.
+- If a key is removed or renamed, apply the same removal/rename across all locale files.
+- Do not leave mixed messaging for the same key across locales unless the user explicitly requests locale-specific wording.
+
+## Required check before finishing
+
+- Verify the edited key set is identical across all `messages/*.json` files.
+- Verify changed keys have updated values in each locale (not just English).
+
+## Example
+
+- Changed `Tool.supportPromptInFlow` in `messages/en.json`?
+  - Also update `Tool.supportPromptInFlow` in `messages/fr.json`, `messages/de.json`, `messages/es.json`, `messages/pt.json`, `messages/ja.json`, `messages/ar.json`, and `messages/zh.json`.

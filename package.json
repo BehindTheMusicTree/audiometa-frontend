@@ -12,7 +12,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@behindthemusictree/assets": "^6.4.2",
+    "@behindthemusictree/assets": "^7.0.0",
     "@vercel/analytics": "^2.0.1",
     "next": "16.2.2",
     "next-intl": "^4.9.0",
@@ -35,7 +35,7 @@
     "jsdom": "^29",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "vite": "^6",
+    "vite": "~6.4.2",
     "vitest": "^3"
   },
   "overrides": {

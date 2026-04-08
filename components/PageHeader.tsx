@@ -5,20 +5,29 @@ import { useTranslations } from "next-intl";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { Link } from "@/i18n/navigation";
 import MusicTreeHorizontalLockup from "@/components/MusicTreeHorizontalLockup";
+import MusicTreeMarkLockup from "@/components/MusicTreeMarkLockup";
 
 export default function PageHeader() {
   const t = useTranslations("PageHeader");
-  const tLang = useTranslations("LanguageSwitcher");
 
   return (
     <header className="relative grid flex-none grid-cols-[1fr_auto_1fr] items-center gap-4 border-b border-amber-500/20 bg-linear-to-b from-slate-900 to-slate-800 px-6 py-4 shadow-lg">
       <div className="absolute inset-x-0 bottom-0 h-px bg-linear-to-r from-transparent via-amber-500/40 to-transparent" />
       <div className="flex min-w-0 items-center justify-start">
-        <MusicTreeHorizontalLockup
-          variant="onDark"
-          className="relative z-10 origin-left shrink-0 scale-[0.78] bg-slate-900/60 p-1.5 transition-colors hover:border-amber-400/40 hover:bg-slate-900/80 sm:scale-[0.88]"
-          imageClassName="h-9 w-auto sm:h-14 sm:w-auto"
-        />
+        <div className="sm:hidden">
+          <MusicTreeMarkLockup
+            variant="default"
+            className="relative z-10 origin-left shrink-0 scale-[0.78] bg-slate-900/60 p-1.5 transition-colors hover:border-amber-400/40 hover:bg-slate-900/80"
+            imageClassName="h-9 w-auto brightness-0 invert"
+          />
+        </div>
+        <div className="hidden sm:block">
+          <MusicTreeHorizontalLockup
+            variant="onDark"
+            className="relative z-10 origin-left shrink-0 scale-[0.88] bg-slate-900/60 p-1.5 transition-colors hover:border-amber-400/40 hover:bg-slate-900/80"
+            imageClassName="h-14 w-auto"
+          />
+        </div>
       </div>
       <Link
         href="/audio-metadata-manager"
@@ -37,20 +46,7 @@ export default function PageHeader() {
         </span>
       </Link>
       <div className="flex min-w-0 items-center justify-end gap-3 sm:gap-4">
-        <div className="hidden sm:block">
-          <LanguageSwitcher />
-        </div>
-        <details className="relative sm:hidden">
-          <summary
-            className="cursor-pointer list-none rounded border border-amber-500/30 bg-slate-900/70 px-3 py-1.5 text-sm font-medium text-amber-200 hover:bg-slate-900"
-            aria-label={tLang("label")}
-          >
-            {tLang("label")}
-          </summary>
-          <div className="absolute right-0 z-20 mt-2 w-max rounded border border-amber-500/20 bg-slate-900/95 p-3 shadow-lg">
-            <LanguageSwitcher />
-          </div>
-        </details>
+        <LanguageSwitcher />
       </div>
     </header>
   );

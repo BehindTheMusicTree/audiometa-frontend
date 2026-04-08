@@ -36,6 +36,7 @@ import {
   fireEvent,
   cleanup,
   waitFor,
+  within,
 } from "@testing-library/react";
 import { NextIntlClientProvider } from "next-intl";
 import MetadataManagerPage from "./AudioMetadataManagerClient";
@@ -95,7 +96,7 @@ describe("MetadataManagerPage", () => {
 
   beforeEach(() => {
     window.localStorage.clear();
-    window.localStorage.setItem("ab_tipeee_cta_variant", "control");
+    window.localStorage.setItem("ab_tipeee_cta_position", "intro_bottom");
     const matchMediaMock = vi
       .fn()
       .mockImplementation((query: string): MediaQueryList => {
@@ -208,7 +209,9 @@ describe("MetadataManagerPage", () => {
   it("shows Edit tags after session is created", async () => {
     renderWithIntl(<MetadataManagerPage />);
     expect(
-      screen.queryByText(/found this useful\? help us keep audiometa free\./i),
+      screen.queryByText(
+        /found this useful\? support growthemusictree, our flagship project\./i,
+      ),
     ).not.toBeInTheDocument();
     const input = screen.getByLabelText(/choose an audio file/i);
     fireEvent.change(input, {
@@ -219,44 +222,76 @@ describe("MetadataManagerPage", () => {
       await screen.findByRole("heading", { name: /^edit tags$/i }),
     ).toBeInTheDocument();
     expect(
-      await screen.findByText(/found this useful\? help us keep audiometa free\./i),
+      await screen.findByText(
+        /found this useful\? support growthemusictree, our flagship project\./i,
+      ),
     ).toBeInTheDocument();
     expect(
       screen.getAllByRole("link", { name: /support us on tipeee/i }).length,
     ).toBeGreaterThanOrEqual(2);
   });
 
-  it("tracks metadata success, CTA impression, and click with variant payload", async () => {
+  it("tracks metadata success, CTA impression, and click with position payload", async () => {
     renderWithIntl(<MetadataManagerPage />);
     const input = screen.getByLabelText(/choose an audio file/i);
     fireEvent.change(input, {
       target: { files: [new File([], "event.mp3", { type: "audio/mpeg" })] },
     });
 
-    await screen.findByText(/found this useful\? help us keep audiometa free\./i);
+    await screen.findByText(
+      /found this useful\? support growthemusictree, our flagship project\./i,
+    );
 
     expect(trackMock).toHaveBeenCalledWith("metadata_load_success", {
-      cta_variant: "control",
+      cta_position: "intro_bottom",
+      prefers_reduced_motion: false,
     });
     expect(trackMock).toHaveBeenCalledWith("tipeee_cta_impression", {
-      cta_variant: "control",
+      cta_position: "intro_bottom",
+      prefers_reduced_motion: false,
     });
 
     const inFlowPrompt = await screen.findByText(
-      /found this useful\? help us keep audiometa free\./i,
+      /found this useful\? support growthemusictree, our flagship project\./i,
     );
     const inFlowCtaContainer = inFlowPrompt.closest(
       '[data-track="tipeee-cta-container"]',
     );
     expect(inFlowCtaContainer).not.toBeNull();
-    const inFlowLink =
-      inFlowCtaContainer?.querySelector<HTMLAnchorElement>(
-        'a[aria-label="Support us on Tipeee"]',
-      ) ?? null;
-    expect(inFlowLink).not.toBeNull();
+    const inFlowLink = within(inFlowCtaContainer as HTMLElement).getByRole(
+      "link",
+      { name: /support us on tipeee/i },
+    );
     fireEvent.click(inFlowLink!);
     expect(trackMock).toHaveBeenCalledWith("tipeee_cta_click", {
-      cta_variant: "control",
+      cta_position: "intro_bottom",
+      prefers_reduced_motion: false,
     });
+  });
+
+  it.each([
+    { position: "intro_bottom" as const },
+    { position: "after_panels" as const },
+    { position: "near_download" as const },
+  ])("renders CTA in only one location for $position", async ({ position }) => {
+    window.localStorage.setItem("ab_tipeee_cta_position", position);
+    renderWithIntl(<MetadataManagerPage />);
+    const input = screen.getByLabelText(/choose an audio file/i);
+    fireEvent.change(input, {
+      target: { files: [new File([], "position.mp3", { type: "audio/mpeg" })] },
+    });
+
+    await screen.findByText(
+      /found this useful\? support growthemusictree, our flagship project\./i,
+    );
+
+    const prompts = screen.getAllByText(
+      /found this useful\? support growthemusictree, our flagship project\./i,
+    );
+    const containers = prompts
+      .map((prompt) => prompt.closest('[data-track="tipeee-cta-container"]'))
+      .filter((container): container is HTMLElement => container !== null);
+    expect(containers).toHaveLength(1);
+    expect(containers[0]).toHaveAttribute("data-position", position);
   });
 });

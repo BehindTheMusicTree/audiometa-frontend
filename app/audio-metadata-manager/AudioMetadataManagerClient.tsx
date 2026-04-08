@@ -44,7 +44,7 @@ const FRONTEND_GITHUB_ISSUES_URL =
 const introDocNavLinkClassName = `${BTMT_ICON_LINK_CLASS} ${BTMT_ICON_LINK_WITH_TEXT_CLASS}`;
 
 type BooleanLabels = { yes: string; no: string };
-type TipeeeCtaVariant = "control" | "variant_micro";
+type TipeeeCtaPosition = "intro_bottom" | "after_panels" | "near_download";
 
 function IntroIconLookAround({ className }: { className?: string }) {
   return (
@@ -146,7 +146,10 @@ function formatInlineValue(
             {typeof item === "object" &&
             item !== null &&
             !Array.isArray(item) ? (
-              <ObjectValue value={item as Record<string, unknown>} bools={bools} />
+              <ObjectValue
+                value={item as Record<string, unknown>}
+                bools={bools}
+              />
             ) : (
               String(item)
             )}
@@ -213,13 +216,7 @@ function ObjectValue({
   );
 }
 
-function CellValue({
-  value,
-  bools,
-}: {
-  value: unknown;
-  bools: BooleanLabels;
-}) {
+function CellValue({ value, bools }: { value: unknown; bools: BooleanLabels }) {
   if (value === null || value === undefined) {
     return <span className="text-slate-400">—</span>;
   }
@@ -238,7 +235,10 @@ function CellValue({
             {typeof item === "object" &&
             item !== null &&
             !Array.isArray(item) ? (
-              <ObjectValue value={item as Record<string, unknown>} bools={bools} />
+              <ObjectValue
+                value={item as Record<string, unknown>}
+                bools={bools}
+              />
             ) : typeof item === "object" ? (
               <code className="rounded bg-slate-100 px-1.5 py-0.5 text-xs">
                 {JSON.stringify(item)}
@@ -252,7 +252,9 @@ function CellValue({
     );
   }
   if (typeof value === "object") {
-    return <ObjectValue value={value as Record<string, unknown>} bools={bools} />;
+    return (
+      <ObjectValue value={value as Record<string, unknown>} bools={bools} />
+    );
   }
   return <span>{String(value)}</span>;
 }
@@ -328,11 +330,22 @@ export default function MetadataManagerPage() {
   const [initialTagForm, setInitialTagForm] = useState<WritableTagFormState>(
     () => emptyWritableTagFormState(),
   );
-  const [tipeeeCtaVariant] = useState<TipeeeCtaVariant>(() => {
-    if (typeof window === "undefined") return "control";
-    const stored = window.localStorage.getItem("ab_tipeee_cta_variant");
-    if (stored === "control" || stored === "variant_micro") return stored;
-    return Math.random() < 0.5 ? "control" : "variant_micro";
+  const [tipeeeCtaPosition] = useState<TipeeeCtaPosition>(() => {
+    if (typeof window === "undefined") return "intro_bottom";
+    const stored = window.localStorage.getItem("ab_tipeee_cta_position");
+    if (
+      stored === "intro_bottom" ||
+      stored === "after_panels" ||
+      stored === "near_download"
+    ) {
+      return stored;
+    }
+    const variants: TipeeeCtaPosition[] = [
+      "intro_bottom",
+      "after_panels",
+      "near_download",
+    ];
+    return variants[Math.floor(Math.random() * variants.length)];
   });
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const impressionSessionTokenRef = useRef<string | null>(null);
@@ -384,23 +397,69 @@ export default function MetadataManagerPage() {
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem("ab_tipeee_cta_variant", tipeeeCtaVariant);
-  }, [tipeeeCtaVariant]);
+    window.localStorage.setItem("ab_tipeee_cta_position", tipeeeCtaPosition);
+  }, [tipeeeCtaPosition]);
 
   useEffect(() => {
     if (!showInFlowTipeeeCta || !sessionToken) return;
     if (impressionSessionTokenRef.current === sessionToken) return;
     impressionSessionTokenRef.current = sessionToken;
-    track("metadata_load_success", { cta_variant: tipeeeCtaVariant });
-    track("tipeee_cta_impression", { cta_variant: tipeeeCtaVariant });
-  }, [showInFlowTipeeeCta, sessionToken, tipeeeCtaVariant]);
+    track("metadata_load_success", {
+      cta_position: tipeeeCtaPosition,
+      prefers_reduced_motion: prefersReducedMotion,
+    });
+    track("tipeee_cta_impression", {
+      cta_position: tipeeeCtaPosition,
+      prefers_reduced_motion: prefersReducedMotion,
+    });
+  }, [
+    prefersReducedMotion,
+    showInFlowTipeeeCta,
+    sessionToken,
+    tipeeeCtaPosition,
+  ]);
 
   function handleTipeeeCtaClickCapture(
     event: React.MouseEvent<HTMLDivElement>,
   ) {
     const target = event.target as HTMLElement;
     if (!target.closest("a")) return;
-    track("tipeee_cta_click", { cta_variant: tipeeeCtaVariant });
+    track("tipeee_cta_click", {
+      cta_position: tipeeeCtaPosition,
+      prefers_reduced_motion: prefersReducedMotion,
+    });
+  }
+
+  const showTipeeeAtIntroBottom =
+    showInFlowTipeeeCta && tipeeeCtaPosition === "intro_bottom";
+  const showTipeeeAfterPanels =
+    showInFlowTipeeeCta && tipeeeCtaPosition === "after_panels";
+  const showTipeeeNearDownload =
+    showInFlowTipeeeCta && tipeeeCtaPosition === "near_download";
+
+  function renderInFlowTipeeeCta(position: TipeeeCtaPosition) {
+    return (
+      <div
+        className="flex w-fit max-w-full flex-col gap-3 self-start rounded-xl border border-amber-200/80 bg-gradient-to-r from-amber-50 to-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-start sm:gap-4"
+        data-track="tipeee-cta-container"
+        data-analytics-event="tipeee_cta_impression"
+        data-state={tipeeeCtaPosition}
+        data-position={position}
+        onClickCapture={handleTipeeeCtaClickCapture}
+      >
+        <p className="text-sm font-medium leading-relaxed text-amber-900">
+          {t("supportPromptInFlow")}
+        </p>
+        <div className="w-full sm:w-auto [&_a]:inline-flex [&_a]:items-center [&_a]:justify-center [&_a]:rounded-full [&_a]:border [&_a]:border-amber-200 [&_a]:bg-white [&_a]:px-4 [&_a]:py-2 [&_a]:text-sm [&_a]:font-medium [&_a]:text-amber-900 [&_a]:shadow-sm hover:[&_a]:bg-amber-100/40">
+          <TipeeeSocialLink
+            text={t("supportOnTipeee")}
+            title={t("supportOnTipeee")}
+            showText
+            iconClassName={socialBrandIconClass}
+          />
+        </div>
+      </div>
+    );
   }
 
   async function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -556,26 +615,8 @@ export default function MetadataManagerPage() {
               iconClassName={socialBrandIconClass}
             />
           </nav>
-          {showInFlowTipeeeCta ? (
-            <div
-              className={`mt-4 flex flex-col items-start gap-2 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 transition-all duration-700 sm:flex-row sm:items-center sm:justify-between ${
-                tipeeeCtaVariant === "variant_micro" && !prefersReducedMotion
-                  ? "motion-safe:animate-[ping_1s_ease-out_1]"
-                  : ""
-              }`}
-              data-track="tipeee-cta-container"
-              data-analytics-event="tipeee_cta_impression"
-              data-state={tipeeeCtaVariant}
-              onClickCapture={handleTipeeeCtaClickCapture}
-            >
-              <p className="text-sm text-amber-900">{t("supportPromptInFlow")}</p>
-              <TipeeeSocialLink
-                text={t("supportOnTipeee")}
-                title={t("supportOnTipeee")}
-                showText
-                iconClassName={socialBrandIconClass}
-              />
-            </div>
+          {showTipeeeAtIntroBottom ? (
+            <div className="mt-4">{renderInFlowTipeeeCta("intro_bottom")}</div>
           ) : null}
         </section>
         <div className="flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
@@ -864,6 +905,9 @@ export default function MetadataManagerPage() {
             )}
           </section>
         </div>
+        {showTipeeeAfterPanels ? (
+          <div className="mt-1">{renderInFlowTipeeeCta("after_panels")}</div>
+        ) : null}
         {audioMetadata && (
           <section className="min-w-0 overflow-hidden rounded-xl border border-emerald-200 bg-emerald-50 p-6 shadow-sm">
             <header className="mb-4 border-b border-emerald-200/80 pb-3">
@@ -896,6 +940,11 @@ export default function MetadataManagerPage() {
               onChange={setTagForm}
               disabled={!sessionActive}
             />
+            {showTipeeeNearDownload ? (
+              <div className="mb-4">
+                {renderInFlowTipeeeCta("near_download")}
+              </div>
+            ) : null}
             <div className="mt-6 flex flex-wrap gap-3">
               <button
                 type="button"
