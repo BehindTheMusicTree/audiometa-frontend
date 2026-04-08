@@ -34,7 +34,7 @@ export default async function DocsLayout({
   const englishOnlyNotice = t("englishOnlyNotice");
 
   const audiometaPythonGithubUrl =
-    process.env.AUDIOMETA_GITHUB_REPO_URL!.trim();
+    process.env.AUDIOMETA_PYTHON_GITHUB_REPO_URL!.trim();
 
   return (
     <PageLayout

@@ -124,6 +124,7 @@ Use the workflow [`.github/workflows/sync-vercel-env.yml`](../.github/workflows/
 |--------|----------------|
 | **Repo variables** (Settings → Secrets and variables → Actions → Variables) – same value for both targets: |
 | `AUDIOMETA_DOCS_BUNDLE_URL` | `NEXT_PUBLIC_DOCS_BUNDLE_URL` |
+| `AUDIOMETA_PYTHON_GITHUB_REPO_URL` | `AUDIOMETA_PYTHON_GITHUB_REPO_URL` (AudioMeta Python repo URL for footer / docs; no trailing slash) |
 
 *(Organization site, social defaults, and contact targets for footer / intro links come from **`@behindthemusictree/assets`** at package build time; this app does not set other `NEXT_PUBLIC_*` vars for those.)*
 
@@ -142,7 +143,7 @@ Set `BACKEND_BASE_URL` to the API host only (no trailing slash), e.g. `https://h
 
 The workflow uses `upsert` so it creates or updates each variable, then triggers a deployment via each environment’s `VERCEL_DEPLOY_HOOK` so the new values are baked into the next build.
 
-**Relation to [vercel-deploy.yml](../.github/workflows/vercel-deploy.yml):** **Sync Vercel env** pushes all mirrored `NEXT_PUBLIC_*` values and redeploys. **Vercel deploy** only updates **`NEXT_PUBLIC_APP_VERSION`** and redeploys—use it on every **release tag** (or manually) so production shows the correct version.
+**Relation to [vercel-deploy.yml](../.github/workflows/vercel-deploy.yml):** **Sync Vercel env** pushes the variables in the table above to Vercel and redeploys. **Vercel deploy** only updates **`NEXT_PUBLIC_APP_VERSION`** and redeploys—use it on every **release tag** (or manually) so production shows the correct version.
 
 ## 4. Troubleshooting: Vercel shows old version
 

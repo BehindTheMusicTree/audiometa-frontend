@@ -36,7 +36,7 @@ export default async function HomePage({
   setRequestLocale(locale);
   return (
     <AudioMetadataManagerClient
-      audiometaPythonGithubUrl={process.env.AUDIOMETA_GITHUB_REPO_URL!.trim()}
+      audiometaPythonGithubUrl={process.env.AUDIOMETA_PYTHON_GITHUB_REPO_URL!.trim()}
     />
   );
 }

@@ -6,7 +6,7 @@ interface PageLayoutProps {
   children: ReactNode;
   /** Route or feature id for E2E/analytics (e.g. "audio-metadata-manager"). See docs/DATA_ATTRIBUTES.md. */
   dataPage: string;
-  /** `AUDIOMETA_GITHUB_REPO_URL` — AudioMeta Python on GitHub (footer). */
+  /** `AUDIOMETA_PYTHON_GITHUB_REPO_URL` — AudioMeta Python on GitHub (footer). */
   audiometaPythonGithubUrl: string;
 }
 
