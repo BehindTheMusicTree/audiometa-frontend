@@ -24,7 +24,13 @@ if (missing.length > 0) {
 
 const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST!.trim();
 
+const deploymentEnv =
+  process.env.VERCEL_ENV?.trim() || "development";
+
 const nextConfig: NextConfig = {
+  env: {
+    NEXT_PUBLIC_DEPLOYMENT_ENV: deploymentEnv,
+  },
   transpilePackages: ["@behindthemusictree/assets"],
   turbopack: {
     root: __dirname,

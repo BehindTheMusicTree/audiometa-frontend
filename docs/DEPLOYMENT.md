@@ -77,6 +77,8 @@ For **local** runs (`npm run dev`, `npm run launch`): copy `.env.example` to `.e
 
 On **Vercel**:
 
+PostHog keys (`NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN`, `NEXT_PUBLIC_POSTHOG_HOST`) are required at build time; see [.env.example](../.env.example) and [docs/ANALYTICS.md](./ANALYTICS.md).
+
 1. **Settings → Environment Variables**.
 2. For each variable, choose:
    - **Production** – only for production deployments (branch `main`).
@@ -125,8 +127,12 @@ Use the workflow [`.github/workflows/sync-vercel-env.yml`](../.github/workflows/
 | **Repo variables** (Settings → Secrets and variables → Actions → Variables) – same value for both targets: |
 | `AUDIOMETA_DOCS_BUNDLE_URL` | `NEXT_PUBLIC_DOCS_BUNDLE_URL` |
 | `AUDIOMETA_PYTHON_GITHUB_REPO_URL` | `AUDIOMETA_PYTHON_GITHUB_REPO_URL` (AudioMeta Python repo URL for footer / docs; no trailing slash) |
+| `POSTHOG_API_HOST` | `NEXT_PUBLIC_POSTHOG_HOST` (PostHog ingest API origin, e.g. `https://eu.i.posthog.com`) |
 
 *(Organization site, social defaults, and contact targets for footer / intro links come from **`@behindthemusictree/assets`** at package build time; this app does not set other `NEXT_PUBLIC_*` vars for those.)*
+
+| **Repository secret** (PostHog; required to run [Sync Vercel env](../.github/workflows/sync-vercel-env.yml)): |
+| `POSTHOG_PROJECT_TOKEN` | `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` |
 
 | **Repository secret** (optional; used to sync GitHub Packages auth to Vercel): |
 | `GH_PACKAGES_TOKEN` | `NPM_TOKEN` on Vercel (**sensitive**), for `npm install` of `@behindthemusictree/*` |

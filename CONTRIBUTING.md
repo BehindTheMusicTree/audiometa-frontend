@@ -86,4 +86,5 @@ See [docs/VERSIONING.md](docs/VERSIONING.md) and [docs/SEMVER_GUIDE.md](docs/SEM
 - **Code & UI** – [docs/STYLE_GUIDE.md](docs/STYLE_GUIDE.md)
 - **Semantic HTML** – [docs/SEMANTIC_HTML.md](docs/SEMANTIC_HTML.md)
 - **Data attributes & testing** – [docs/DATA_ATTRIBUTES.md](docs/DATA_ATTRIBUTES.md), [docs/testing.md](docs/testing.md)
+- **Analytics (PostHog)** – [docs/ANALYTICS.md](docs/ANALYTICS.md)
 - **Versioning** – [docs/VERSIONING.md](docs/VERSIONING.md), [docs/SEMVER_GUIDE.md](docs/SEMVER_GUIDE.md)

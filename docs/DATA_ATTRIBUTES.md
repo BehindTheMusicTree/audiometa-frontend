@@ -64,7 +64,7 @@ Keep values **short, kebab-case, and stable** (tied to route or feature name, no
 - `data-analytics-event="..."` or `data-track="..."` for event names
 - `data-feature="..."` for feature-flag or experiment targeting
 
-Avoid storing **large or sensitive payloads** in attributes; use small identifiers and resolve details in code or backend.
+Avoid storing **large or sensitive payloads** in attributes; use small identifiers and resolve details in code or backend. **See also:** [Analytics](./ANALYTICS.md) (custom events and `trackEvent` usage).
 
 ---
 
