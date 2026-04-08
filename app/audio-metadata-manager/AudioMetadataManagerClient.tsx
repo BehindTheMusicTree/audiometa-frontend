@@ -931,7 +931,7 @@ export default function MetadataManagerPage({
           </section>
         </div>
         {showTipeeeAfterPanels ? (
-          <div className="mt-1">{renderInFlowTipeeeCta("after_panels")}</div>
+          <div className="mt-6">{renderInFlowTipeeeCta("after_panels")}</div>
         ) : null}
         {audioMetadata && (
           <section className="min-w-0 overflow-hidden rounded-xl border border-emerald-200 bg-emerald-50 p-6 shadow-sm">
@@ -965,30 +965,30 @@ export default function MetadataManagerPage({
               onChange={setTagForm}
               disabled={!sessionActive}
             />
-            {showTipeeeNearDownload ? (
-              <div className="mb-4">
-                {renderInFlowTipeeeCta("near_download")}
+            <div className="mt-8 flex flex-col gap-8">
+              {showTipeeeNearDownload
+                ? renderInFlowTipeeeCta("near_download")
+                : null}
+              <div className="flex flex-wrap gap-3">
+                <button
+                  type="button"
+                  onClick={handleDownloadTagged}
+                  disabled={!sessionActive || isDownloadPending}
+                  className="flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-medium text-white shadow transition-all hover:bg-indigo-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {isDownloadPending
+                    ? t("preparingDownload")
+                    : t("downloadWithTags")}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleResetTags}
+                  disabled={!sessionActive}
+                  className="rounded-lg border border-slate-200 bg-slate-50 px-5 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {t("resetTags")}
+                </button>
               </div>
-            ) : null}
-            <div className="mt-6 flex flex-wrap gap-3">
-              <button
-                type="button"
-                onClick={handleDownloadTagged}
-                disabled={!sessionActive || isDownloadPending}
-                className="flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-medium text-white shadow transition-all hover:bg-indigo-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {isDownloadPending
-                  ? t("preparingDownload")
-                  : t("downloadWithTags")}
-              </button>
-              <button
-                type="button"
-                onClick={handleResetTags}
-                disabled={!sessionActive}
-                className="rounded-lg border border-slate-200 bg-slate-50 px-5 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {t("resetTags")}
-              </button>
             </div>
           </section>
         )}
