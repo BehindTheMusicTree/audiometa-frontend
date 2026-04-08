@@ -74,7 +74,7 @@
     "chooseFile": "Choisir un fichier",
     "noFileChosen": "Aucun fichier choisi",
     "editTags": "Modifier les tags",
-    "editTagsHelp": "Les valeurs ci-dessous sont écrites dans le fichier au téléchargement. Les autres sections sont en lecture seule.",
+    "editTagsHelp": "Les valeurs ci-dessous seront écrites dans le fichier lors du téléchargement.",
     "sessionExpires": "La session expire dans",
     "sessionExpiredHint": "Cette session a peut-être expiré. Essayez de télécharger ; en cas d'échec, importez à nouveau le fichier.",
     "noSessionHint": "Aucune session active. Importez à nouveau un fichier pour télécharger avec les tags.",

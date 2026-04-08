@@ -74,7 +74,7 @@
     "chooseFile": "选择文件",
     "noFileChosen": "未选择文件",
     "editTags": "编辑标签",
-    "editTagsHelp": "此处的值会在下载时写入文件。下方其他区域为只读参考。",
+    "editTagsHelp": "下方的值将在下载时写入文件。",
     "sessionExpires": "会话将在以下时间后过期",
     "sessionExpiredHint": "会话可能已过期。请尝试下载；若失败，请重新上传文件。",
     "noSessionHint": "没有活动会话。请重新上传文件以下载带标签的文件。",

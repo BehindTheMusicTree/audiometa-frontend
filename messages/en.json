@@ -74,7 +74,7 @@
     "chooseFile": "Choose file",
     "noFileChosen": "No file chosen",
     "editTags": "Edit tags",
-    "editTagsHelp": "Values here are written to the file when you download. Other sections below are read-only reference.",
+    "editTagsHelp": "Values below will be written to the file when you download.",
     "sessionExpires": "Session expires in",
     "sessionExpiredHint": "This session may have expired. Try downloading; if it fails, upload the file again.",
     "noSessionHint": "No active session. Upload a file again to download with tags.",

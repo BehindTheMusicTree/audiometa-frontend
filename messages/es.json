@@ -74,7 +74,7 @@
     "chooseFile": "Elegir archivo",
     "noFileChosen": "Ningún archivo elegido",
     "editTags": "Editar etiquetas",
-    "editTagsHelp": "Los valores aquí se escriben en el archivo al descargar. Las demás secciones son solo de referencia de lectura.",
+    "editTagsHelp": "Los valores de abajo se escribirán en el archivo al descargar.",
     "sessionExpires": "La sesión expira en",
     "sessionExpiredHint": "Es posible que esta sesión haya caducado. Prueba a descargar; si falla, vuelve a subir el archivo.",
     "noSessionHint": "No hay sesión activa. Sube de nuevo un archivo para descargar con etiquetas.",

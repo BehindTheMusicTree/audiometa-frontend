@@ -74,7 +74,7 @@
     "chooseFile": "Datei wählen",
     "noFileChosen": "Keine Datei gewählt",
     "editTags": "Tags bearbeiten",
-    "editTagsHelp": "Die Werte hier werden beim Herunterladen in die Datei geschrieben. Die folgenden Bereiche sind nur zur Ansicht.",
+    "editTagsHelp": "Die unten stehenden Werte werden beim Herunterladen in die Datei geschrieben.",
     "sessionExpires": "Sitzung läuft ab in",
     "sessionExpiredHint": "Diese Sitzung ist möglicherweise abgelaufen. Versuchen Sie den Download; wenn er fehlschlägt, laden Sie die Datei erneut hoch.",
     "noSessionHint": "Keine aktive Sitzung. Laden Sie die Datei erneut hoch, um mit Tags herunterzuladen.",

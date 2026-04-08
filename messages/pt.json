@@ -74,7 +74,7 @@
     "chooseFile": "Escolher arquivo",
     "noFileChosen": "Nenhum arquivo escolhido",
     "editTags": "Editar tags",
-    "editTagsHelp": "Os valores aqui são gravados no arquivo ao baixar. As outras seções abaixo são somente leitura.",
+    "editTagsHelp": "Os valores abaixo serão gravados no arquivo ao baixar.",
     "sessionExpires": "A sessão expira em",
     "sessionExpiredHint": "Esta sessão pode ter expirado. Tente baixar; se falhar, envie o arquivo novamente.",
     "noSessionHint": "Nenhuma sessão ativa. Envie um arquivo novamente para baixar com as tags.",
