@@ -1,23 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import HtmlLangSync from "@/components/HtmlLangSync";
 import WebSiteJsonLd from "@/components/WebSiteJsonLd";
 import { routing } from "@/i18n/routing";
 import { absoluteUrlForLocale } from "@/lib/language-alternates";
 import { getSiteUrl } from "@/lib/site-url";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -72,22 +62,15 @@ export default async function LocaleLayout({
   const siteOrigin = absoluteUrlForLocale(locale, "/");
   const tSite = await getTranslations({ locale, namespace: "Site" });
 
-  const dir = locale === "ar" ? "rtl" : "ltr";
-
   return (
-    <html lang={locale} dir={dir}>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}
-      >
-        <NextIntlClientProvider messages={messages}>
-          <WebSiteJsonLd
-            siteUrl={siteOrigin}
-            description={tSite("description")}
-          />
-          {children}
-          <Analytics />
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <NextIntlClientProvider messages={messages}>
+      <HtmlLangSync />
+      <WebSiteJsonLd
+        siteUrl={siteOrigin}
+        description={tSite("description")}
+      />
+      {children}
+      <Analytics />
+    </NextIntlClientProvider>
   );
 }

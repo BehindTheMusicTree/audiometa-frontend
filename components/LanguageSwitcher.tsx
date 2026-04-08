@@ -32,7 +32,7 @@ export default function LanguageSwitcher() {
             ▾
           </span>
         </summary>
-        <div className="absolute end-0 z-50 mt-2 min-w-[10rem] rounded-lg border border-amber-500/20 bg-slate-900/95 py-2 shadow-lg">
+        <div className="absolute end-0 z-50 mt-2 min-w-[10rem] rounded-lg border border-amber-500 bg-slate-900/95 py-2 shadow-lg">
           <ul className="m-0 flex list-none flex-col gap-0.5 p-0">
             {routing.locales.map((loc) => (
               <li key={loc}>
