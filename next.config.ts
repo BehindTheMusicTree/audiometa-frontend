@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
+import { routing } from "./i18n/routing";
 
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
+
+const localePathSegment = routing.locales.join("|");
 
 const requiredEnv = [
   "NEXT_PUBLIC_BACKEND_BASE_URL",
@@ -33,7 +36,15 @@ const nextConfig: NextConfig = {
         destination: `${posthogHost}/static/:path*`,
       },
       {
+        source: `/:locale(${localePathSegment})/ingest/static/:path*`,
+        destination: `${posthogHost}/static/:path*`,
+      },
+      {
         source: "/ingest/:path*",
+        destination: `${posthogHost}/:path*`,
+      },
+      {
+        source: `/:locale(${localePathSegment})/ingest/:path*`,
         destination: `${posthogHost}/:path*`,
       },
     ];
