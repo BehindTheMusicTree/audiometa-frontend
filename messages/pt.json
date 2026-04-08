@@ -11,7 +11,9 @@
     "ogTitle": "Gerenciador de metadados de áudio | Audiometa"
   },
   "PageHeader": {
-    "homeAria": "Audiometa — Gerenciador de metadados de áudio"
+    "homeAria": "Audiometa — Gerenciador de metadados de áudio",
+    "docsAria": "Documentação (conteúdo apenas em inglês)",
+    "docsTitle": "Documentação (apenas em inglês)"
   },
   "PageFooter": {
     "supportPrompt": "Achou útil? Apoie-nos — isso ajuda a manter o Audiometa gratuito.",
@@ -54,10 +56,16 @@
     "bulletTweakBody": "— altere campos graváveis; painéis somente leitura continuam úteis como referência.",
     "bulletSaveTitle": "Salvar uma cópia",
     "bulletSaveBody": "— baixe o arquivo com as atualizações enquanto a sessão estiver aberta.",
-    "navSupportAria": "Documentação, biblioteca e suporte",
+    "navLearnAria": "Documentação",
+    "navDevAria": "AudioMeta Python — código-fonte e pacote PyPI",
+    "navSupportAria": "Suporte e feedback",
+    "introDevHeading": "Desenvolvedores",
+    "pythonLibraryGithub": "Biblioteca Python (GitHub)",
+    "pythonLibraryGithubTitle": "Biblioteca Python AudioMeta no GitHub",
+    "pythonLibraryPypi": "Pacote PyPI",
+    "pythonLibraryPypiTitle": "Pacote audiometa-python no PyPI",
     "completeDocsTitle": "Documentação completa",
     "completeDocs": "Documentação completa",
-    "pythonLibrary": "Biblioteca Python AudioMeta",
     "emailUs": "Envie um e-mail com dúvidas",
     "githubIssues": "Issues no GitHub",
     "sponsorUs": "Apoie-nos",

@@ -11,7 +11,9 @@
     "ogTitle": "オーディオメタデータマネージャー | Audiometa"
   },
   "PageHeader": {
-    "homeAria": "Audiometa — オーディオメタデータマネージャー"
+    "homeAria": "Audiometa — オーディオメタデータマネージャー",
+    "docsAria": "ドキュメント（本文は英語のみ）",
+    "docsTitle": "ドキュメント（英語のみ）"
   },
   "PageFooter": {
     "supportPrompt": "役に立ちましたか？ ご支援をお願いします。Audiometa を無料で維持する助けになります。",
@@ -54,10 +56,16 @@
     "bulletTweakBody": "— 書き込み可能な項目を変更。読み取り専用パネルは参照用にそのまま利用できます。",
     "bulletSaveTitle": "コピーを保存",
     "bulletSaveBody": "— セッションが有効な間、更新を含むファイルをダウンロードできます。",
-    "navSupportAria": "ドキュメント、ライブラリ、サポート",
+    "navLearnAria": "ドキュメント",
+    "navDevAria": "AudioMeta Python — ソースコードと PyPI パッケージ",
+    "navSupportAria": "サポートとフィードバック",
+    "introDevHeading": "開発者向け",
+    "pythonLibraryGithub": "Python ライブラリ（GitHub）",
+    "pythonLibraryGithubTitle": "GitHub 上の AudioMeta Python ライブラリ",
+    "pythonLibraryPypi": "PyPI パッケージ",
+    "pythonLibraryPypiTitle": "PyPI の audiometa-python パッケージ",
     "completeDocsTitle": "完全なドキュメント",
     "completeDocs": "完全なドキュメント",
-    "pythonLibrary": "AudioMeta Python ライブラリ",
     "emailUs": "メールで問い合わせ",
     "githubIssues": "GitHub Issues",
     "sponsorUs": "スポンサーになる",

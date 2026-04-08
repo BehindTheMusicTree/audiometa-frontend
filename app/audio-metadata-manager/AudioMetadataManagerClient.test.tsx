@@ -146,15 +146,25 @@ describe("MetadataManagerPage", () => {
       name: /^complete documentation$/i,
     });
     expect(docsLink).toHaveAttribute("href", "/docs");
-    const libLink = screen.getByRole("link", {
-      name: /audiometa python library/i,
+    const pythonGithubLink = screen.getByRole("link", {
+      name: /^python library \(github\)$/i,
     });
-    expect(libLink).toHaveAttribute(
+    expect(pythonGithubLink).toHaveAttribute(
       "href",
       "https://github.com/BehindTheMusicTree/audiometa",
     );
-    expect(libLink).toHaveAttribute("target", "_blank");
-    expect(libLink).toHaveAttribute("rel", "noopener noreferrer");
+    expect(pythonGithubLink).toHaveAttribute("target", "_blank");
+    expect(pythonGithubLink).toHaveAttribute("rel", "noopener noreferrer");
+
+    const pypiLink = screen.getByRole("link", {
+      name: /^pypi package$/i,
+    });
+    expect(pypiLink).toHaveAttribute(
+      "href",
+      "https://pypi.org/project/audiometa-python/",
+    );
+    expect(pypiLink).toHaveAttribute("target", "_blank");
+    expect(pypiLink).toHaveAttribute("rel", "noopener noreferrer");
 
     const emailLink = screen.getByRole("link", {
       name: /^email us with questions$/i,

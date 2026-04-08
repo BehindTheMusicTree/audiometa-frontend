@@ -11,7 +11,9 @@
     "ogTitle": "Audio Metadata Manager | Audiometa"
   },
   "PageHeader": {
-    "homeAria": "Audiometa — Audio Metadata Manager"
+    "homeAria": "Audiometa — Audio Metadata Manager",
+    "docsAria": "Documentation",
+    "docsTitle": "Documentation"
   },
   "PageFooter": {
     "supportPrompt": "Found this helpful? Support us — it helps keep Audiometa free.",
@@ -54,10 +56,16 @@
     "bulletTweakBody": "— change writable fields; read-only panels stay handy for reference.",
     "bulletSaveTitle": "Save a copy",
     "bulletSaveBody": "— download your file with updates while the session is still open.",
-    "navSupportAria": "Documentation, library, and support",
+    "navLearnAria": "Documentation",
+    "navDevAria": "AudioMeta Python — source code and PyPI package",
+    "navSupportAria": "Support and feedback",
+    "introDevHeading": "Developers",
+    "pythonLibraryGithub": "Python library (GitHub)",
+    "pythonLibraryGithubTitle": "AudioMeta Python library on GitHub",
+    "pythonLibraryPypi": "PyPI package",
+    "pythonLibraryPypiTitle": "audiometa-python package on PyPI",
     "completeDocsTitle": "Complete documentation",
     "completeDocs": "Complete documentation",
-    "pythonLibrary": "AudioMeta Python library",
     "emailUs": "Email us with questions",
     "githubIssues": "GitHub issues",
     "sponsorUs": "Sponsor us",

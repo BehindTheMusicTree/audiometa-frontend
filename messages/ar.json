@@ -11,7 +11,9 @@
     "ogTitle": "مدير بيانات الصوت الوصفية | Audiometa"
   },
   "PageHeader": {
-    "homeAria": "Audiometa — مدير بيانات الصوت الوصفية"
+    "homeAria": "Audiometa — مدير بيانات الصوت الوصفية",
+    "docsAria": "التوثيق (المحتوى بالإنجليزية فقط)",
+    "docsTitle": "التوثيق (إنجليزي فقط)"
   },
   "PageFooter": {
     "supportPrompt": "هل كان هذا مفيدًا؟ ادعمنا — يساعدنا ذلك على إبقاء Audiometa مجانيًا.",
@@ -54,10 +56,16 @@
     "bulletTweakBody": "— غيّر الحقول القابلة للكتابة؛ تبقى اللوحات للقراءة فقط مفيدة كمرجع.",
     "bulletSaveTitle": "حفظ نسخة",
     "bulletSaveBody": "— نزّل ملفك مع التحديثات ما دامت الجلسة مفتوحة.",
-    "navSupportAria": "التوثيق والمكتبة والدعم",
+    "navLearnAria": "التوثيق",
+    "navDevAria": "AudioMeta Python — الشفرة المصدرية وحزمة PyPI",
+    "navSupportAria": "الدعم والملاحظات",
+    "introDevHeading": "المطورون",
+    "pythonLibraryGithub": "مكتبة Python (GitHub)",
+    "pythonLibraryGithubTitle": "مكتبة AudioMeta لـ Python على GitHub",
+    "pythonLibraryPypi": "حزمة PyPI",
+    "pythonLibraryPypiTitle": "حزمة audiometa-python على PyPI",
     "completeDocsTitle": "التوثيق الكامل",
     "completeDocs": "التوثيق الكامل",
-    "pythonLibrary": "مكتبة AudioMeta لـ Python",
     "emailUs": "راسلنا عبر البريد",
     "githubIssues": "تذاكر GitHub",
     "sponsorUs": "ادعمنا",

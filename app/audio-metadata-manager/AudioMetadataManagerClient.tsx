@@ -35,8 +35,11 @@ import {
 import type { AudioMetadataDetailed } from "@/schemas/audio-metadata";
 import { SessionExpiredError } from "@/schemas/metadata-session";
 
-const AUDIOMETA_PYTHON_LIBRARY_URL =
+const AUDIOMETA_PYTHON_GITHUB_URL =
   "https://github.com/BehindTheMusicTree/audiometa";
+
+const AUDIOMETA_PYTHON_PYPI_URL =
+  "https://pypi.org/project/audiometa-python/";
 
 const FRONTEND_GITHUB_ISSUES_URL =
   "https://github.com/BehindTheMusicTree/audiometa-frontend/issues";
@@ -585,36 +588,64 @@ export default function MetadataManagerPage() {
               </span>
             </li>
           </ul>
-          <nav
-            aria-label={t("navSupportAria")}
-            className="mt-5 flex flex-col gap-2 border-t border-slate-100 pt-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-1"
-          >
-            <Link
-              href="/docs"
-              className={introDocNavLinkClassName}
-              title={t("completeDocsTitle")}
+          <div className="mt-5 flex flex-col gap-4 border-t border-slate-100 pt-4">
+            <nav
+              aria-label={t("navLearnAria")}
+              className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-1"
             >
-              <IconBookOpen className={socialBrandIconClass} />
-              <span>{t("completeDocs")}</span>
-            </Link>
-            <PypiSocialLink
-              href={AUDIOMETA_PYTHON_LIBRARY_URL}
-              text={t("pythonLibrary")}
-              showText
-              iconClassName={socialBrandIconClass}
-            />
-            <EmailSocialLink
-              text={t("emailUs")}
-              showText
-              iconClassName={socialBrandIconClass}
-            />
-            <GithubSocialLink
-              href={FRONTEND_GITHUB_ISSUES_URL}
-              text={t("githubIssues")}
-              showText
-              iconClassName={socialBrandIconClass}
-            />
-          </nav>
+              <Link
+                href="/docs"
+                className={introDocNavLinkClassName}
+                title={t("completeDocsTitle")}
+              >
+                <IconBookOpen className={socialBrandIconClass} />
+                <span>{t("completeDocs")}</span>
+              </Link>
+            </nav>
+            <div className="flex flex-col gap-2">
+              <p
+                id="intro-dev-heading"
+                className="m-0 text-xs font-semibold uppercase tracking-wide text-slate-500"
+              >
+                {t("introDevHeading")}
+              </p>
+              <nav
+                aria-labelledby="intro-dev-heading"
+                className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-1"
+              >
+                <GithubSocialLink
+                  href={AUDIOMETA_PYTHON_GITHUB_URL}
+                  text={t("pythonLibraryGithub")}
+                  title={t("pythonLibraryGithubTitle")}
+                  showText
+                  iconClassName={socialBrandIconClass}
+                />
+                <PypiSocialLink
+                  href={AUDIOMETA_PYTHON_PYPI_URL}
+                  text={t("pythonLibraryPypi")}
+                  title={t("pythonLibraryPypiTitle")}
+                  showText
+                  iconClassName={socialBrandIconClass}
+                />
+              </nav>
+            </div>
+            <nav
+              aria-label={t("navSupportAria")}
+              className="flex flex-col gap-2 border-t border-slate-100 pt-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-1"
+            >
+              <EmailSocialLink
+                text={t("emailUs")}
+                showText
+                iconClassName={socialBrandIconClass}
+              />
+              <GithubSocialLink
+                href={FRONTEND_GITHUB_ISSUES_URL}
+                text={t("githubIssues")}
+                showText
+                iconClassName={socialBrandIconClass}
+              />
+            </nav>
+          </div>
           {showTipeeeAtIntroBottom ? (
             <div className="mt-4">{renderInFlowTipeeeCta("intro_bottom")}</div>
           ) : null}
@@ -660,9 +691,15 @@ export default function MetadataManagerPage() {
           </p>
         )}
         <div className="flex flex-col gap-4 md:grid md:grid-cols-2 lg:grid-cols-3">
-          <section className={readOnlySectionBoxClass}>
+          <section
+            className={readOnlySectionBoxClass}
+            aria-labelledby="metadata-panel-technical-heading"
+          >
             <header className="mb-3 border-b border-slate-100 pb-2">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">
+              <h2
+                id="metadata-panel-technical-heading"
+                className="text-sm font-semibold uppercase tracking-wide text-slate-600"
+              >
                 {t("technicalInfo")}
               </h2>
             </header>
@@ -761,9 +798,15 @@ export default function MetadataManagerPage() {
               </p>
             )}
           </section>
-          <section className={readOnlySectionBoxClass}>
+          <section
+            className={readOnlySectionBoxClass}
+            aria-labelledby="metadata-panel-unified-heading"
+          >
             <header className="mb-3 border-b border-slate-100 pb-2">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">
+              <h2
+                id="metadata-panel-unified-heading"
+                className="text-sm font-semibold uppercase tracking-wide text-slate-600"
+              >
                 {t("unifiedMetadata")}
               </h2>
             </header>
@@ -790,9 +833,15 @@ export default function MetadataManagerPage() {
               </p>
             )}
           </section>
-          <section className={readOnlySectionBoxClass}>
+          <section
+            className={readOnlySectionBoxClass}
+            aria-labelledby="metadata-panel-by-format-heading"
+          >
             <header className="mb-3 border-b border-slate-100 pb-2">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">
+              <h2
+                id="metadata-panel-by-format-heading"
+                className="text-sm font-semibold uppercase tracking-wide text-slate-600"
+              >
                 {t("byMetadataFormat")}
               </h2>
             </header>
@@ -847,9 +896,15 @@ export default function MetadataManagerPage() {
               </p>
             )}
           </section>
-          <section className={readOnlySectionBoxClass}>
+          <section
+            className={readOnlySectionBoxClass}
+            aria-labelledby="metadata-panel-raw-heading"
+          >
             <header className="mb-3 border-b border-slate-100 pb-2">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">
+              <h2
+                id="metadata-panel-raw-heading"
+                className="text-sm font-semibold uppercase tracking-wide text-slate-600"
+              >
                 {t("metadataRaw")}
               </h2>
             </header>
