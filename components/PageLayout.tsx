@@ -21,7 +21,9 @@ export default function PageLayout({
       data-page={dataPage}
     >
       <PageHeader />
-      <div className="min-h-0 flex-1 overflow-y-auto px-6 py-6">{children}</div>
+      <div className="mx-auto min-h-0 w-full max-w-7xl flex-1 overflow-y-auto px-6 py-6">
+        {children}
+      </div>
       <PageFooter audiometaPythonGithubUrl={audiometaPythonGithubUrl} />
     </div>
   );

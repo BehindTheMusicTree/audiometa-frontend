@@ -512,7 +512,7 @@ export default function MetadataManagerPage({
       dataPage="audio-metadata-manager"
       audiometaPythonGithubUrl={audiometaPythonGithubUrl}
     >
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
+      <div className="flex flex-col gap-6">
         <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
           {t("heading")}
         </h1>
