@@ -3,6 +3,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
+import { trackEvent } from "@/lib/track-event";
 
 const hrefLangByLocale: Record<string, string> = {
   en: "en",
@@ -49,6 +50,7 @@ export default function LanguageSwitcher() {
                     locale={loc}
                     hrefLang={hrefLangByLocale[loc] ?? loc}
                     className="block px-3 py-2 text-slate-200 transition-colors hover:bg-slate-800 hover:text-amber-200"
+                    onClick={() => trackEvent("language_switched", { from_locale: locale, to_locale: loc })}
                   >
                     {t(loc)}
                   </Link>

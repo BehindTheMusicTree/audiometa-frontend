@@ -59,8 +59,8 @@ vi.mock("@/hooks/useMetadataSession", () => ({
   }),
 }));
 
-vi.mock("@vercel/analytics", () => ({
-  track: (...args: unknown[]) => trackMock(...args),
+vi.mock("@/lib/track-event", () => ({
+  trackEvent: (...args: unknown[]) => trackMock(...args),
 }));
 
 const sessionResult = {

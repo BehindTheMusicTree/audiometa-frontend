@@ -13,6 +13,7 @@ import {
 } from "@behindthemusictree/assets/components";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { trackEvent } from "@/lib/track-event";
 
 const AUDIOMETA_PYTHON_PYPI_URL =
   "https://pypi.org/project/audiometa-python/";
@@ -32,11 +33,13 @@ export default function PageFooter({
         <p className="text-center text-sm leading-snug text-slate-400">
           {t("supportPrompt")}
         </p>
-        <TipeeeSocialLink
-          className={BTMT_ICON_LINK_DARK_CLASS}
-          text={t("tipeeeLinkLabel")}
-          title={t("tipeeeLinkLabel")}
-        />
+        <span onClick={() => trackEvent("footer_tipeee_click")}>
+          <TipeeeSocialLink
+            className={BTMT_ICON_LINK_DARK_CLASS}
+            text={t("tipeeeLinkLabel")}
+            title={t("tipeeeLinkLabel")}
+          />
+        </span>
       </div>
       <div className="flex w-full max-w-xl flex-wrap items-center justify-center gap-x-2 gap-y-2 border-t border-amber-500/15 pt-3">
         <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-2">
@@ -47,13 +50,15 @@ export default function PageFooter({
             aria-label={t("pythonLibNavAria")}
             className="flex items-center gap-1"
           >
-            <GithubSocialLink
-              href={audiometaPythonGithubUrl}
-              className={BTMT_ICON_LINK_DARK_CLASS}
-              iconClassName="h-5 w-5 shrink-0"
-              aria-label={t("pythonLibGithubAria")}
-              title={t("pythonLibGithubTitle")}
-            />
+            <span onClick={() => trackEvent("footer_github_click")}>
+              <GithubSocialLink
+                href={audiometaPythonGithubUrl}
+                className={BTMT_ICON_LINK_DARK_CLASS}
+                iconClassName="h-5 w-5 shrink-0"
+                aria-label={t("pythonLibGithubAria")}
+                title={t("pythonLibGithubTitle")}
+              />
+            </span>
             <PypiSocialLink
               href={AUDIOMETA_PYTHON_PYPI_URL}
               className={BTMT_ICON_LINK_DARK_CLASS}

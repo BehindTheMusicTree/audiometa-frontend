@@ -9,6 +9,8 @@ const requiredEnv = [
   "NEXT_PUBLIC_DOCS_BUNDLE_URL",
   "NEXT_PUBLIC_SITE_URL",
   "AUDIOMETA_PYTHON_GITHUB_REPO_URL",
+  "NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN",
+  "NEXT_PUBLIC_POSTHOG_HOST",
 ] as const;
 const missing = requiredEnv.filter((key) => !process.env[key]?.trim());
 if (missing.length > 0) {
@@ -17,11 +19,26 @@ if (missing.length > 0) {
   throw new Error(msg);
 }
 
+const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST!.trim();
+
 const nextConfig: NextConfig = {
   transpilePackages: ["@behindthemusictree/assets"],
   turbopack: {
     root: __dirname,
   },
+  async rewrites() {
+    return [
+      {
+        source: "/ingest/static/:path*",
+        destination: `${posthogHost}/static/:path*`,
+      },
+      {
+        source: "/ingest/:path*",
+        destination: `${posthogHost}/:path*`,
+      },
+    ];
+  },
+  skipTrailingSlashRedirect: true,
   images: {
     remotePatterns: [
       {

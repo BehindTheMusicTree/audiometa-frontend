@@ -11,6 +11,7 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { Link } from "@/i18n/navigation";
 import MusicTreeHorizontalLockup from "@/components/MusicTreeHorizontalLockup";
 import MusicTreeMarkLockup from "@/components/MusicTreeMarkLockup";
+import { trackEvent } from "@/lib/track-event";
 
 export default function PageHeader() {
   const t = useTranslations("PageHeader");
@@ -56,6 +57,7 @@ export default function PageHeader() {
           className={`${BTMT_ICON_LINK_CLASS} ${BTMT_ICON_LINK_DARK_CLASS} outline-offset-4 focus-visible:outline-2 focus-visible:outline-amber-400/80`}
           aria-label={t("docsAria")}
           title={t("docsTitle")}
+          onClick={() => trackEvent("header_docs_click")}
         >
           <IconBookOpen className="h-5 w-5 shrink-0" />
         </Link>
