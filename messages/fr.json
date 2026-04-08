@@ -25,7 +25,8 @@
     "poweredByAudiometaPython": "Propulsé par AudioMeta Python",
     "pythonLibNavAria": "Bibliothèque AudioMeta Python — GitHub et PyPI",
     "pythonLibGithubAria": "AudioMeta Python sur GitHub",
-    "pythonLibGithubTitle": "Bibliothèque Python AudioMeta sur GitHub"
+    "pythonLibGithubTitle": "Bibliothèque Python AudioMeta sur GitHub",
+    "siteAndContactNavAria": "Site, documentation et contact"
   },
   "DocsLayout": {
     "englishOnlyNotice": "Cette documentation est pour l’instant rédigée uniquement en anglais.",

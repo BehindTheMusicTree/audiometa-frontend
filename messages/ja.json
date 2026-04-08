@@ -25,7 +25,8 @@
     "poweredByAudiometaPython": "AudioMeta Python を利用",
     "pythonLibNavAria": "AudioMeta Python ライブラリ — GitHub と PyPI",
     "pythonLibGithubAria": "GitHub 上の AudioMeta Python",
-    "pythonLibGithubTitle": "GitHub 上の AudioMeta Python ライブラリ"
+    "pythonLibGithubTitle": "GitHub 上の AudioMeta Python ライブラリ",
+    "siteAndContactNavAria": "サイト、ドキュメント、お問い合わせ"
   },
   "DocsLayout": {
     "englishOnlyNotice": "このドキュメントの本文は現在英語のみです。",

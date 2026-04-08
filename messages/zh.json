@@ -25,7 +25,8 @@
     "poweredByAudiometaPython": "由 AudioMeta Python 提供支持",
     "pythonLibNavAria": "AudioMeta Python 库 — GitHub 与 PyPI",
     "pythonLibGithubAria": "GitHub 上的 AudioMeta Python",
-    "pythonLibGithubTitle": "GitHub 上的 AudioMeta Python 库"
+    "pythonLibGithubTitle": "GitHub 上的 AudioMeta Python 库",
+    "siteAndContactNavAria": "网站、文档与联系"
   },
   "DocsLayout": {
     "englishOnlyNotice": "以下文档正文目前仅提供英文版本。",
