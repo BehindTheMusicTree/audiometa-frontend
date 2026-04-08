@@ -8,18 +8,18 @@ import {
   IconBookOpen,
   LinkedInSocialLink,
   MastodonSocialLink,
+  PypiSocialLink,
   TipeeeSocialLink,
 } from "@behindthemusictree/assets/components";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 
+const AUDIOMETA_PYTHON_PYPI_URL =
+  "https://pypi.org/project/audiometa-python/";
+
 function OrgSocialLinks() {
   return (
     <span className="flex items-center gap-1">
-      <GithubSocialLink
-        className={BTMT_ICON_LINK_DARK_CLASS}
-        iconClassName="h-5 w-5 shrink-0"
-      />
       <LinkedInSocialLink
         className={BTMT_ICON_LINK_DARK_CLASS}
         iconClassName="h-5 w-5 shrink-0"
@@ -36,7 +36,13 @@ function OrgSocialLinks() {
   );
 }
 
-export default function PageFooter() {
+type PageFooterProps = {
+  audiometaPythonGithubUrl: string;
+};
+
+export default function PageFooter({
+  audiometaPythonGithubUrl,
+}: PageFooterProps) {
   const t = useTranslations("PageFooter");
 
   return (
@@ -51,6 +57,36 @@ export default function PageFooter() {
           title={t("tipeeeLinkLabel")}
         />
       </div>
+      <section
+        aria-labelledby="footer-ami-python-heading"
+        className="flex w-full max-w-xl flex-col items-center gap-2 border-t border-amber-500/15 pt-4"
+      >
+        <h2
+          id="footer-ami-python-heading"
+          className="m-0 text-center text-xs font-semibold uppercase tracking-wide text-slate-500"
+        >
+          {t("poweredByAudiometaPython")}
+        </h2>
+        <nav
+          aria-label={t("pythonLibNavAria")}
+          className="flex items-center justify-center gap-1"
+        >
+          <GithubSocialLink
+            href={audiometaPythonGithubUrl}
+            className={BTMT_ICON_LINK_DARK_CLASS}
+            iconClassName="h-5 w-5 shrink-0"
+            aria-label={t("pythonLibGithubAria")}
+            title={t("pythonLibGithubTitle")}
+          />
+          <PypiSocialLink
+            href={AUDIOMETA_PYTHON_PYPI_URL}
+            className={BTMT_ICON_LINK_DARK_CLASS}
+            iconClassName="h-5 w-5 shrink-0"
+            aria-label={t("pypiAria")}
+            title={t("pypiTitle")}
+          />
+        </nav>
+      </section>
       <span className="flex flex-wrap items-center justify-center gap-x-2 text-sm text-slate-400">
         <OrgSocialLinks />
         <Link

@@ -42,6 +42,9 @@ import { NextIntlClientProvider } from "next-intl";
 import MetadataManagerPage from "./AudioMetadataManagerClient";
 import en from "../../messages/en.json";
 
+const TEST_AUDIOMETA_PYTHON_GITHUB_URL =
+  "https://github.com/BehindTheMusicTree/audiometa";
+
 const createSessionMock = vi.fn();
 const downloadTaggedFileMock = vi.fn();
 const trackMock = vi.fn();
@@ -122,14 +125,22 @@ describe("MetadataManagerPage", () => {
   });
 
   it("renders the heading Metadata Manager", () => {
-    renderWithIntl(<MetadataManagerPage />);
+    renderWithIntl(
+      <MetadataManagerPage
+        audiometaPythonGithubUrl={TEST_AUDIOMETA_PYTHON_GITHUB_URL}
+      />,
+    );
     expect(
       screen.getByRole("heading", { name: /audio metadata manager/i }),
     ).toBeInTheDocument();
   });
 
   it("renders the feature intro section", () => {
-    renderWithIntl(<MetadataManagerPage />);
+    renderWithIntl(
+      <MetadataManagerPage
+        audiometaPythonGithubUrl={TEST_AUDIOMETA_PYTHON_GITHUB_URL}
+      />,
+    );
     expect(
       screen.getByRole("heading", {
         name: /here['\u2019]s what you can do/i,
@@ -146,48 +157,24 @@ describe("MetadataManagerPage", () => {
       name: /^complete documentation$/i,
     });
     expect(docsLink).toHaveAttribute("href", "/docs");
-    const pythonGithubLink = screen.getByRole("link", {
-      name: /^python library \(github\)$/i,
-    });
-    expect(pythonGithubLink).toHaveAttribute(
-      "href",
-      "https://github.com/BehindTheMusicTree/audiometa",
-    );
-    expect(pythonGithubLink).toHaveAttribute("target", "_blank");
-    expect(pythonGithubLink).toHaveAttribute("rel", "noopener noreferrer");
-
-    const pypiLink = screen.getByRole("link", {
-      name: /^pypi package$/i,
-    });
-    expect(pypiLink).toHaveAttribute(
-      "href",
-      "https://pypi.org/project/audiometa-python/",
-    );
-    expect(pypiLink).toHaveAttribute("target", "_blank");
-    expect(pypiLink).toHaveAttribute("rel", "noopener noreferrer");
-
-    const emailLink = screen.getByRole("link", {
-      name: /^email us with questions$/i,
-    });
-    expect(emailLink.getAttribute("href")).toMatch(/^mailto:/);
-
-    const issuesLink = screen.getByRole("link", { name: /github issues/i });
-    expect(issuesLink).toHaveAttribute(
-      "href",
-      "https://github.com/BehindTheMusicTree/audiometa-frontend/issues",
-    );
-    expect(issuesLink).toHaveAttribute("target", "_blank");
-    expect(issuesLink).toHaveAttribute("rel", "noopener noreferrer");
   });
 
   it("shows No metadata when no file has been processed", () => {
-    renderWithIntl(<MetadataManagerPage />);
+    renderWithIntl(
+      <MetadataManagerPage
+        audiometaPythonGithubUrl={TEST_AUDIOMETA_PYTHON_GITHUB_URL}
+      />,
+    );
     const noMetadataElements = screen.getAllByText("No metadata");
     expect(noMetadataElements.length).toBeGreaterThanOrEqual(4);
   });
 
   it("renders all metadata section headings", () => {
-    renderWithIntl(<MetadataManagerPage />);
+    renderWithIntl(
+      <MetadataManagerPage
+        audiometaPythonGithubUrl={TEST_AUDIOMETA_PYTHON_GITHUB_URL}
+      />,
+    );
     const sectionTitles = [
       "Technical information",
       "Unified metadata",
@@ -204,7 +191,11 @@ describe("MetadataManagerPage", () => {
   });
 
   it("calls createSession with selected file when user selects a file", async () => {
-    renderWithIntl(<MetadataManagerPage />);
+    renderWithIntl(
+      <MetadataManagerPage
+        audiometaPythonGithubUrl={TEST_AUDIOMETA_PYTHON_GITHUB_URL}
+      />,
+    );
     const input = screen.getByLabelText(/choose an audio file/i);
     const file = new File([], "test.mp3", { type: "audio/mpeg" });
 
@@ -217,12 +208,14 @@ describe("MetadataManagerPage", () => {
   });
 
   it("shows Edit tags after session is created", async () => {
-    renderWithIntl(<MetadataManagerPage />);
+    renderWithIntl(
+      <MetadataManagerPage
+        audiometaPythonGithubUrl={TEST_AUDIOMETA_PYTHON_GITHUB_URL}
+      />,
+    );
     expect(
-      screen.queryByText(
-        /found this useful\? support growthemusictree, our flagship project\./i,
-      ),
-    ).not.toBeInTheDocument();
+      document.querySelector('[data-track="tipeee-cta-container"]'),
+    ).toBeNull();
     const input = screen.getByLabelText(/choose an audio file/i);
     fireEvent.change(input, {
       target: { files: [new File([], "a.mp3", { type: "audio/mpeg" })] },
@@ -231,8 +224,15 @@ describe("MetadataManagerPage", () => {
     expect(
       await screen.findByRole("heading", { name: /^edit tags$/i }),
     ).toBeInTheDocument();
+    const inFlowCtaAfterLoad = await waitFor(() => {
+      const el = document.querySelector(
+        '[data-track="tipeee-cta-container"]',
+      ) as HTMLElement | null;
+      expect(el).not.toBeNull();
+      return el!;
+    });
     expect(
-      await screen.findByText(
+      within(inFlowCtaAfterLoad).getByText(
         /found this useful\? support growthemusictree, our flagship project\./i,
       ),
     ).toBeInTheDocument();
@@ -242,29 +242,29 @@ describe("MetadataManagerPage", () => {
   });
 
   it("tracks metadata success, CTA impression, and click with position payload", async () => {
-    renderWithIntl(<MetadataManagerPage />);
+    renderWithIntl(
+      <MetadataManagerPage
+        audiometaPythonGithubUrl={TEST_AUDIOMETA_PYTHON_GITHUB_URL}
+      />,
+    );
     const input = screen.getByLabelText(/choose an audio file/i);
     fireEvent.change(input, {
       target: { files: [new File([], "event.mp3", { type: "audio/mpeg" })] },
     });
 
-    await screen.findByText(
-      /found this useful\? support growthemusictree, our flagship project\./i,
-    );
-
-    expect(trackMock).toHaveBeenCalledWith("metadata_load_success", {
-      cta_position: "intro_bottom",
-      prefers_reduced_motion: false,
+    await waitFor(() => {
+      expect(trackMock).toHaveBeenCalledWith("metadata_load_success", {
+        cta_position: "intro_bottom",
+        prefers_reduced_motion: false,
+      });
     });
+
     expect(trackMock).toHaveBeenCalledWith("tipeee_cta_impression", {
       cta_position: "intro_bottom",
       prefers_reduced_motion: false,
     });
 
-    const inFlowPrompt = await screen.findByText(
-      /found this useful\? support growthemusictree, our flagship project\./i,
-    );
-    const inFlowCtaContainer = inFlowPrompt.closest(
+    const inFlowCtaContainer = document.querySelector(
       '[data-track="tipeee-cta-container"]',
     );
     expect(inFlowCtaContainer).not.toBeNull();
@@ -285,15 +285,21 @@ describe("MetadataManagerPage", () => {
     { position: "near_download" as const },
   ])("renders CTA in only one location for $position", async ({ position }) => {
     window.localStorage.setItem("ab_tipeee_cta_position", position);
-    renderWithIntl(<MetadataManagerPage />);
+    renderWithIntl(
+      <MetadataManagerPage
+        audiometaPythonGithubUrl={TEST_AUDIOMETA_PYTHON_GITHUB_URL}
+      />,
+    );
     const input = screen.getByLabelText(/choose an audio file/i);
     fireEvent.change(input, {
       target: { files: [new File([], "position.mp3", { type: "audio/mpeg" })] },
     });
 
-    await screen.findByText(
-      /found this useful\? support growthemusictree, our flagship project\./i,
-    );
+    await waitFor(() => {
+      expect(
+        document.querySelector('[data-track="tipeee-cta-container"]'),
+      ).not.toBeNull();
+    });
 
     const prompts = screen.getAllByText(
       /found this useful\? support growthemusictree, our flagship project\./i,

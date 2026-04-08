@@ -7,10 +7,7 @@ import { useTranslations } from "next-intl";
 import {
   BTMT_ICON_LINK_CLASS,
   BTMT_ICON_LINK_WITH_TEXT_CLASS,
-  EmailSocialLink,
-  GithubSocialLink,
   IconBookOpen,
-  PypiSocialLink,
   socialBrandIconClass,
   TipeeeSocialLink,
 } from "@behindthemusictree/assets/components";
@@ -34,15 +31,6 @@ import {
 } from "@/lib/metadata-writable-tags";
 import type { AudioMetadataDetailed } from "@/schemas/audio-metadata";
 import { SessionExpiredError } from "@/schemas/metadata-session";
-
-const AUDIOMETA_PYTHON_GITHUB_URL =
-  "https://github.com/BehindTheMusicTree/audiometa";
-
-const AUDIOMETA_PYTHON_PYPI_URL =
-  "https://pypi.org/project/audiometa-python/";
-
-const FRONTEND_GITHUB_ISSUES_URL =
-  "https://github.com/BehindTheMusicTree/audiometa-frontend/issues";
 
 const introDocNavLinkClassName = `${BTMT_ICON_LINK_CLASS} ${BTMT_ICON_LINK_WITH_TEXT_CLASS}`;
 
@@ -315,7 +303,13 @@ function MetadataKeyValueTable({
   );
 }
 
-export default function MetadataManagerPage() {
+type MetadataManagerPageProps = {
+  audiometaPythonGithubUrl: string;
+};
+
+export default function MetadataManagerPage({
+  audiometaPythonGithubUrl,
+}: MetadataManagerPageProps) {
   const [audioMetadata, setAudioMetadata] = useState<
     AudioMetadataDetailed | undefined
   >();
@@ -514,8 +508,11 @@ export default function MetadataManagerPage() {
   }
 
   return (
-    <PageLayout dataPage="audio-metadata-manager">
-      <div className="flex flex-col gap-6">
+    <PageLayout
+      dataPage="audio-metadata-manager"
+      audiometaPythonGithubUrl={audiometaPythonGithubUrl}
+    >
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
         <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
           {t("heading")}
         </h1>
@@ -588,69 +585,24 @@ export default function MetadataManagerPage() {
               </span>
             </li>
           </ul>
-          <div className="mt-5 flex flex-col gap-4 border-t border-slate-100 pt-4">
-            <nav
-              aria-label={t("navLearnAria")}
-              className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-1"
+          <nav
+            aria-label={t("navLearnAria")}
+            className="mt-5 flex flex-col gap-2 border-t border-slate-100 pt-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-1"
+          >
+            <Link
+              href="/docs"
+              className={introDocNavLinkClassName}
+              title={t("completeDocsTitle")}
             >
-              <Link
-                href="/docs"
-                className={introDocNavLinkClassName}
-                title={t("completeDocsTitle")}
-              >
-                <IconBookOpen className={socialBrandIconClass} />
-                <span>{t("completeDocs")}</span>
-              </Link>
-            </nav>
-            <div className="flex flex-col gap-2">
-              <p
-                id="intro-dev-heading"
-                className="m-0 text-xs font-semibold uppercase tracking-wide text-slate-500"
-              >
-                {t("introDevHeading")}
-              </p>
-              <nav
-                aria-labelledby="intro-dev-heading"
-                className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-1"
-              >
-                <GithubSocialLink
-                  href={AUDIOMETA_PYTHON_GITHUB_URL}
-                  text={t("pythonLibraryGithub")}
-                  title={t("pythonLibraryGithubTitle")}
-                  showText
-                  iconClassName={socialBrandIconClass}
-                />
-                <PypiSocialLink
-                  href={AUDIOMETA_PYTHON_PYPI_URL}
-                  text={t("pythonLibraryPypi")}
-                  title={t("pythonLibraryPypiTitle")}
-                  showText
-                  iconClassName={socialBrandIconClass}
-                />
-              </nav>
-            </div>
-            <nav
-              aria-label={t("navSupportAria")}
-              className="flex flex-col gap-2 border-t border-slate-100 pt-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-1"
-            >
-              <EmailSocialLink
-                text={t("emailUs")}
-                showText
-                iconClassName={socialBrandIconClass}
-              />
-              <GithubSocialLink
-                href={FRONTEND_GITHUB_ISSUES_URL}
-                text={t("githubIssues")}
-                showText
-                iconClassName={socialBrandIconClass}
-              />
-            </nav>
-          </div>
+              <IconBookOpen className={socialBrandIconClass} />
+              <span>{t("completeDocs")}</span>
+            </Link>
+          </nav>
           {showTipeeeAtIntroBottom ? (
             <div className="mt-4">{renderInFlowTipeeeCta("intro_bottom")}</div>
           ) : null}
         </section>
-        <div className="flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+        <div className="flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:gap-4 sm:p-5">
           <input
             ref={fileInputRef}
             type="file"
@@ -662,13 +614,13 @@ export default function MetadataManagerPage() {
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="flex shrink-0 items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-medium text-white shadow transition-all hover:bg-indigo-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50"
+            className="flex min-h-11 w-full shrink-0 items-center justify-center rounded-lg bg-indigo-600 px-7 py-3.5 text-base font-semibold text-white shadow transition-all hover:bg-indigo-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 sm:w-auto sm:min-h-12 sm:px-8 sm:py-4"
             disabled={isPending}
           >
             {isPending ? t("loading") : t("chooseFile")}
           </button>
           <span
-            className="min-w-0 flex-1 truncate rounded-lg border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-600"
+            className="min-h-11 min-w-0 w-full flex-1 truncate rounded-lg border border-slate-200 bg-slate-50 px-4 py-3.5 text-base text-slate-600 sm:min-h-12 sm:flex-1 sm:py-4"
             aria-live="polite"
           >
             {selectedFileName ?? t("noFileChosen")}

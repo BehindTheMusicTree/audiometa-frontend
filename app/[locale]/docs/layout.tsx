@@ -33,8 +33,14 @@ export default async function DocsLayout({
   const t = await getTranslations({ locale, namespace: "DocsLayout" });
   const englishOnlyNotice = t("englishOnlyNotice");
 
+  const audiometaPythonGithubUrl =
+    process.env.AUDIOMETA_GITHUB_REPO_URL!.trim();
+
   return (
-    <PageLayout dataPage="docs">
+    <PageLayout
+      dataPage="docs"
+      audiometaPythonGithubUrl={audiometaPythonGithubUrl}
+    >
       <div className="flex min-h-0 flex-1 gap-8">
         <nav
           className="hidden w-48 shrink-0 flex-col border-r border-slate-200 pr-4 md:flex"

@@ -16,10 +16,16 @@
     "docsTitle": "Documentation (anglais uniquement)"
   },
   "PageFooter": {
-    "supportPrompt": "Ça vous a aidé ? Soutenez-nous — cela nous aide à garder Audiometa gratuit.",
+    "supportPrompt": "Utile ? Soutenez GrowTheMusicTree, notre projet phare.",
     "tipeeeLinkLabel": "Soutenez-nous sur Tipeee",
     "docsAria": "Documentation, contenu disponible en anglais uniquement",
-    "docsTitle": "Documentation (anglais uniquement)"
+    "docsTitle": "Documentation (anglais uniquement)",
+    "pypiAria": "Paquet PyPI",
+    "pypiTitle": "Paquet audiometa-python sur PyPI",
+    "poweredByAudiometaPython": "Propulsé par AudioMeta Python",
+    "pythonLibNavAria": "Bibliothèque AudioMeta Python — GitHub et PyPI",
+    "pythonLibGithubAria": "AudioMeta Python sur GitHub",
+    "pythonLibGithubTitle": "Bibliothèque Python AudioMeta sur GitHub"
   },
   "DocsLayout": {
     "englishOnlyNotice": "Cette documentation est pour l’instant rédigée uniquement en anglais.",
@@ -57,17 +63,8 @@
     "bulletSaveTitle": "Enregistrer une copie",
     "bulletSaveBody": "— téléchargez votre fichier avec les mises à jour tant que la session est ouverte.",
     "navLearnAria": "Documentation",
-    "navDevAria": "AudioMeta Python — code source et paquet PyPI",
-    "navSupportAria": "Support et retours",
-    "introDevHeading": "Développeurs",
-    "pythonLibraryGithub": "Bibliothèque Python (GitHub)",
-    "pythonLibraryGithubTitle": "Bibliothèque Python AudioMeta sur GitHub",
-    "pythonLibraryPypi": "Paquet PyPI",
-    "pythonLibraryPypiTitle": "Paquet audiometa-python sur PyPI",
     "completeDocsTitle": "Documentation complète (anglais uniquement)",
     "completeDocs": "Documentation complète",
-    "emailUs": "Nous écrire par e-mail",
-    "githubIssues": "Issues GitHub",
     "sponsorUs": "Nous soutenir",
     "supportPromptInFlow": "Utile ? Soutenez GrowTheMusicTree, notre projet phare.",
     "supportOnTipeee": "Nous soutenir sur Tipeee",

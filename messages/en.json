@@ -16,10 +16,16 @@
     "docsTitle": "Documentation"
   },
   "PageFooter": {
-    "supportPrompt": "Found this helpful? Support us — it helps keep Audiometa free.",
+    "supportPrompt": "Found this useful? Support GrowTheMusicTree, our flagship project.",
     "tipeeeLinkLabel": "Support us on Tipeee",
     "docsAria": "Documentation",
-    "docsTitle": "Documentation"
+    "docsTitle": "Documentation",
+    "pypiAria": "PyPI package",
+    "pypiTitle": "audiometa-python package on PyPI",
+    "poweredByAudiometaPython": "Powered by AudioMeta Python",
+    "pythonLibNavAria": "AudioMeta Python library — GitHub and PyPI",
+    "pythonLibGithubAria": "AudioMeta Python on GitHub",
+    "pythonLibGithubTitle": "AudioMeta Python library on GitHub"
   },
   "DocsLayout": {
     "englishOnlyNotice": "",
@@ -57,17 +63,8 @@
     "bulletSaveTitle": "Save a copy",
     "bulletSaveBody": "— download your file with updates while the session is still open.",
     "navLearnAria": "Documentation",
-    "navDevAria": "AudioMeta Python — source code and PyPI package",
-    "navSupportAria": "Support and feedback",
-    "introDevHeading": "Developers",
-    "pythonLibraryGithub": "Python library (GitHub)",
-    "pythonLibraryGithubTitle": "AudioMeta Python library on GitHub",
-    "pythonLibraryPypi": "PyPI package",
-    "pythonLibraryPypiTitle": "audiometa-python package on PyPI",
     "completeDocsTitle": "Complete documentation",
     "completeDocs": "Complete documentation",
-    "emailUs": "Email us with questions",
-    "githubIssues": "GitHub issues",
     "sponsorUs": "Sponsor us",
     "supportPromptInFlow": "Found this useful? Support GrowTheMusicTree, our flagship project.",
     "supportOnTipeee": "Support us on Tipeee",

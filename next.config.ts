@@ -8,6 +8,7 @@ const requiredEnv = [
   "NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT",
   "NEXT_PUBLIC_DOCS_BUNDLE_URL",
   "NEXT_PUBLIC_SITE_URL",
+  "AUDIOMETA_GITHUB_REPO_URL",
 ] as const;
 const missing = requiredEnv.filter((key) => !process.env[key]?.trim());
 if (missing.length > 0) {
