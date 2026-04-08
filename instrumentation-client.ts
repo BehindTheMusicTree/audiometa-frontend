@@ -9,3 +9,7 @@ posthog.init(process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN!, {
   capture_exceptions: true,
   debug: process.env.NODE_ENV === "development",
 });
+
+posthog.register({
+  environment: process.env.NEXT_PUBLIC_DEPLOYMENT_ENV,
+});
