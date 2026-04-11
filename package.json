@@ -9,7 +9,10 @@
     "launch": "npm run build && npm run start",
     "lint": "eslint",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "demo:assets": "bash demo/assets/generate-hero-demo-mp3.sh",
+    "demo:record": "playwright test demo/e2e/hero-demo.spec.ts",
+    "demo:record:mp4": "bash demo/scripts/record-hero-to-mp4.sh"
   },
   "dependencies": {
     "@behindthemusictree/assets": "^7.0.2",
@@ -23,6 +26,7 @@
     "zod": "^3.23"
   },
   "devDependencies": {
+    "@playwright/test": "^1.52.0",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6",
     "@testing-library/react": "^16",
