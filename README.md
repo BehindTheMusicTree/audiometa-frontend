@@ -41,11 +41,13 @@ The portfolio website content lives in **[the-music-tree-frontend](https://githu
 │   ├── lib/           # Utilities and helpers
 │   ├── models/        # Types and interfaces
 │   └── utils/         # General utilities
+├── demo/              # Demo recordings: video guide + sample media
 ├── docs/              # Style guide, testing, versioning
 ├── .cursor/rules/     # Cursor AI / editor rules
 ├── .github/
 │   ├── workflows/     # CI (validate, branch-protection)
 │   └── pull_request_template.md
+├── playwright.config.ts  # Playwright (demo screen recordings)
 └── README.md
 ```
 
@@ -81,8 +83,9 @@ Create `.env.local` from `.env.example` (when available) and set any required `N
 | `npm run start` | Start production server  |
 | `npm run lint`  | Run ESLint               |
 | `npm run test`  | Run tests                |
-
-Add `test` in `package.json` if missing (e.g. `"test": "vitest run"`).
+| `npm run demo:assets` | Regenerate demo sample MP3 ([demo/assets/](demo/assets/); needs ffmpeg) |
+| `npm run demo:record` | Playwright hero demo → WebM under [demo/output/](demo/output/) (needs dev server + `npx playwright install chromium`; see [demo/README.md](demo/README.md)) |
+| `npm run demo:record:mp4` | Same as above, then **ffmpeg** → `demo/output/hero-demo.mp4` |
 
 ## CI
 
@@ -101,6 +104,8 @@ Add `test` in `package.json` if missing (e.g. `"test": "vitest run"`).
 - **[docs/SEMVER_GUIDE.md](docs/SEMVER_GUIDE.md)** – When to bump MAJOR/MINOR/PATCH
 - **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** – Vercel staging and production setup
 - **[docs/SEO_AND_AEO.md](docs/SEO_AND_AEO.md)** – SEO and AEO strategy and opportunities
+- **[demo/README.md](demo/README.md)** – demo hub (video guide, sample media)
+- **[demo/WEB_VIDEO_DEMOS.md](demo/WEB_VIDEO_DEMOS.md)** – formats, capture, ffmpeg, embeds
 
 The app has a **Docs** section at `/docs` that loads documentation from a published `docs-bundle.json`. Set **`NEXT_PUBLIC_DOCS_BUNDLE_URL`** in `.env` (see `.env.example`). The bundle is produced by the metadata docs publishing pipeline (e.g. **audiometa-python** / **audiometa-python-publish-docs**).
 
