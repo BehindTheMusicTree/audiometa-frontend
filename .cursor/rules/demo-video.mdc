@@ -5,7 +5,7 @@ alwaysApply: false
 ---
 # Demo and hero videos
 
-Full detail lives in **demo/WEB_VIDEO_DEMOS.md** (formats, Playwright + ffmpeg, `<video>` embeds, sample assets under **demo/assets/**). When planning or scripting recordings, apply this summary.
+Canonical detail: **demo/WEB_VIDEO_DEMOS.md** (formats, Playwright + ffmpeg, `<video>` embeds, sample assets under **demo/assets/**). The short pointer **docs/WEB_VIDEO_DEMOS.md** redirects there; keep both in sync when moving or renaming the guide. When planning or scripting recordings, apply this summary.
 
 ## Story and length
 

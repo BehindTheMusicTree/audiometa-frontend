@@ -84,7 +84,7 @@ Fixes #
 
 ### Documentation
 
-- [ ] I have updated the [CHANGELOG.md](../CHANGELOG.md) under the `[Unreleased]` section (if applicable; see changelog best practices there)
+- [ ] I have updated [CHANGELOG.md](../CHANGELOG.md) under `[Unreleased]` when applicable (see *Changelog Best Practices* there—includes **Security**, **Added**, **Changed**, etc.)
 - [ ] I have updated relevant documentation
 - [ ] I have added/updated JSDoc comments for new/modified functions
 - [ ] I have updated TypeScript types/interfaces if needed

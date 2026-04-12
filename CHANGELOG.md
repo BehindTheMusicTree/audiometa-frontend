@@ -14,20 +14,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Changelog Best Practices
 
 - Add entries to the **`[Unreleased]`** section when opening or updating a PR.
-- Group changes under: **Added**, **Changed**, **Fixed**, **Removed**, **Documentation**, **CI**, etc.
+- Group changes under: **Security**, **Added**, **Changed**, **Fixed**, **Removed**, **Documentation**, **CI**, etc. (Use **Security** for dependency or supply-chain advisories, not only app code fixes.)
 - Use ISO 8601 dates: YYYY-MM-DD.
 - Mention tests within the related feature or fix entry when relevant.
 - During releases, move `[Unreleased]` content into a new versioned section. See [docs/VERSIONING.md](docs/VERSIONING.md).
 
 ## [Unreleased]
 
+### Security
+
+- **Dependencies**: Bumped `@playwright/test` to ^1.55.1 (Playwright 1.59.x) to address [GHSA-7mvr-c777-76hp](https://github.com/advisories/GHSA-7mvr-c777-76hp) (TLS verification when downloading browsers).
+
+### Added
+
+- **Analytics**: PostHog (`posthog-js`) with `/ingest` rewrites in `next.config.ts`, `instrumentation-client.ts` init (including `NEXT_PUBLIC_DEPLOYMENT_ENV` from `VERCEL_ENV`), `PostHogProvider` for `$pageview`, choose-file click tracking on the metadata manager, and client-side exception capture on metadata errors.
+- **Demo recordings**: Playwright config for `demo/e2e`, hero flow spec, reference MP3 under `demo/assets`, and shell scripts to regenerate the asset and record MP4 output.
+
 ### Changed
 
-- **Env / deploy**: Removed app-level `NEXT_PUBLIC_*` vars for developer credit and org URL; header/footer use **`@behindthemusictree/assets`**. Build requires `NEXT_PUBLIC_BACKEND_BASE_URL`, `NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT`, and `NEXT_PUBLIC_DOCS_BUNDLE_URL` (see `docs/DEPLOYMENT.md`).
+- **Env / deploy**: Removed app-level `NEXT_PUBLIC_*` vars for developer credit and org URL; header/footer use **`@behindthemusictree/assets`**. Build now also requires `NEXT_PUBLIC_SITE_URL`, `AUDIOMETA_PYTHON_GITHUB_REPO_URL`, `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN`, and `NEXT_PUBLIC_POSTHOG_HOST`, plus existing `NEXT_PUBLIC_BACKEND_BASE_URL`, `NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT`, and `NEXT_PUBLIC_DOCS_BUNDLE_URL` (see `docs/DEPLOYMENT.md` and `.env.example`).
+- **i18n / App Router**: `[locale]` layout uses `hasLocale` / `notFound()`, `setRequestLocale`, `HtmlLangSync`, and `WebSiteJsonLd`; routing configuration and related types updated for the current `next-intl` setup.
+- **Metadata Manager**: Layout and spacing adjustments; stable `id` attributes on writable tag fields for demos and automation.
+- **Vitest**: Load `NEXT_PUBLIC_*` from `.env*` in `test` mode; exclude `demo/e2e` (Playwright) from Vitest file discovery.
+- **Repository**: `.gitignore` ignores generated Playwright output and demo video artifacts under `demo/output/`.
 
 ### Documentation
 
 - README: ecosystem links to themusictree.org, AudioMeta Webapp project page, and the-music-tree-frontend portfolio source.
+- Demo video workflow: `docs/WEB_VIDEO_DEMOS.md`, `demo/WEB_VIDEO_DEMOS.md`, and README files under `demo/` (assets, output, e2e); `.cursor/rules/demo-video.mdc` for the same workflow in-editor.
 
 ## [0.1.0] - 2025-03-12
 

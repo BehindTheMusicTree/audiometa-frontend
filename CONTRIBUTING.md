@@ -62,6 +62,10 @@ Use [Conventional Commits](https://www.conventionalcommits.org/):
 - `fix(audio): handle empty file list`
 - `docs: update setup instructions`
 - `chore: update dependencies`
+- `chore(deps): bump @playwright/test for GHSA-7mvr-c777-76hp`
+- `docs: add unreleased changelog entries for demo tooling`
+
+For **changelog-only** commits under `[Unreleased]`, prefer `docs:` (user- or operator-facing notes) or `chore:` (trivial wording). Security-related dependency bumps: `chore(deps):` or `fix(deps):` with the advisory id when known.
 
 See [.cursor/rules/commit-message-format.mdc](.cursor/rules/commit-message-format.mdc) for full guidelines.
 
@@ -70,7 +74,7 @@ See [.cursor/rules/commit-message-format.mdc](.cursor/rules/commit-message-forma
 - **Target** – Features/chores → `develop`. Hotfixes → `main`.
 - **Title** – Same format as commit messages, e.g. `feat(metadata): add batch edit`.
 - **Description** – Draft in `.pr-descriptions/<branch-name>.md` (see [.cursor/rules/pr-description-workflow.mdc](.cursor/rules/pr-description-workflow.mdc)); copy into GitHub when opening the PR. Use [.github/pull_request_template.md](.github/pull_request_template.md).
-- **Checks** – Lint, test, and build must pass. Update [CHANGELOG.md](CHANGELOG.md) under `[Unreleased]` when applicable (see changelog best practices there).
+- **Checks** – Lint, test, and build must pass. Update [CHANGELOG.md](CHANGELOG.md) under **`[Unreleased]`** for any release-notable work (features, fixes, **security or dependency advisories**—including lockfile-only bumps—env or config changes, meaningful UX/refactors, new docs or demo paths). Use the same section headings as in [*Changelog Best Practices*](CHANGELOG.md#changelog-best-practices): **Security**, **Added**, **Changed**, **Fixed**, **Removed**, **Documentation**, **CI**, etc. Skip only for purely internal edits with no user or operator impact.
 
 ## Releasing (maintainers)
 
@@ -82,7 +86,7 @@ See [docs/VERSIONING.md](docs/VERSIONING.md) and [docs/SEMVER_GUIDE.md](docs/SEM
 
 ## Documentation
 
-- **Changelog** – [CHANGELOG.md](CHANGELOG.md) (version history; update `[Unreleased]` in PRs)
+- **Changelog** – [CHANGELOG.md](CHANGELOG.md): version history; update **`[Unreleased]`** in the same PR as the code change. Follow [*Changelog Best Practices*](CHANGELOG.md#changelog-best-practices) (including **Security** for advisory-driven dependency updates). On release, move `[Unreleased]` into a dated version per [docs/VERSIONING.md](docs/VERSIONING.md).
 - **Code & UI** – [docs/STYLE_GUIDE.md](docs/STYLE_GUIDE.md)
 - **Semantic HTML** – [docs/SEMANTIC_HTML.md](docs/SEMANTIC_HTML.md)
 - **Data attributes & testing** – [docs/DATA_ATTRIBUTES.md](docs/DATA_ATTRIBUTES.md), [docs/testing.md](docs/testing.md)
