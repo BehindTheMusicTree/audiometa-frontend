@@ -38,6 +38,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Vitest**: Load `NEXT_PUBLIC_*` from `.env*` in `test` mode; exclude `demo/e2e` (Playwright) from Vitest file discovery.
 - **Repository**: `.gitignore` ignores generated Playwright output and demo video artifacts under `demo/output/`.
 
+### Fixed
+
+- **Sitemap**: `/sitemap.xml` no longer fails entirely when the docs bundle cannot be fetched; core URLs are still emitted and per-doc URLs are omitted until the bundle loads.
+
 ### Documentation
 
 - README: ecosystem links to themusictree.org, AudioMeta Webapp project page, and the-music-tree-frontend portfolio source.
