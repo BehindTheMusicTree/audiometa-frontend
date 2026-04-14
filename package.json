@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@behindthemusictree/assets": "^7.0.2",
-    "next": "16.2.2",
+    "next": "16.2.3",
     "next-intl": "^4.9.0",
     "posthog-js": "^1.365.4",
     "react": "19.2.3",
@@ -35,7 +35,7 @@
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^4",
     "eslint": "^9",
-    "eslint-config-next": "16.2.2",
+    "eslint-config-next": "16.2.3",
     "jsdom": "^29",
     "tailwindcss": "^4",
     "typescript": "^5",
