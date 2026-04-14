@@ -2,8 +2,10 @@
 set -euo pipefail
 root="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$root"
+./demo/scripts/check-demo-backend.sh
 rm -rf demo/output/playwright-results demo/output/hero-demo.webm demo/output/hero-demo.mp4
 mkdir -p demo/output
+export DEMO_BASE_URL="${DEMO_BASE_URL:-http://127.0.0.1:3001}"
 npx playwright test demo/e2e/hero-demo.spec.ts
 webm="$(find demo/output/playwright-results -name '*.webm' -type f | head -1)"
 if [[ -z "${webm}" ]]; then

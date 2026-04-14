@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
 const baseURL =
-  process.env.DEMO_BASE_URL?.trim() || "http://127.0.0.1:3000";
+  process.env.DEMO_BASE_URL?.trim() || "http://127.0.0.1:3001";
 
 export default defineConfig({
   testDir: "demo/e2e",

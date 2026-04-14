@@ -33,3 +33,9 @@ Canonical detail: **demo/WEB_VIDEO_DEMOS.md** (formats, Playwright + ffmpeg, `<v
 
 - Ship demos as **MP4 (H.264)** in `<video>` unless the doc specifies otherwise; avoid GIF for real motion demos.
 - Prefer **poster + user-initiated play** over aggressive autoplay/preload for energy and UX (see **demo/WEB_VIDEO_DEMOS.md**).
+
+## Local backend requirement for demo runs
+
+- Demo recordings must target local API backend: **`http://127.0.0.1:8000/`**.
+- Ensure `.env.local` uses `NEXT_PUBLIC_BACKEND_BASE_URL=http://127.0.0.1:8000` before starting `npm run dev` for demo capture.
+- Always run the backend preflight ping (`demo/scripts/check-demo-backend.sh`) before recording; fail immediately if unreachable.

@@ -83,7 +83,7 @@ For **repeatable** demos of the **real app** in a browser (same flow after every
 
 - **Playwright** – [playwright.config.ts](../playwright.config.ts) turns on **`video: "on"`**, uses a 1280×720 viewport, and writes artifacts under `demo/output/playwright-results/`.
 - **Spec** – [demo/e2e/hero-demo.spec.ts](./e2e/hero-demo.spec.ts) drives the hero flow: upload [demo/assets/audiometa-hero-demo-messy-tags.mp3](./assets/audiometa-hero-demo-messy-tags.mp3), wait for metadata, edit title and artist, then download.
-- **Commands** – `npm run demo:record` (WebM only) and `npm run demo:record:mp4` (WebM + **ffmpeg** → `demo/output/hero-demo.mp4`). Prerequisites: `.env.local`, `npm run dev`, `npx playwright install chromium`, and **ffmpeg** on `PATH` for the MP4 script. Optional: `DEMO_BASE_URL` if the dev server is not at `http://127.0.0.1:3000`. Details: [demo/README.md](./README.md).
+- **Commands** – `npm run demo:record` (WebM only) and `npm run demo:record:mp4` (WebM + **ffmpeg** → `demo/output/hero-demo.mp4`). Prerequisites: `.env.local`, `npm run dev`, `npx playwright install chromium`, and **ffmpeg** on `PATH` for the MP4 script. For demos, backend must be local: `NEXT_PUBLIC_BACKEND_BASE_URL=http://127.0.0.1:8000` and API reachable at `http://127.0.0.1:8000/`. Default frontend base URL is `http://127.0.0.1:3001` (see [playwright.config.ts](../playwright.config.ts)); use `DEMO_BASE_URL` if your dev server is elsewhere (e.g. `http://127.0.0.1:3000`). Both commands run a backend preflight ping and fail early if it is down. Details: [demo/README.md](./README.md).
 
 ### ffmpeg examples
 

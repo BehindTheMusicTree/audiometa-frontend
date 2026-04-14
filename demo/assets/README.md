@@ -2,7 +2,11 @@
 
 ## `audiometa-hero-demo-messy-tags.mp3`
 
-Short synthetic MP3 (~3s tone) with **intentionally rough metadata** for screen recordings and portfolio hero demos: easy to show a clear before/after when editing tags in Audiometa.
+Short synthetic MP3 (~3s tone) with **intentionally rough metadata**. Use this for **Playwright** (`demo/e2e/hero-demo.spec.ts`) so uploads stay fast.
+
+## `audiometa-hero-demo-messy-tags-2m30.mp3`
+
+Same metadata pattern, **~2 min 30 s** of synthetic tone — for **manual** captures or long-form demos where you need real duration without a rights-bearing track.
 
 **Embedded tags (before edit)**
 
@@ -14,7 +18,7 @@ Short synthetic MP3 (~3s tone) with **intentionally rough metadata** for screen 
 | Genre   | misc |
 | Date    | 0000 |
 | Track   | 0 |
-| Comment | fix tags before release — source unknown |
+| Comment | fix tags before release |
 
 **Suggested on-screen edits for the hero clip**
 
@@ -23,7 +27,7 @@ Short synthetic MP3 (~3s tone) with **intentionally rough metadata** for screen 
 - Album → fix typo/style (e.g. `Demo Album`)
 - Genre / date / track → sensible values
 
-Regenerate from the repo root:
+Regenerate **both** files from the repo root:
 
 ```bash
 npm run demo:assets
@@ -32,7 +36,7 @@ npm run demo:assets
 or:
 
 ```bash
-./demo/assets/generate-hero-demo-mp3.sh
+./demo/generate-hero-demo-mp3.sh
 ```
 
 See [WEB_VIDEO_DEMOS.md](../WEB_VIDEO_DEMOS.md) for formats, capture, and embedding.

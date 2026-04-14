@@ -10,8 +10,8 @@
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest",
-    "demo:assets": "bash demo/assets/generate-hero-demo-mp3.sh",
-    "demo:record": "playwright test demo/e2e/hero-demo.spec.ts",
+    "demo:assets": "bash demo/generate-hero-demo-mp3.sh",
+    "demo:record": "bash -c './demo/scripts/check-demo-backend.sh && export DEMO_BASE_URL=\"${DEMO_BASE_URL:-http://127.0.0.1:3001}\"; playwright test demo/e2e/hero-demo.spec.ts'",
     "demo:record:mp4": "bash demo/scripts/record-hero-to-mp4.sh"
   },
   "dependencies": {

@@ -12,8 +12,12 @@ Everything for **screen recordings, portfolio clips, and embeddable video** for 
 **Prerequisites for recording**
 
 1. Copy `.env.example` → `.env.local` and set all required variables (same as for `npm run dev`).
+   - For demos, set `NEXT_PUBLIC_BACKEND_BASE_URL=http://127.0.0.1:8000` in `.env.local`.
 2. Install browsers once: `npx playwright install chromium`
-3. Start the app in another terminal: `npm run dev` (default [http://127.0.0.1:3000](http://127.0.0.1:3000); if you use another port, set `DEMO_BASE_URL`, e.g. `DEMO_BASE_URL=http://127.0.0.1:3001`).
+3. Start the app in another terminal: `npm run dev`. Playwright defaults to [http://127.0.0.1:3001](http://127.0.0.1:3001) (same as the VS Code launch `PORT`). Stock `next dev` uses port **3000** — then run `DEMO_BASE_URL=http://127.0.0.1:3000 npm run demo:record` (or export it in your shell). `npm run demo:record:mp4` sets `DEMO_BASE_URL` to 3001 when unset.
+4. Ensure local backend API is reachable at `http://127.0.0.1:8000/`.
+
+Both `npm run demo:record` and `npm run demo:record:mp4` run a preflight ping (`demo/scripts/check-demo-backend.sh`) and fail early if the API is not reachable.
 
 **Record hero demo (WebM under [output/playwright-results/](output/README.md))**
 
@@ -36,7 +40,7 @@ npm run demo:assets
 or:
 
 ```bash
-./demo/assets/generate-hero-demo-mp3.sh
+./demo/generate-hero-demo-mp3.sh
 ```
 
 Product and engineering documentation that is not demo-specific remains under [docs/](../docs/).
