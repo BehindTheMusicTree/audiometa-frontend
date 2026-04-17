@@ -6,6 +6,7 @@ import {
   BTMT_ICON_LINK_CLASS,
   BTMT_ICON_LINK_DARK_CLASS,
   IconBookOpen,
+  ORG_MASTODON_URL,
 } from "@behindthemusictree/assets/components";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { Link } from "@/i18n/navigation";
@@ -62,6 +63,9 @@ export default function PageHeader() {
           <IconBookOpen className="h-5 w-5 shrink-0" />
         </Link>
         <LanguageSwitcher />
+        <a rel="me" href={ORG_MASTODON_URL}>
+          Mastodon
+        </a>
       </div>
     </header>
   );
