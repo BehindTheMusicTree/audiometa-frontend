@@ -1,7 +1,10 @@
 import DocContent from "@/components/DocContent";
 import { getDocsBundle, getDocSlugs } from "@/lib/docs-bundle";
 import { routing } from "@/i18n/routing";
-import { languageAlternates } from "@/lib/language-alternates";
+import {
+  absoluteUrlForLocale,
+  languageAlternates,
+} from "@/lib/language-alternates";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 
@@ -29,7 +32,7 @@ export async function generateMetadata({ params }: PageProps) {
     title: doc.title,
     description: t("description", { title: doc.title }),
     alternates: {
-      canonical: `/docs/${slug}`,
+      canonical: absoluteUrlForLocale(locale, `/docs/${slug}`),
       languages: languageAlternates(`/docs/${slug}`),
     },
   };

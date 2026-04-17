@@ -1,5 +1,8 @@
 import { Link } from "@/i18n/navigation";
-import { languageAlternates } from "@/lib/language-alternates";
+import {
+  absoluteUrlForLocale,
+  languageAlternates,
+} from "@/lib/language-alternates";
 import PageLayout from "@/components/PageLayout";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
@@ -15,7 +18,7 @@ export async function generateMetadata({
     title: t("title"),
     description: t("description"),
     alternates: {
-      canonical: "/docs",
+      canonical: absoluteUrlForLocale(locale, "/docs"),
       languages: languageAlternates("/docs"),
     },
   };
