@@ -65,11 +65,11 @@ Repository secrets (same as sync workflow): **`VERCEL_TOKEN`**, **`VERCEL_PROJEC
 
 Result:
 
-| Environment | Branch    | Deploys when                                      | URL example                            |
-| ----------- | --------- | ------------------------------------------------- | -------------------------------------- |
+| Environment | Branch    | Deploys when                                     | URL example                            |
+| ----------- | --------- | ------------------------------------------------ | -------------------------------------- |
 | Production  | `main`    | **Deploy Hook** (release tag workflow or manual) | `app.audiometa.com`                    |
-| Staging     | `develop` | Push to develop                                   | `staging.audiometa.com` or preview URL |
-| PR previews | any       | Open PR                                           | `…-git-branch-…vercel.app`             |
+| Staging     | `develop` | Push to develop                                  | `staging.audiometa.com` or preview URL |
+| PR previews | any       | Open PR                                          | `…-git-branch-…vercel.app`             |
 
 ## 3. Environment variables
 
@@ -122,14 +122,14 @@ Use the workflow [`.github/workflows/sync-vercel-env.yml`](../.github/workflows/
 
 **How the sync works:** The workflow has two jobs. Each job runs in a **GitHub Environment** (`PROD` or `STAGING`), so it sees that environment’s variables. It syncs only to the matching Vercel target.
 
-| Source | → Vercel env |
-|--------|----------------|
+| Source                                                                                                     | → Vercel env                                                                                        |
+| ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
 | **Repo variables** (Settings → Secrets and variables → Actions → Variables) – same value for both targets: |
-| `AUDIOMETA_DOCS_BUNDLE_URL` | `NEXT_PUBLIC_DOCS_BUNDLE_URL` |
-| `AUDIOMETA_PYTHON_GITHUB_REPO_URL` | `AUDIOMETA_PYTHON_GITHUB_REPO_URL` (AudioMeta Python repo URL for footer / docs; no trailing slash) |
-| `POSTHOG_API_HOST` | `NEXT_PUBLIC_POSTHOG_HOST` (PostHog ingest API origin, e.g. `https://eu.i.posthog.com`) |
+| `AUDIOMETA_DOCS_BUNDLE_URL`                                                                                | `NEXT_PUBLIC_DOCS_BUNDLE_URL`                                                                       |
+| `AUDIOMETA_PYTHON_GITHUB_REPO_URL`                                                                         | `AUDIOMETA_PYTHON_GITHUB_REPO_URL` (AudioMeta Python repo URL for footer / docs; no trailing slash) |
+| `POSTHOG_API_HOST`                                                                                         | `NEXT_PUBLIC_POSTHOG_HOST` (PostHog ingest API origin, e.g. `https://eu.i.posthog.com`)             |
 
-*(Organization site, social defaults, and contact targets for footer / intro links come from **`@behindthemusictree/assets`** at package build time; this app does not set other `NEXT_PUBLIC_*` vars for those.)*
+_(Organization site, social defaults, and contact targets for footer / intro links come from **`@behindthemusictree/assets`** at package build time; this app does not set other `NEXT*PUBLIC*_` vars for those.)\*
 
 | **Repository secret** (PostHog; required to run [Sync Vercel env](../.github/workflows/sync-vercel-env.yml)): |
 | `POSTHOG_PROJECT_TOKEN` | `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` |
@@ -141,9 +141,7 @@ Use the workflow [`.github/workflows/sync-vercel-env.yml`](../.github/workflows/
 | `BACKEND_BASE_URL` (in **PROD** env) | `NEXT_PUBLIC_BACKEND_BASE_URL` on Vercel **production** |
 | `BACKEND_BASE_URL` (in **STAGING** env) | `NEXT_PUBLIC_BACKEND_BASE_URL` on Vercel **preview** |
 | `HTMT_API_ROOT_SEGMENT` | `NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT` (path segment before `audio/…`, no slashes) |
-| `AUDIOMETA_SUBDOMAIN`, `DOMAIN_NAME` (host label + registrable domain, no `https://`, no slashes) | `NEXT_PUBLIC_SITE_URL` = `https://<AUDIOMETA_SUBDOMAIN>.<DOMAIN_NAME>` (trailing slash stripped if present) |
-
-`DOMAIN_NAME` can be a **repository** variable instead if it is the same for production and staging (e.g. `example.org`); set `AUDIOMETA_SUBDOMAIN` per environment (e.g. `app` vs `staging`) so each target gets the correct public origin.
+| _(none for site origin)_ | Canonical site origin is resolved from **`@behindthemusictree/assets`** (`resolveOrgSiteHref()`), not from an app-level `NEXT_PUBLIC_SITE_URL` variable. |
 
 Set `BACKEND_BASE_URL` to the API host only (no trailing slash), e.g. `https://hear-api.themusictree.org`, and `HTMT_API_ROOT_SEGMENT` to the path prefix where the API is mounted (e.g. `htmt` if routes live at `https://hear-api.themusictree.org/htmt/audio/metadata/full/`). Production and Staging can use different hosts and/or segments per environment.
 
