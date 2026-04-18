@@ -15,7 +15,7 @@
     "demo:record:mp4": "bash demo/scripts/record-hero-to-mp4.sh"
   },
   "dependencies": {
-    "@behindthemusictree/assets": "^8.0.0",
+    "@behindthemusictree/assets": "^10.0.1",
     "next": "16.2.3",
     "next-intl": "^4.9.0",
     "posthog-js": "^1.365.4",

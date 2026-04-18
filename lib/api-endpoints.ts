@@ -1,3 +1,9 @@
+import {
+  HTMT_API_SUBDOMAIN,
+  ORG_DOMAIN,
+  readOrgDomain,
+} from "@behindthemusictree/assets/components";
+
 export const audioMetadataEndpoints = {
   full: "audio/metadata/full/",
   session: "audio/metadata/session/",
@@ -5,15 +11,16 @@ export const audioMetadataEndpoints = {
 };
 
 function buildAudioMetadataUrl(pathSegment: string): string {
-  const base = (process.env.NEXT_PUBLIC_BACKEND_BASE_URL ?? "")
-    .trim()
-    .replace(/\/+$/, "");
+  const domain = readOrgDomain() ?? ORG_DOMAIN;
+  const base = `https://${HTMT_API_SUBDOMAIN}.${domain}`.replace(/\/+$/, "");
   const segment = (process.env.NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT ?? "")
     .trim()
     .replace(/^\/+|\/+$/g, "");
   const path = pathSegment.replace(/^\/+/, "");
-  if (!base || !segment) {
-    throw new Error("Backend base URL and API root segment must be set");
+  if (!HTMT_API_SUBDOMAIN || !domain || domain === "ORG_DOMAIN" || !segment) {
+    throw new Error(
+      "HTMT API subdomain, org domain, and API root segment must be set",
+    );
   }
   return `${base}/${segment}/${path}`;
 }

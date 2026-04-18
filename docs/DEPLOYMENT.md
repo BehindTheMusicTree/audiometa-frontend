@@ -138,12 +138,11 @@ _(Organization site, social defaults, and contact targets for footer / intro lin
 | `GH_PACKAGES_TOKEN` | `NPM_TOKEN` on Vercel (**sensitive**), for `npm install` of `@behindthemusictree/*` |
 
 | **GitHub Environment variables** (Settings → Environments → `PROD` / `STAGING`) – can differ per environment: |
-| `BACKEND_BASE_URL` (in **PROD** env) | `NEXT_PUBLIC_BACKEND_BASE_URL` on Vercel **production** |
-| `BACKEND_BASE_URL` (in **STAGING** env) | `NEXT_PUBLIC_BACKEND_BASE_URL` on Vercel **preview** |
 | `HTMT_API_ROOT_SEGMENT` | `NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT` (path segment before `audio/…`, no slashes) |
 | _(none for site origin)_ | Canonical site origin is resolved from **`@behindthemusictree/assets`** (`resolveOrgSiteHref()`), not from an app-level `NEXT_PUBLIC_SITE_URL` variable. |
+| _(none for API host)_ | API host is resolved from **`@behindthemusictree/assets`** constants (`HTMT_API_SUBDOMAIN` + `readOrgDomain()`/`ORG_DOMAIN`) rather than app-level env. |
 
-Set `BACKEND_BASE_URL` to the API host only (no trailing slash), e.g. `https://hear-api.themusictree.org`, and `HTMT_API_ROOT_SEGMENT` to the path prefix where the API is mounted (e.g. `htmt` if routes live at `https://hear-api.themusictree.org/htmt/audio/metadata/full/`). Production and Staging can use different hosts and/or segments per environment.
+Set `HTMT_API_ROOT_SEGMENT` to the path prefix where the API is mounted (e.g. `htmt` if routes live at `https://hear-api.themusictree.org/htmt/audio/metadata/full/`).
 
 The workflow uses `upsert` so it creates or updates each variable, then triggers a deployment via each environment’s `VERCEL_DEPLOY_HOOK` so the new values are baked into the next build.
 
