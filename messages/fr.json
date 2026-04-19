@@ -11,11 +11,22 @@
     "ogTitle": "Gestionnaire de métadonnées audio | Audiometa"
   },
   "PageHeader": {
-    "homeAria": "Audiometa — Gestionnaire de métadonnées audio"
-  },
-  "PageFooter": {
+    "homeAria": "Audiometa — Gestionnaire de métadonnées audio",
     "docsAria": "Documentation, contenu disponible en anglais uniquement",
     "docsTitle": "Documentation (anglais uniquement)"
+  },
+  "PageFooter": {
+    "supportPrompt": "Utile ? Soutenez GrowTheMusicTree, notre projet phare.",
+    "tipeeeLinkLabel": "Soutenez-nous sur Tipeee",
+    "docsAria": "Documentation, contenu disponible en anglais uniquement",
+    "docsTitle": "Documentation (anglais uniquement)",
+    "pypiAria": "Paquet PyPI",
+    "pypiTitle": "Paquet audiometa-python sur PyPI",
+    "poweredByAudiometaPython": "Propulsé par AudioMeta Python",
+    "pythonLibNavAria": "Bibliothèque AudioMeta Python — GitHub et PyPI",
+    "pythonLibGithubAria": "AudioMeta Python sur GitHub",
+    "pythonLibGithubTitle": "Bibliothèque Python AudioMeta sur GitHub",
+    "siteAndContactNavAria": "Site, documentation et contact"
   },
   "DocsLayout": {
     "englishOnlyNotice": "Cette documentation est pour l’instant rédigée uniquement en anglais.",
@@ -52,19 +63,18 @@
     "bulletTweakBody": "— modifiez les champs modifiables ; les panneaux en lecture seule restent utiles pour référence.",
     "bulletSaveTitle": "Enregistrer une copie",
     "bulletSaveBody": "— téléchargez votre fichier avec les mises à jour tant que la session est ouverte.",
-    "navSupportAria": "Documentation, bibliothèque et support",
+    "navLearnAria": "Documentation",
     "completeDocsTitle": "Documentation complète (anglais uniquement)",
     "completeDocs": "Documentation complète",
-    "pythonLibrary": "Bibliothèque Python AudioMeta",
-    "emailUs": "Nous écrire par e-mail",
-    "githubIssues": "Issues GitHub",
     "sponsorUs": "Nous soutenir",
+    "supportPromptInFlow": "Utile ? Soutenez GrowTheMusicTree, notre projet phare.",
+    "supportOnTipeee": "Nous soutenir sur Tipeee",
     "chooseFileAria": "Choisir un fichier audio",
     "loading": "Chargement…",
     "chooseFile": "Choisir un fichier",
     "noFileChosen": "Aucun fichier choisi",
     "editTags": "Modifier les tags",
-    "editTagsHelp": "Les valeurs ci-dessous sont écrites dans le fichier au téléchargement. Les autres sections sont en lecture seule.",
+    "editTagsHelp": "Les valeurs ci-dessous seront écrites dans le fichier lors du téléchargement.",
     "sessionExpires": "La session expire dans",
     "sessionExpiredHint": "Cette session a peut-être expiré. Essayez de télécharger ; en cas d'échec, importez à nouveau le fichier.",
     "noSessionHint": "Aucune session active. Importez à nouveau un fichier pour télécharger avec les tags.",

@@ -11,11 +11,22 @@
     "ogTitle": "مدير بيانات الصوت الوصفية | Audiometa"
   },
   "PageHeader": {
-    "homeAria": "Audiometa — مدير بيانات الصوت الوصفية"
-  },
-  "PageFooter": {
+    "homeAria": "Audiometa — مدير بيانات الصوت الوصفية",
     "docsAria": "التوثيق (المحتوى بالإنجليزية فقط)",
     "docsTitle": "التوثيق (إنجليزي فقط)"
+  },
+  "PageFooter": {
+    "supportPrompt": "هل كان مفيدًا؟ ادعم GrowTheMusicTree، مشروعنا الرائد.",
+    "tipeeeLinkLabel": "ادعمنا على Tipeee",
+    "docsAria": "التوثيق (المحتوى بالإنجليزية فقط)",
+    "docsTitle": "التوثيق (إنجليزي فقط)",
+    "pypiAria": "حزمة PyPI",
+    "pypiTitle": "حزمة audiometa-python على PyPI",
+    "poweredByAudiometaPython": "مدعوم بـ AudioMeta Python",
+    "pythonLibNavAria": "مكتبة AudioMeta Python — GitHub وPyPI",
+    "pythonLibGithubAria": "AudioMeta Python على GitHub",
+    "pythonLibGithubTitle": "مكتبة AudioMeta Python على GitHub",
+    "siteAndContactNavAria": "الموقع والتوثيق والتواصل"
   },
   "DocsLayout": {
     "englishOnlyNotice": "نص هذا التوثيق متاح حاليًا بالإنجليزية فقط.",
@@ -52,19 +63,18 @@
     "bulletTweakBody": "— غيّر الحقول القابلة للكتابة؛ تبقى اللوحات للقراءة فقط مفيدة كمرجع.",
     "bulletSaveTitle": "حفظ نسخة",
     "bulletSaveBody": "— نزّل ملفك مع التحديثات ما دامت الجلسة مفتوحة.",
-    "navSupportAria": "التوثيق والمكتبة والدعم",
+    "navLearnAria": "التوثيق",
     "completeDocsTitle": "التوثيق الكامل",
     "completeDocs": "التوثيق الكامل",
-    "pythonLibrary": "مكتبة AudioMeta لـ Python",
-    "emailUs": "راسلنا عبر البريد",
-    "githubIssues": "تذاكر GitHub",
     "sponsorUs": "ادعمنا",
+    "supportPromptInFlow": "هل كان مفيدًا؟ ادعم GrowTheMusicTree، مشروعنا الرائد.",
+    "supportOnTipeee": "ادعمنا على Tipeee",
     "chooseFileAria": "اختر ملف صوت",
     "loading": "جارٍ التحميل…",
     "chooseFile": "اختر ملفًا",
     "noFileChosen": "لم يُختر ملف",
     "editTags": "تحرير الوسوم",
-    "editTagsHelp": "تُكتب القيم هنا في الملف عند التنزيل. الأقسام الأدناه للمرجع فقط للقراءة.",
+    "editTagsHelp": "ستُكتب القيم أدناه في الملف عند التنزيل.",
     "sessionExpires": "تنتهي الجلسة خلال",
     "sessionExpiredHint": "قد تكون الجلسة منتهية. جرّب التنزيل؛ إن فشل، ارفع الملف مجددًا.",
     "noSessionHint": "لا توجد جلسة نشطة. ارفع ملفًا مرة أخرى للتنزيل مع الوسوم.",

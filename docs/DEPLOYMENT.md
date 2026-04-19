@@ -65,17 +65,19 @@ Repository secrets (same as sync workflow): **`VERCEL_TOKEN`**, **`VERCEL_PROJEC
 
 Result:
 
-| Environment | Branch    | Deploys when                                      | URL example                            |
-| ----------- | --------- | ------------------------------------------------- | -------------------------------------- |
+| Environment | Branch    | Deploys when                                     | URL example                            |
+| ----------- | --------- | ------------------------------------------------ | -------------------------------------- |
 | Production  | `main`    | **Deploy Hook** (release tag workflow or manual) | `app.audiometa.com`                    |
-| Staging     | `develop` | Push to develop                                   | `staging.audiometa.com` or preview URL |
-| PR previews | any       | Open PR                                           | `…-git-branch-…vercel.app`             |
+| Staging     | `develop` | Push to develop                                  | `staging.audiometa.com` or preview URL |
+| PR previews | any       | Open PR                                          | `…-git-branch-…vercel.app`             |
 
 ## 3. Environment variables
 
 For **local** runs (`npm run dev`, `npm run launch`): copy `.env.example` to `.env` and set every variable listed there. The build fails if any required env var is missing (see `requiredEnv` in next.config.ts).
 
 On **Vercel**:
+
+PostHog keys (`NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN`, `NEXT_PUBLIC_POSTHOG_HOST`) are required at build time; see [.env.example](../.env.example) and [docs/ANALYTICS.md](./ANALYTICS.md).
 
 1. **Settings → Environment Variables**.
 2. For each variable, choose:
@@ -120,29 +122,31 @@ Use the workflow [`.github/workflows/sync-vercel-env.yml`](../.github/workflows/
 
 **How the sync works:** The workflow has two jobs. Each job runs in a **GitHub Environment** (`PROD` or `STAGING`), so it sees that environment’s variables. It syncs only to the matching Vercel target.
 
-| Source | → Vercel env |
-|--------|----------------|
+| Source                                                                                                     | → Vercel env                                                                                        |
+| ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
 | **Repo variables** (Settings → Secrets and variables → Actions → Variables) – same value for both targets: |
-| `AUDIOMETA_DOCS_BUNDLE_URL` | `NEXT_PUBLIC_DOCS_BUNDLE_URL` |
+| `AUDIOMETA_DOCS_BUNDLE_URL`                                                                                | `NEXT_PUBLIC_DOCS_BUNDLE_URL`                                                                       |
+| `AUDIOMETA_PYTHON_GITHUB_REPO_URL`                                                                         | `AUDIOMETA_PYTHON_GITHUB_REPO_URL` (AudioMeta Python repo URL for footer / docs; no trailing slash) |
+| `POSTHOG_API_HOST`                                                                                         | `NEXT_PUBLIC_POSTHOG_HOST` (PostHog ingest API origin, e.g. `https://eu.i.posthog.com`)             |
 
-*(Organization site, social defaults, and contact targets for footer / intro links come from **`@behindthemusictree/assets`** at package build time; this app does not set other `NEXT_PUBLIC_*` vars for those.)*
+_(Organization site, social defaults, and contact targets for footer / intro links come from **`@behindthemusictree/assets`** at package build time; this app does not set other `NEXT*PUBLIC*_` vars for those.)\*
+
+| **Repository secret** (PostHog; required to run [Sync Vercel env](../.github/workflows/sync-vercel-env.yml)): |
+| `POSTHOG_PROJECT_TOKEN` | `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` |
 
 | **Repository secret** (optional; used to sync GitHub Packages auth to Vercel): |
 | `GH_PACKAGES_TOKEN` | `NPM_TOKEN` on Vercel (**sensitive**), for `npm install` of `@behindthemusictree/*` |
 
 | **GitHub Environment variables** (Settings → Environments → `PROD` / `STAGING`) – can differ per environment: |
-| `BACKEND_BASE_URL` (in **PROD** env) | `NEXT_PUBLIC_BACKEND_BASE_URL` on Vercel **production** |
-| `BACKEND_BASE_URL` (in **STAGING** env) | `NEXT_PUBLIC_BACKEND_BASE_URL` on Vercel **preview** |
 | `HTMT_API_ROOT_SEGMENT` | `NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT` (path segment before `audio/…`, no slashes) |
-| `AUDIOMETA_SUBDOMAIN`, `DOMAIN_NAME` (host label + registrable domain, no `https://`, no slashes) | `NEXT_PUBLIC_SITE_URL` = `https://<AUDIOMETA_SUBDOMAIN>.<DOMAIN_NAME>` (trailing slash stripped if present) |
+| _(none for site origin)_ | Canonical site origin is resolved from **`@behindthemusictree/assets`** (`resolveOrgSiteHref()`), not from an app-level `NEXT_PUBLIC_SITE_URL` variable. |
+| _(none for API host)_ | API host is resolved from **`@behindthemusictree/assets`** constants (`HTMT_API_SUBDOMAIN` + `readOrgDomain()`/`ORG_DOMAIN`) rather than app-level env. |
 
-`DOMAIN_NAME` can be a **repository** variable instead if it is the same for production and staging (e.g. `example.org`); set `AUDIOMETA_SUBDOMAIN` per environment (e.g. `app` vs `staging`) so each target gets the correct public origin.
-
-Set `BACKEND_BASE_URL` to the API host only (no trailing slash), e.g. `https://hear-api.themusictree.org`, and `HTMT_API_ROOT_SEGMENT` to the path prefix where the API is mounted (e.g. `htmt` if routes live at `https://hear-api.themusictree.org/htmt/audio/metadata/full/`). Production and Staging can use different hosts and/or segments per environment.
+Set `HTMT_API_ROOT_SEGMENT` to the path prefix where the API is mounted (e.g. `htmt` if routes live at `https://hear-api.themusictree.org/htmt/audio/metadata/full/`).
 
 The workflow uses `upsert` so it creates or updates each variable, then triggers a deployment via each environment’s `VERCEL_DEPLOY_HOOK` so the new values are baked into the next build.
 
-**Relation to [vercel-deploy.yml](../.github/workflows/vercel-deploy.yml):** **Sync Vercel env** pushes all mirrored `NEXT_PUBLIC_*` values and redeploys. **Vercel deploy** only updates **`NEXT_PUBLIC_APP_VERSION`** and redeploys—use it on every **release tag** (or manually) so production shows the correct version.
+**Relation to [vercel-deploy.yml](../.github/workflows/vercel-deploy.yml):** **Sync Vercel env** pushes the variables in the table above to Vercel and redeploys. **Vercel deploy** only updates **`NEXT_PUBLIC_APP_VERSION`** and redeploys—use it on every **release tag** (or manually) so production shows the correct version.
 
 ## 4. Troubleshooting: Vercel shows old version
 

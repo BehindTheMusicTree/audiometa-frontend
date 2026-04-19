@@ -84,6 +84,28 @@ vi.mock("next/navigation", () => ({
 
 ---
 
+## 5. Mocking Strategy
+
+Mock **external side effects** so tests stay deterministic: network (`fetch`, MSW), navigation when needed, and **analytics**.
+
+### PostHog / analytics
+
+- Prefer mocking [`lib/track-event`](../lib/track-event.ts) when the component under test uses `trackEvent`:
+
+```ts
+const trackMock = vi.fn();
+
+vi.mock("@/lib/track-event", () => ({
+  trackEvent: (...args: unknown[]) => trackMock(...args),
+}));
+```
+
+- If code imports **`posthog-js` directly** (e.g. `posthog.captureException`), add `vi.mock("posthog-js", () => ({ default: { capture: vi.fn(), captureException: vi.fn(), /* … */ } }))` with the methods that run in the test path, or mock a small wrapper module.
+
+Example using `trackEvent`: [app/audio-metadata-manager/AudioMetadataManagerClient.test.tsx](../app/audio-metadata-manager/AudioMetadataManagerClient.test.tsx).
+
+---
+
 ## 6. React Strict Mode
 
 We use a **hybrid** approach:

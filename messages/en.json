@@ -11,11 +11,22 @@
     "ogTitle": "Audio Metadata Manager | Audiometa"
   },
   "PageHeader": {
-    "homeAria": "Audiometa — Audio Metadata Manager"
-  },
-  "PageFooter": {
+    "homeAria": "Audiometa — Audio Metadata Manager",
     "docsAria": "Documentation",
     "docsTitle": "Documentation"
+  },
+  "PageFooter": {
+    "supportPrompt": "Found this useful? Support GrowTheMusicTree, our flagship project.",
+    "tipeeeLinkLabel": "Support us on Tipeee",
+    "docsAria": "Documentation",
+    "docsTitle": "Documentation",
+    "pypiAria": "PyPI package",
+    "pypiTitle": "audiometa-python package on PyPI",
+    "poweredByAudiometaPython": "Powered by AudioMeta Python",
+    "pythonLibNavAria": "AudioMeta Python library — GitHub and PyPI",
+    "pythonLibGithubAria": "AudioMeta Python on GitHub",
+    "pythonLibGithubTitle": "AudioMeta Python library on GitHub",
+    "siteAndContactNavAria": "Site, documentation, and contact"
   },
   "DocsLayout": {
     "englishOnlyNotice": "",
@@ -52,19 +63,18 @@
     "bulletTweakBody": "— change writable fields; read-only panels stay handy for reference.",
     "bulletSaveTitle": "Save a copy",
     "bulletSaveBody": "— download your file with updates while the session is still open.",
-    "navSupportAria": "Documentation, library, and support",
+    "navLearnAria": "Documentation",
     "completeDocsTitle": "Complete documentation",
     "completeDocs": "Complete documentation",
-    "pythonLibrary": "AudioMeta Python library",
-    "emailUs": "Email us with questions",
-    "githubIssues": "GitHub issues",
     "sponsorUs": "Sponsor us",
+    "supportPromptInFlow": "Found this useful? Support GrowTheMusicTree, our flagship project.",
+    "supportOnTipeee": "Support us on Tipeee",
     "chooseFileAria": "Choose an audio file",
     "loading": "Loading…",
     "chooseFile": "Choose file",
     "noFileChosen": "No file chosen",
     "editTags": "Edit tags",
-    "editTagsHelp": "Values here are written to the file when you download. Other sections below are read-only reference.",
+    "editTagsHelp": "Values below will be written to the file when you download.",
     "sessionExpires": "Session expires in",
     "sessionExpiredHint": "This session may have expired. Try downloading; if it fails, upload the file again.",
     "noSessionHint": "No active session. Upload a file again to download with tags.",

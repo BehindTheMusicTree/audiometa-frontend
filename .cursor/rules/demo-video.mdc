@@ -1,0 +1,35 @@
+---
+description: Demo and hero videos — capture, formats, embeds; follow demo/WEB_VIDEO_DEMOS.md
+globs: demo/**
+alwaysApply: false
+---
+# Demo and hero videos
+
+Canonical detail: **demo/WEB_VIDEO_DEMOS.md** (formats, Playwright + ffmpeg, `<video>` embeds, sample assets under **demo/assets/**). The short pointer **docs/WEB_VIDEO_DEMOS.md** redirects there; keep both in sync when moving or renaming the guide. When planning or scripting recordings, apply this summary.
+
+## Story and length
+
+- **One idea per video** – single workflow (e.g. upload → edit tags → download), not a full product tour.
+- **Front-load the payoff** – strongest frame or end state in the **first few seconds**; then show how you got there if needed.
+- **Short for heroes** – about **15–45 seconds** for inline or hero clips; longer only on a dedicated demo page.
+- **Rehearse** – avoid dead air and cursor hunting.
+
+## Visual clarity
+
+- UI must stay **legible at embed width** (zoom or window size).
+- **Deliberate cursor** – pause on the target before clicking.
+- **Clean chrome** – hide unrelated tabs, bookmarks bar, notifications.
+- **Consistent framing** across multiple clips.
+
+## Poster, sound, polish
+
+- **Poster** – still that shows the product or the payoff; works as social/thumbnail.
+- **Loops** – seamless or end on a calm frame if looping.
+- **Audio** – narration when explaining; silent UI demos are fine; no uncleared licensed music.
+- **Captions or labels** – support muted viewing and a11y; text large enough for small players.
+- **Light polish** – short title or lower-third ok; **no long intros** on short clips; **trim tails** after the success state.
+
+## Delivery (web)
+
+- Ship demos as **MP4 (H.264)** in `<video>` unless the doc specifies otherwise; avoid GIF for real motion demos.
+- Prefer **poster + user-initiated play** over aggressive autoplay/preload for energy and UX (see **demo/WEB_VIDEO_DEMOS.md**).

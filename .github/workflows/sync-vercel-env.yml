@@ -2,7 +2,9 @@
 # Run manually: Actions → Sync Vercel env → Run workflow.
 # Uses GitHub Environments so BACKEND_BASE_URL / HTMT_API_ROOT_SEGMENT (and other per-env vars) can differ:
 #   GitHub PROD → Vercel "production"; GitHub STAGING → Vercel "preview".
-# Required: repo secrets VERCEL_TOKEN, VERCEL_PROJECT_ID; repo vars AUDIOMETA_DOCS_BUNDLE_URL;
+# Required: repo secrets VERCEL_TOKEN, VERCEL_PROJECT_ID; repo vars AUDIOMETA_DOCS_BUNDLE_URL,
+#   AUDIOMETA_PYTHON_GITHUB_REPO_URL, POSTHOG_API_HOST (e.g. https://eu.i.posthog.com);
+#   repo secret POSTHOG_PROJECT_TOKEN (synced to Vercel as NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN);
 #   in each GitHub Environment (PROD, STAGING): BACKEND_BASE_URL, HTMT_API_ROOT_SEGMENT,
 #   AUDIOMETA_SUBDOMAIN, DOMAIN_NAME (build NEXT_PUBLIC_SITE_URL as https://<sub>.<domain>, no trailing slash),
 #   secret VERCEL_DEPLOY_HOOK (per env). DOMAIN_NAME may be a repo var if shared. See docs/DEPLOYMENT.md §3.1.
@@ -21,11 +23,14 @@ jobs:
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
       NPM_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+      POSTHOG_PROJECT_TOKEN: ${{ secrets.POSTHOG_PROJECT_TOKEN }}
       AUDIOMETA_DOCS_BUNDLE_URL: ${{ vars.AUDIOMETA_DOCS_BUNDLE_URL }}
+      AUDIOMETA_PYTHON_GITHUB_REPO_URL: ${{ vars.AUDIOMETA_PYTHON_GITHUB_REPO_URL }}
       AUDIOMETA_SUBDOMAIN: ${{ vars.AUDIOMETA_SUBDOMAIN }}
       DOMAIN_NAME: ${{ vars.DOMAIN_NAME }}
       BACKEND_BASE_URL: ${{ vars.BACKEND_BASE_URL }}
       HTMT_API_ROOT_SEGMENT: ${{ vars.HTMT_API_ROOT_SEGMENT }}
+      POSTHOG_API_HOST: ${{ vars.POSTHOG_API_HOST }}
     steps:
       - name: Validate required env vars
         run: |
@@ -34,10 +39,13 @@ jobs:
           [ -z "$VERCEL_PROJECT_ID" ] && missing="$missing VERCEL_PROJECT_ID"
           [ -z "$VERCEL_DEPLOY_HOOK" ] && missing="$missing VERCEL_DEPLOY_HOOK"
           [ -z "$AUDIOMETA_DOCS_BUNDLE_URL" ] && missing="$missing AUDIOMETA_DOCS_BUNDLE_URL"
+          [ -z "$AUDIOMETA_PYTHON_GITHUB_REPO_URL" ] && missing="$missing AUDIOMETA_PYTHON_GITHUB_REPO_URL"
           [ -z "$AUDIOMETA_SUBDOMAIN" ] && missing="$missing AUDIOMETA_SUBDOMAIN"
           [ -z "$DOMAIN_NAME" ] && missing="$missing DOMAIN_NAME"
           [ -z "$BACKEND_BASE_URL" ] && missing="$missing BACKEND_BASE_URL"
           [ -z "$HTMT_API_ROOT_SEGMENT" ] && missing="$missing HTMT_API_ROOT_SEGMENT"
+          [ -z "$POSTHOG_PROJECT_TOKEN" ] && missing="$missing POSTHOG_PROJECT_TOKEN (repo secret)"
+          [ -z "$POSTHOG_API_HOST" ] && missing="$missing POSTHOG_API_HOST (repo var)"
           if [ -n "$missing" ]; then
             echo "::error::Missing or empty (repo vars or PROD env):$missing"
             exit 1
@@ -72,9 +80,12 @@ jobs:
               -d "$body"
           }
           sync_var "$AUDIOMETA_DOCS_BUNDLE_URL" "NEXT_PUBLIC_DOCS_BUNDLE_URL"
+          sync_var "$AUDIOMETA_PYTHON_GITHUB_REPO_URL" "AUDIOMETA_PYTHON_GITHUB_REPO_URL"
           sync_var "$NEXT_PUBLIC_SITE_URL" "NEXT_PUBLIC_SITE_URL"
           sync_var "$BACKEND_BASE_URL" "NEXT_PUBLIC_BACKEND_BASE_URL"
           sync_var "$HTMT_API_ROOT_SEGMENT" "NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT"
+          sync_var "$POSTHOG_PROJECT_TOKEN" "NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN"
+          sync_var "$POSTHOG_API_HOST" "NEXT_PUBLIC_POSTHOG_HOST"
           sync_secret_var "$NPM_TOKEN" "NPM_TOKEN"
           echo "Production sync done."
 
@@ -91,10 +102,13 @@ jobs:
       VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
       NPM_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
       AUDIOMETA_DOCS_BUNDLE_URL: ${{ vars.AUDIOMETA_DOCS_BUNDLE_URL }}
+      AUDIOMETA_PYTHON_GITHUB_REPO_URL: ${{ vars.AUDIOMETA_PYTHON_GITHUB_REPO_URL }}
       AUDIOMETA_SUBDOMAIN: ${{ vars.AUDIOMETA_SUBDOMAIN }}
       DOMAIN_NAME: ${{ vars.DOMAIN_NAME }}
       BACKEND_BASE_URL: ${{ vars.BACKEND_BASE_URL }}
       HTMT_API_ROOT_SEGMENT: ${{ vars.HTMT_API_ROOT_SEGMENT }}
+      POSTHOG_API_HOST: ${{ vars.POSTHOG_API_HOST }}
+      POSTHOG_PROJECT_TOKEN: ${{ secrets.POSTHOG_PROJECT_TOKEN }}
     steps:
       - name: Validate required env vars
         run: |
@@ -103,10 +117,13 @@ jobs:
           [ -z "$VERCEL_PROJECT_ID" ] && missing="$missing VERCEL_PROJECT_ID"
           [ -z "$VERCEL_DEPLOY_HOOK" ] && missing="$missing VERCEL_DEPLOY_HOOK"
           [ -z "$AUDIOMETA_DOCS_BUNDLE_URL" ] && missing="$missing AUDIOMETA_DOCS_BUNDLE_URL"
+          [ -z "$AUDIOMETA_PYTHON_GITHUB_REPO_URL" ] && missing="$missing AUDIOMETA_PYTHON_GITHUB_REPO_URL"
           [ -z "$AUDIOMETA_SUBDOMAIN" ] && missing="$missing AUDIOMETA_SUBDOMAIN"
           [ -z "$DOMAIN_NAME" ] && missing="$missing DOMAIN_NAME"
           [ -z "$BACKEND_BASE_URL" ] && missing="$missing BACKEND_BASE_URL"
           [ -z "$HTMT_API_ROOT_SEGMENT" ] && missing="$missing HTMT_API_ROOT_SEGMENT"
+          [ -z "$POSTHOG_PROJECT_TOKEN" ] && missing="$missing POSTHOG_PROJECT_TOKEN (repo secret)"
+          [ -z "$POSTHOG_API_HOST" ] && missing="$missing POSTHOG_API_HOST (repo var)"
           if [ -n "$missing" ]; then
             echo "::error::Missing or empty (repo vars or STAGING env):$missing"
             exit 1
@@ -141,9 +158,12 @@ jobs:
               -d "$body"
           }
           sync_var "$AUDIOMETA_DOCS_BUNDLE_URL" "NEXT_PUBLIC_DOCS_BUNDLE_URL"
+          sync_var "$AUDIOMETA_PYTHON_GITHUB_REPO_URL" "AUDIOMETA_PYTHON_GITHUB_REPO_URL"
           sync_var "$NEXT_PUBLIC_SITE_URL" "NEXT_PUBLIC_SITE_URL"
           sync_var "$BACKEND_BASE_URL" "NEXT_PUBLIC_BACKEND_BASE_URL"
           sync_var "$HTMT_API_ROOT_SEGMENT" "NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT"
+          sync_var "$POSTHOG_PROJECT_TOKEN" "NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN"
+          sync_var "$POSTHOG_API_HOST" "NEXT_PUBLIC_POSTHOG_HOST"
           sync_secret_var "$NPM_TOKEN" "NPM_TOKEN"
           echo "Preview sync done."
 

@@ -11,11 +11,22 @@
     "ogTitle": "オーディオメタデータマネージャー | Audiometa"
   },
   "PageHeader": {
-    "homeAria": "Audiometa — オーディオメタデータマネージャー"
-  },
-  "PageFooter": {
+    "homeAria": "Audiometa — オーディオメタデータマネージャー",
     "docsAria": "ドキュメント（本文は英語のみ）",
     "docsTitle": "ドキュメント（英語のみ）"
+  },
+  "PageFooter": {
+    "supportPrompt": "役に立ちましたか？ GrowTheMusicTree（主力プロジェクト）をご支援ください。",
+    "tipeeeLinkLabel": "Tipeee で支援する",
+    "docsAria": "ドキュメント（本文は英語のみ）",
+    "docsTitle": "ドキュメント（英語のみ）",
+    "pypiAria": "PyPI パッケージ",
+    "pypiTitle": "PyPI の audiometa-python パッケージ",
+    "poweredByAudiometaPython": "AudioMeta Python を利用",
+    "pythonLibNavAria": "AudioMeta Python ライブラリ — GitHub と PyPI",
+    "pythonLibGithubAria": "GitHub 上の AudioMeta Python",
+    "pythonLibGithubTitle": "GitHub 上の AudioMeta Python ライブラリ",
+    "siteAndContactNavAria": "サイト、ドキュメント、お問い合わせ"
   },
   "DocsLayout": {
     "englishOnlyNotice": "このドキュメントの本文は現在英語のみです。",
@@ -52,19 +63,18 @@
     "bulletTweakBody": "— 書き込み可能な項目を変更。読み取り専用パネルは参照用にそのまま利用できます。",
     "bulletSaveTitle": "コピーを保存",
     "bulletSaveBody": "— セッションが有効な間、更新を含むファイルをダウンロードできます。",
-    "navSupportAria": "ドキュメント、ライブラリ、サポート",
+    "navLearnAria": "ドキュメント",
     "completeDocsTitle": "完全なドキュメント",
     "completeDocs": "完全なドキュメント",
-    "pythonLibrary": "AudioMeta Python ライブラリ",
-    "emailUs": "メールで問い合わせ",
-    "githubIssues": "GitHub Issues",
     "sponsorUs": "スポンサーになる",
+    "supportPromptInFlow": "役に立ちましたか？ GrowTheMusicTree（主力プロジェクト）をご支援ください。",
+    "supportOnTipeee": "Tipeee で支援する",
     "chooseFileAria": "オーディオファイルを選択",
     "loading": "読み込み中…",
     "chooseFile": "ファイルを選択",
     "noFileChosen": "ファイル未選択",
     "editTags": "タグを編集",
-    "editTagsHelp": "ここでの値はダウンロード時にファイルに書き込まれます。下のその他のセクションは参照用の読み取り専用です。",
+    "editTagsHelp": "以下の値はダウンロード時にファイルに書き込まれます。",
     "sessionExpires": "セッションの有効期限まで",
     "sessionExpiredHint": "セッションの期限が切れている可能性があります。ダウンロードを試し、失敗したらファイルを再アップロードしてください。",
     "noSessionHint": "アクティブなセッションがありません。タグ付きでダウンロードするにはファイルを再アップロードしてください。",

@@ -11,11 +11,22 @@
     "ogTitle": "Gestor de metadatos de audio | Audiometa"
   },
   "PageHeader": {
-    "homeAria": "Audiometa — Gestor de metadatos de audio"
-  },
-  "PageFooter": {
+    "homeAria": "Audiometa — Gestor de metadatos de audio",
     "docsAria": "Documentación (contenido solo en inglés)",
     "docsTitle": "Documentación (solo en inglés)"
+  },
+  "PageFooter": {
+    "supportPrompt": "¿Te resultó útil? Apoya GrowTheMusicTree, nuestro proyecto estrella.",
+    "tipeeeLinkLabel": "Apóyanos en Tipeee",
+    "docsAria": "Documentación (contenido solo en inglés)",
+    "docsTitle": "Documentación (solo en inglés)",
+    "pypiAria": "Paquete PyPI",
+    "pypiTitle": "Paquete audiometa-python en PyPI",
+    "poweredByAudiometaPython": "Impulsado por AudioMeta Python",
+    "pythonLibNavAria": "Biblioteca AudioMeta Python — GitHub y PyPI",
+    "pythonLibGithubAria": "AudioMeta Python en GitHub",
+    "pythonLibGithubTitle": "Biblioteca Python AudioMeta en GitHub",
+    "siteAndContactNavAria": "Sitio, documentación y contacto"
   },
   "DocsLayout": {
     "englishOnlyNotice": "Esta documentación está disponible solo en inglés por ahora.",
@@ -52,19 +63,18 @@
     "bulletTweakBody": "— cambia los campos grabables; los paneles de solo lectura siguen siendo útiles como referencia.",
     "bulletSaveTitle": "Guardar una copia",
     "bulletSaveBody": "— descarga tu archivo con las actualizaciones mientras la sesión siga abierta.",
-    "navSupportAria": "Documentación, biblioteca y soporte",
+    "navLearnAria": "Documentación",
     "completeDocsTitle": "Documentación completa",
     "completeDocs": "Documentación completa",
-    "pythonLibrary": "Biblioteca Python AudioMeta",
-    "emailUs": "Escríbenos por correo",
-    "githubIssues": "Incidencias en GitHub",
     "sponsorUs": "Apóyanos",
+    "supportPromptInFlow": "¿Te resultó útil? Apoya GrowTheMusicTree, nuestro proyecto estrella.",
+    "supportOnTipeee": "Apóyanos en Tipeee",
     "chooseFileAria": "Elegir un archivo de audio",
     "loading": "Cargando…",
     "chooseFile": "Elegir archivo",
     "noFileChosen": "Ningún archivo elegido",
     "editTags": "Editar etiquetas",
-    "editTagsHelp": "Los valores aquí se escriben en el archivo al descargar. Las demás secciones son solo de referencia de lectura.",
+    "editTagsHelp": "Los valores de abajo se escribirán en el archivo al descargar.",
     "sessionExpires": "La sesión expira en",
     "sessionExpiredHint": "Es posible que esta sesión haya caducado. Prueba a descargar; si falla, vuelve a subir el archivo.",
     "noSessionHint": "No hay sesión activa. Sube de nuevo un archivo para descargar con etiquetas.",

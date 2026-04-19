@@ -11,11 +11,22 @@
     "ogTitle": "音频元数据管理器 | Audiometa"
   },
   "PageHeader": {
-    "homeAria": "Audiometa — 音频元数据管理器"
-  },
-  "PageFooter": {
+    "homeAria": "Audiometa — 音频元数据管理器",
     "docsAria": "文档（目前仅英文正文）",
     "docsTitle": "文档（目前仅英文正文）"
+  },
+  "PageFooter": {
+    "supportPrompt": "觉得有用吗？请支持我们的旗舰项目 GrowTheMusicTree。",
+    "tipeeeLinkLabel": "在 Tipeee 上支持我们",
+    "docsAria": "文档（目前仅英文正文）",
+    "docsTitle": "文档（目前仅英文正文）",
+    "pypiAria": "PyPI 软件包",
+    "pypiTitle": "PyPI 上的 audiometa-python 软件包",
+    "poweredByAudiometaPython": "由 AudioMeta Python 提供支持",
+    "pythonLibNavAria": "AudioMeta Python 库 — GitHub 与 PyPI",
+    "pythonLibGithubAria": "GitHub 上的 AudioMeta Python",
+    "pythonLibGithubTitle": "GitHub 上的 AudioMeta Python 库",
+    "siteAndContactNavAria": "网站、文档与联系"
   },
   "DocsLayout": {
     "englishOnlyNotice": "以下文档正文目前仅提供英文版本。",
@@ -52,19 +63,18 @@
     "bulletTweakBody": "— 修改可写字段；只读面板仍便于对照参考。",
     "bulletSaveTitle": "保存副本",
     "bulletSaveBody": "— 在会话仍有效时下载包含更新内容的文件。",
-    "navSupportAria": "文档、库与支持",
+    "navLearnAria": "文档",
     "completeDocsTitle": "完整文档",
     "completeDocs": "完整文档",
-    "pythonLibrary": "AudioMeta Python 库",
-    "emailUs": "邮件咨询",
-    "githubIssues": "GitHub Issues",
     "sponsorUs": "赞助我们",
+    "supportPromptInFlow": "觉得有用吗？请支持我们的旗舰项目 GrowTheMusicTree。",
+    "supportOnTipeee": "在 Tipeee 上支持我们",
     "chooseFileAria": "选择音频文件",
     "loading": "加载中…",
     "chooseFile": "选择文件",
     "noFileChosen": "未选择文件",
     "editTags": "编辑标签",
-    "editTagsHelp": "此处的值会在下载时写入文件。下方其他区域为只读参考。",
+    "editTagsHelp": "下方的值将在下载时写入文件。",
     "sessionExpires": "会话将在以下时间后过期",
     "sessionExpiredHint": "会话可能已过期。请尝试下载；若失败，请重新上传文件。",
     "noSessionHint": "没有活动会话。请重新上传文件以下载带标签的文件。",

@@ -7,8 +7,11 @@ import {
 } from "@/lib/language-alternates";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const bundle = await getDocsBundle();
-  const slugs = getDocSlugs(bundle);
+  let slugs: string[] = [];
+  try {
+    const bundle = await getDocsBundle();
+    slugs = getDocSlugs(bundle);
+  } catch {}
   const lastModified = new Date();
 
   const paths: {

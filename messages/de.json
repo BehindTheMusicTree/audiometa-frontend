@@ -11,11 +11,22 @@
     "ogTitle": "Audio-Metadaten-Manager | Audiometa"
   },
   "PageHeader": {
-    "homeAria": "Audiometa — Audio-Metadaten-Manager"
-  },
-  "PageFooter": {
+    "homeAria": "Audiometa — Audio-Metadaten-Manager",
     "docsAria": "Dokumentation (Inhalt nur auf Englisch)",
     "docsTitle": "Dokumentation (nur Englisch)"
+  },
+  "PageFooter": {
+    "supportPrompt": "Hilfreich? Unterstützen Sie GrowTheMusicTree, unser Vorzeigeprojekt.",
+    "tipeeeLinkLabel": "Unterstützen Sie uns auf Tipeee",
+    "docsAria": "Dokumentation (Inhalt nur auf Englisch)",
+    "docsTitle": "Dokumentation (nur Englisch)",
+    "pypiAria": "PyPI-Paket",
+    "pypiTitle": "PyPI-Paket audiometa-python",
+    "poweredByAudiometaPython": "Nutzt AudioMeta Python",
+    "pythonLibNavAria": "AudioMeta-Python-Bibliothek — GitHub und PyPI",
+    "pythonLibGithubAria": "AudioMeta Python auf GitHub",
+    "pythonLibGithubTitle": "AudioMeta-Python-Bibliothek auf GitHub",
+    "siteAndContactNavAria": "Website, Dokumentation und Kontakt"
   },
   "DocsLayout": {
     "englishOnlyNotice": "Diese Dokumentation ist derzeit nur auf Englisch verfügbar.",
@@ -52,19 +63,18 @@
     "bulletTweakBody": "— beschreibbare Felder ändern; schreibgeschützte Bereiche bleiben als Referenz sichtbar.",
     "bulletSaveTitle": "Kopie speichern",
     "bulletSaveBody": "— Datei mit Änderungen herunterladen, solange die Sitzung aktiv ist.",
-    "navSupportAria": "Dokumentation, Bibliothek und Support",
+    "navLearnAria": "Dokumentation",
     "completeDocsTitle": "Vollständige Dokumentation",
     "completeDocs": "Vollständige Dokumentation",
-    "pythonLibrary": "AudioMeta-Python-Bibliothek",
-    "emailUs": "E-Mail an uns",
-    "githubIssues": "GitHub-Issues",
     "sponsorUs": "Unterstützen Sie uns",
+    "supportPromptInFlow": "Hilfreich? Unterstützen Sie GrowTheMusicTree, unser Vorzeigeprojekt.",
+    "supportOnTipeee": "Unterstützen Sie uns auf Tipeee",
     "chooseFileAria": "Audiodatei wählen",
     "loading": "Wird geladen…",
     "chooseFile": "Datei wählen",
     "noFileChosen": "Keine Datei gewählt",
     "editTags": "Tags bearbeiten",
-    "editTagsHelp": "Die Werte hier werden beim Herunterladen in die Datei geschrieben. Die folgenden Bereiche sind nur zur Ansicht.",
+    "editTagsHelp": "Die unten stehenden Werte werden beim Herunterladen in die Datei geschrieben.",
     "sessionExpires": "Sitzung läuft ab in",
     "sessionExpiredHint": "Diese Sitzung ist möglicherweise abgelaufen. Versuchen Sie den Download; wenn er fehlschlägt, laden Sie die Datei erneut hoch.",
     "noSessionHint": "Keine aktive Sitzung. Laden Sie die Datei erneut hoch, um mit Tags herunterzuladen.",

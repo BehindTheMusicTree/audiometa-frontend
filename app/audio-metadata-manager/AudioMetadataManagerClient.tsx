@@ -2,16 +2,15 @@
 
 import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
+import posthog from "posthog-js";
+import { trackEvent } from "@/lib/track-event";
 import { useTranslations } from "next-intl";
 import {
   BTMT_ICON_LINK_CLASS,
   BTMT_ICON_LINK_WITH_TEXT_CLASS,
-  EmailSocialLink,
-  GithubSocialLink,
   IconBookOpen,
-  PypiSocialLink,
   socialBrandIconClass,
-  SponsorSocialLinkColored,
+  TipeeeSocialLink,
 } from "@behindthemusictree/assets/components";
 import { Link } from "@/i18n/navigation";
 import PageLayout from "@/components/PageLayout";
@@ -41,15 +40,10 @@ import {
 import type { AudioMetadataDetailed } from "@/schemas/audio-metadata";
 import { SessionExpiredError } from "@/schemas/metadata-session";
 
-const AUDIOMETA_PYTHON_LIBRARY_URL =
-  "https://github.com/BehindTheMusicTree/audiometa";
-
-const FRONTEND_GITHUB_ISSUES_URL =
-  "https://github.com/BehindTheMusicTree/audiometa-frontend/issues";
-
 const introDocNavLinkClassName = `${BTMT_ICON_LINK_CLASS} ${BTMT_ICON_LINK_WITH_TEXT_CLASS}`;
 
 type BooleanLabels = { yes: string; no: string };
+type TipeeeCtaPosition = "intro_bottom" | "after_panels" | "near_download";
 
 function IntroIconLookAround({ className }: { className?: string }) {
   return (
@@ -151,7 +145,10 @@ function formatInlineValue(
             {typeof item === "object" &&
             item !== null &&
             !Array.isArray(item) ? (
-              <ObjectValue value={item as Record<string, unknown>} bools={bools} />
+              <ObjectValue
+                value={item as Record<string, unknown>}
+                bools={bools}
+              />
             ) : (
               String(item)
             )}
@@ -218,13 +215,7 @@ function ObjectValue({
   );
 }
 
-function CellValue({
-  value,
-  bools,
-}: {
-  value: unknown;
-  bools: BooleanLabels;
-}) {
+function CellValue({ value, bools }: { value: unknown; bools: BooleanLabels }) {
   if (value === null || value === undefined) {
     return <span className="text-slate-400">—</span>;
   }
@@ -243,7 +234,10 @@ function CellValue({
             {typeof item === "object" &&
             item !== null &&
             !Array.isArray(item) ? (
-              <ObjectValue value={item as Record<string, unknown>} bools={bools} />
+              <ObjectValue
+                value={item as Record<string, unknown>}
+                bools={bools}
+              />
             ) : typeof item === "object" ? (
               <code className="rounded bg-slate-100 px-1.5 py-0.5 text-xs">
                 {JSON.stringify(item)}
@@ -257,7 +251,9 @@ function CellValue({
     );
   }
   if (typeof value === "object") {
-    return <ObjectValue value={value as Record<string, unknown>} bools={bools} />;
+    return (
+      <ObjectValue value={value as Record<string, unknown>} bools={bools} />
+    );
   }
   return <span>{String(value)}</span>;
 }
@@ -315,7 +311,13 @@ function MetadataKeyValueTable({
   );
 }
 
-export default function MetadataManagerPage() {
+type MetadataManagerPageProps = {
+  audiometaPythonGithubUrl: string;
+};
+
+export default function MetadataManagerPage({
+  audiometaPythonGithubUrl,
+}: MetadataManagerPageProps) {
   const [audioMetadata, setAudioMetadata] = useState<
     AudioMetadataDetailed | undefined
   >();
@@ -336,6 +338,25 @@ export default function MetadataManagerPage() {
   const [unifiedForm, setUnifiedForm] = useState<UnifiedFormState | null>(null);
   const [initialUnifiedForm, setInitialUnifiedForm] =
     useState<UnifiedFormState | null>(null);
+  const [tipeeeCtaPosition] = useState<TipeeeCtaPosition>(() => {
+    if (typeof window === "undefined") return "intro_bottom";
+    const stored = window.localStorage.getItem("ab_tipeee_cta_position");
+    if (
+      stored === "intro_bottom" ||
+      stored === "after_panels" ||
+      stored === "near_download"
+    ) {
+      return stored;
+    }
+    const variants: TipeeeCtaPosition[] = [
+      "intro_bottom",
+      "after_panels",
+      "near_download",
+    ];
+    return variants[Math.floor(Math.random() * variants.length)];
+  });
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const impressionSessionTokenRef = useRef<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const {
     createSession,
@@ -373,6 +394,81 @@ export default function MetadataManagerPage() {
     sessionExpiresAtMs != null &&
     remainingSessionSec != null &&
     remainingSessionSec > 0;
+  const showInFlowTipeeeCta = audioMetadata != null && sessionActive;
+
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setPrefersReducedMotion(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem("ab_tipeee_cta_position", tipeeeCtaPosition);
+  }, [tipeeeCtaPosition]);
+
+  useEffect(() => {
+    if (!showInFlowTipeeeCta || !sessionToken) return;
+    if (impressionSessionTokenRef.current === sessionToken) return;
+    impressionSessionTokenRef.current = sessionToken;
+    trackEvent("metadata_load_success", {
+      cta_position: tipeeeCtaPosition,
+      prefers_reduced_motion: prefersReducedMotion,
+    });
+    trackEvent("tipeee_cta_impression", {
+      cta_position: tipeeeCtaPosition,
+      prefers_reduced_motion: prefersReducedMotion,
+    });
+  }, [
+    prefersReducedMotion,
+    showInFlowTipeeeCta,
+    sessionToken,
+    tipeeeCtaPosition,
+  ]);
+
+  function handleTipeeeCtaClickCapture(
+    event: React.MouseEvent<HTMLDivElement>,
+  ) {
+    const target = event.target as HTMLElement;
+    if (!target.closest("a")) return;
+    trackEvent("tipeee_cta_click", {
+      cta_position: tipeeeCtaPosition,
+      prefers_reduced_motion: prefersReducedMotion,
+    });
+  }
+
+  const showTipeeeAtIntroBottom =
+    showInFlowTipeeeCta && tipeeeCtaPosition === "intro_bottom";
+  const showTipeeeAfterPanels =
+    showInFlowTipeeeCta && tipeeeCtaPosition === "after_panels";
+  const showTipeeeNearDownload =
+    showInFlowTipeeeCta && tipeeeCtaPosition === "near_download";
+
+  function renderInFlowTipeeeCta(position: TipeeeCtaPosition) {
+    return (
+      <div
+        className="flex w-fit max-w-full flex-col gap-3 self-start rounded-xl border border-amber-200/80 bg-gradient-to-r from-amber-50 to-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-start sm:gap-4"
+        data-track="tipeee-cta-container"
+        data-analytics-event="tipeee_cta_impression"
+        data-state={tipeeeCtaPosition}
+        data-position={position}
+        onClickCapture={handleTipeeeCtaClickCapture}
+      >
+        <p className="text-sm font-medium leading-relaxed text-amber-900">
+          {t("supportPromptInFlow")}
+        </p>
+        <div className="w-full sm:w-auto [&_a]:inline-flex [&_a]:items-center [&_a]:justify-center [&_a]:rounded-full [&_a]:border [&_a]:border-amber-200 [&_a]:bg-white [&_a]:px-4 [&_a]:py-2 [&_a]:text-sm [&_a]:font-medium [&_a]:text-amber-900 [&_a]:shadow-sm hover:[&_a]:bg-amber-100/40">
+          <TipeeeSocialLink
+            text={t("supportOnTipeee")}
+            title={t("supportOnTipeee")}
+            showText
+            iconClassName={socialBrandIconClass}
+          />
+        </div>
+      </div>
+    );
+  }
 
   async function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target?.files?.[0] ?? null;
@@ -404,7 +500,10 @@ export default function MetadataManagerPage() {
         setUnifiedForm(null);
         setInitialUnifiedForm(null);
       }
-    } catch {
+    } catch (e) {
+      const err = e instanceof Error ? e : new Error(String(e));
+      trackEvent("metadata_load_error", { error_message: err.message });
+      posthog.captureException(err);
       setAudioMetadata(undefined);
       setUnifiedForm(null);
       setInitialUnifiedForm(null);
@@ -412,6 +511,7 @@ export default function MetadataManagerPage() {
   }
 
   function handleResetTags() {
+    trackEvent("metadata_tags_reset");
     if (initialUnifiedForm) {
       setUnifiedForm(cloneUnifiedFormState(initialUnifiedForm));
       return;
@@ -421,6 +521,7 @@ export default function MetadataManagerPage() {
 
   async function handleDownloadTagged() {
     if (!sessionToken || !sessionActive) return;
+    trackEvent("metadata_download_click");
     try {
       const body = unifiedForm
         ? buildUnifiedMetadataDownloadBody(
@@ -436,8 +537,16 @@ export default function MetadataManagerPage() {
       a.download = filename;
       a.click();
       URL.revokeObjectURL(url);
+      trackEvent("metadata_download_success", { filename });
     } catch (e) {
-      if (e instanceof SessionExpiredError) {
+      const isExpired = e instanceof SessionExpiredError;
+      const err = e instanceof Error ? e : new Error(String(e));
+      trackEvent("metadata_download_error", {
+        error_message: err.message,
+        session_expired: isExpired,
+      });
+      if (!isExpired) posthog.captureException(err);
+      if (isExpired) {
         setSessionToken(null);
         setSessionExpiresAtMs(null);
         setRemainingSessionSec(null);
@@ -446,7 +555,10 @@ export default function MetadataManagerPage() {
   }
 
   return (
-    <PageLayout dataPage="audio-metadata-manager">
+    <PageLayout
+      dataPage="audio-metadata-manager"
+      audiometaPythonGithubUrl={audiometaPythonGithubUrl}
+    >
       <div className="flex flex-col gap-6">
         <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
           {t("heading")}
@@ -521,7 +633,7 @@ export default function MetadataManagerPage() {
             </li>
           </ul>
           <nav
-            aria-label={t("navSupportAria")}
+            aria-label={t("navLearnAria")}
             className="mt-5 flex flex-col gap-2 border-t border-slate-100 pt-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-1"
           >
             <Link
@@ -532,31 +644,12 @@ export default function MetadataManagerPage() {
               <IconBookOpen className={socialBrandIconClass} />
               <span>{t("completeDocs")}</span>
             </Link>
-            <PypiSocialLink
-              href={AUDIOMETA_PYTHON_LIBRARY_URL}
-              text={t("pythonLibrary")}
-              showText
-              iconClassName={socialBrandIconClass}
-            />
-            <EmailSocialLink
-              text={t("emailUs")}
-              showText
-              iconClassName={socialBrandIconClass}
-            />
-            <GithubSocialLink
-              href={FRONTEND_GITHUB_ISSUES_URL}
-              text={t("githubIssues")}
-              showText
-              iconClassName={socialBrandIconClass}
-            />
-            <SponsorSocialLinkColored
-              text={t("sponsorUs")}
-              showText
-              iconClassName={socialBrandIconClass}
-            />
           </nav>
+          {showTipeeeAtIntroBottom ? (
+            <div className="mt-4">{renderInFlowTipeeeCta("intro_bottom")}</div>
+          ) : null}
         </section>
-        <div className="flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+        <div className="flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:gap-4 sm:p-5">
           <input
             ref={fileInputRef}
             type="file"
@@ -567,14 +660,18 @@ export default function MetadataManagerPage() {
           />
           <button
             type="button"
-            onClick={() => fileInputRef.current?.click()}
-            className="flex shrink-0 items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-medium text-white shadow transition-all hover:bg-indigo-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50"
+            data-analytics-event="metadata-choose-file-click"
+            onClick={() => {
+              trackEvent("metadata_choose_file_click");
+              fileInputRef.current?.click();
+            }}
+            className="flex min-h-11 w-full shrink-0 items-center justify-center rounded-lg bg-indigo-600 px-7 py-3.5 text-base font-semibold text-white shadow transition-all hover:bg-indigo-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 sm:w-auto sm:min-h-12 sm:px-8 sm:py-4"
             disabled={isPending}
           >
             {isPending ? t("loading") : t("chooseFile")}
           </button>
           <span
-            className="min-w-0 flex-1 truncate rounded-lg border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-600"
+            className="min-h-11 min-w-0 w-full flex-1 truncate rounded-lg border border-slate-200 bg-slate-50 px-4 py-3.5 text-base text-slate-600 sm:min-h-12 sm:flex-1 sm:py-4"
             aria-live="polite"
           >
             {selectedFileName ?? t("noFileChosen")}
@@ -596,10 +693,16 @@ export default function MetadataManagerPage() {
             {error.message}
           </p>
         )}
-        <div className="flex flex-col gap-4 md:grid md:grid-cols-2 lg:grid-cols-3">
-          <section className={readOnlySectionBoxClass}>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <section
+            className={readOnlySectionBoxClass}
+            aria-labelledby="metadata-panel-technical-heading"
+          >
             <header className="mb-3 border-b border-slate-100 pb-2">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">
+              <h2
+                id="metadata-panel-technical-heading"
+                className="text-sm font-semibold uppercase tracking-wide text-slate-600"
+              >
                 {t("technicalInfo")}
               </h2>
             </header>
@@ -698,9 +801,15 @@ export default function MetadataManagerPage() {
               </p>
             )}
           </section>
-          <section className={readOnlySectionBoxClass}>
+          <section
+            className={readOnlySectionBoxClass}
+            aria-labelledby="metadata-panel-unified-heading"
+          >
             <header className="mb-3 border-b border-slate-100 pb-2">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">
+              <h2
+                id="metadata-panel-unified-heading"
+                className="text-sm font-semibold uppercase tracking-wide text-slate-600"
+              >
                 {t("unifiedMetadata")}
               </h2>
             </header>
@@ -727,9 +836,15 @@ export default function MetadataManagerPage() {
               </p>
             )}
           </section>
-          <section className={readOnlySectionBoxClass}>
+          <section
+            className={readOnlySectionBoxClass}
+            aria-labelledby="metadata-panel-by-format-heading"
+          >
             <header className="mb-3 border-b border-slate-100 pb-2">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">
+              <h2
+                id="metadata-panel-by-format-heading"
+                className="text-sm font-semibold uppercase tracking-wide text-slate-600"
+              >
                 {t("byMetadataFormat")}
               </h2>
             </header>
@@ -784,9 +899,15 @@ export default function MetadataManagerPage() {
               </p>
             )}
           </section>
-          <section className={readOnlySectionBoxClass}>
+          <section
+            className={readOnlySectionBoxClass}
+            aria-labelledby="metadata-panel-raw-heading"
+          >
             <header className="mb-3 border-b border-slate-100 pb-2">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">
+              <h2
+                id="metadata-panel-raw-heading"
+                className="text-sm font-semibold uppercase tracking-wide text-slate-600"
+              >
                 {t("metadataRaw")}
               </h2>
             </header>
@@ -842,6 +963,9 @@ export default function MetadataManagerPage() {
             )}
           </section>
         </div>
+        {showTipeeeAfterPanels ? (
+          <div className="mt-6">{renderInFlowTipeeeCta("after_panels")}</div>
+        ) : null}
         {audioMetadata && (
           <section className="min-w-0 overflow-hidden rounded-xl border border-emerald-200 bg-emerald-50 p-6 shadow-sm">
             <header className="mb-4 border-b border-emerald-200/80 pb-3">
@@ -896,25 +1020,30 @@ export default function MetadataManagerPage() {
                 disabled={!sessionActive}
               />
             )}
-            <div className="mt-6 flex flex-wrap gap-3">
-              <button
-                type="button"
-                onClick={handleDownloadTagged}
-                disabled={!sessionActive || isDownloadPending}
-                className="flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-medium text-white shadow transition-all hover:bg-indigo-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {isDownloadPending
-                  ? t("preparingDownload")
-                  : t("downloadWithTags")}
-              </button>
-              <button
-                type="button"
-                onClick={handleResetTags}
-                disabled={!sessionActive}
-                className="rounded-lg border border-slate-200 bg-slate-50 px-5 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {t("resetTags")}
-              </button>
+            <div className="mt-8 flex flex-col gap-8">
+              {showTipeeeNearDownload
+                ? renderInFlowTipeeeCta("near_download")
+                : null}
+              <div className="flex flex-wrap gap-3">
+                <button
+                  type="button"
+                  onClick={handleDownloadTagged}
+                  disabled={!sessionActive || isDownloadPending}
+                  className="flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-medium text-white shadow transition-all hover:bg-indigo-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {isDownloadPending
+                    ? t("preparingDownload")
+                    : t("downloadWithTags")}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleResetTags}
+                  disabled={!sessionActive}
+                  className="rounded-lg border border-slate-200 bg-slate-50 px-5 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {t("resetTags")}
+                </button>
+              </div>
             </div>
           </section>
         )}

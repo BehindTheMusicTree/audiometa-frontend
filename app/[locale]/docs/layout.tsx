@@ -1,5 +1,8 @@
 import { Link } from "@/i18n/navigation";
-import { languageAlternates } from "@/lib/language-alternates";
+import {
+  absoluteUrlForLocale,
+  languageAlternates,
+} from "@/lib/language-alternates";
 import PageLayout from "@/components/PageLayout";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
@@ -15,7 +18,7 @@ export async function generateMetadata({
     title: t("title"),
     description: t("description"),
     alternates: {
-      canonical: "/docs",
+      canonical: absoluteUrlForLocale(locale, "/docs"),
       languages: languageAlternates("/docs"),
     },
   };
@@ -33,8 +36,14 @@ export default async function DocsLayout({
   const t = await getTranslations({ locale, namespace: "DocsLayout" });
   const englishOnlyNotice = t("englishOnlyNotice");
 
+  const audiometaPythonGithubUrl =
+    process.env.AUDIOMETA_PYTHON_GITHUB_REPO_URL!.trim();
+
   return (
-    <PageLayout dataPage="docs">
+    <PageLayout
+      dataPage="docs"
+      audiometaPythonGithubUrl={audiometaPythonGithubUrl}
+    >
       <div className="flex min-h-0 flex-1 gap-8">
         <nav
           className="hidden w-48 shrink-0 flex-col border-r border-slate-200 pr-4 md:flex"

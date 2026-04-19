@@ -1,5 +1,8 @@
 import AudioMetadataManagerClient from "@/app/audio-metadata-manager/AudioMetadataManagerClient";
-import { languageAlternates } from "@/lib/language-alternates";
+import {
+  absoluteUrlForLocale,
+  languageAlternates,
+} from "@/lib/language-alternates";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 export async function generateMetadata({
@@ -13,7 +16,7 @@ export async function generateMetadata({
     title: t("title"),
     description: t("description"),
     alternates: {
-      canonical: "/",
+      canonical: absoluteUrlForLocale(locale, "/"),
       languages: languageAlternates("/"),
     },
     openGraph: {
@@ -34,5 +37,9 @@ export default async function HomePage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  return <AudioMetadataManagerClient />;
+  return (
+    <AudioMetadataManagerClient
+      audiometaPythonGithubUrl={process.env.AUDIOMETA_PYTHON_GITHUB_REPO_URL!.trim()}
+    />
+  );
 }

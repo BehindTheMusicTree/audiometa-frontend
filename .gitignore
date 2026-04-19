@@ -43,3 +43,8 @@ coverage/
 
 # Misc
 *.local
+
+# Playwright demo recordings (generated)
+demo/output/playwright-results/
+demo/output/hero-demo.webm
+demo/output/hero-demo.mp4

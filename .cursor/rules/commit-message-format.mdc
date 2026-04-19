@@ -27,6 +27,11 @@ All commit messages must follow the Conventional Commits format (see CONTRIBUTIN
 - `perf` - Performance improvement
 - `ci` - CI/CD pipeline changes
 
+### Changelog-only and dependency commits
+
+- **Changelog edits** (`CHANGELOG.md` → `[Unreleased]`): prefer **`docs:`** when the notes are user- or operator-facing; use **`chore:`** for trivial wording-only tweaks.
+- **Security-related dependency bumps**: prefer **`chore(deps):`** or **`fix(deps):`** and name the advisory (e.g. `GHSA-…`) or CVE in the summary when known.
+
 ## Rules
 
 - **Always prefix with type**: Every commit message must start with one of the allowed types
@@ -43,6 +48,8 @@ All commit messages must follow the Conventional Commits format (see CONTRIBUTIN
 - `fix(audio): handle empty file list`
 - `docs: update setup instructions`
 - `chore: update dependencies`
+- `chore(deps): bump @playwright/test for GHSA-7mvr-c777-76hp`
+- `docs: add unreleased changelog entries for demo tooling`
 - `test(metadata): add unit tests for validation`
 
 ❌ **Incorrect:**
