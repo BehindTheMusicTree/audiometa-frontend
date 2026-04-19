@@ -129,7 +129,7 @@ Use the workflow [`.github/workflows/sync-vercel-env.yml`](../.github/workflows/
 | `AUDIOMETA_PYTHON_GITHUB_REPO_URL`                                                                         | `AUDIOMETA_PYTHON_GITHUB_REPO_URL` (AudioMeta Python repo URL for footer / docs; no trailing slash) |
 | `POSTHOG_API_HOST`                                                                                         | `NEXT_PUBLIC_POSTHOG_HOST` (PostHog ingest API origin, e.g. `https://eu.i.posthog.com`)             |
 
-_(Organization site, social defaults, and contact targets for footer / intro links come from **`@behindthemusictree/assets`** at package build time; this app does not set other `NEXT*PUBLIC*_` vars for those.)\*
+_(Organization site, social defaults, and contact targets for footer / intro links come from **`@behindthemusictree/assets`** at package build time; this app does not set other `NEXT_PUBLIC_*` vars for those.)_
 
 | **Repository secret** (PostHog; required to run [Sync Vercel env](../.github/workflows/sync-vercel-env.yml)): |
 | `POSTHOG_PROJECT_TOKEN` | `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` |
@@ -138,11 +138,12 @@ _(Organization site, social defaults, and contact targets for footer / intro lin
 | `GH_PACKAGES_TOKEN` | `NPM_TOKEN` on Vercel (**sensitive**), for `npm install` of `@behindthemusictree/*` |
 
 | **GitHub Environment variables** (Settings → Environments → `PROD` / `STAGING`) – can differ per environment: |
-| `HTMT_API_ROOT_SEGMENT` | `NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT` (path segment before `audio/…`, no slashes) |
+| `BACKEND_BASE_URL` (in **PROD** env) | `NEXT_PUBLIC_BACKEND_BASE_URL` on Vercel **production** (API host only, no trailing slash) |
+| `BACKEND_BASE_URL` (in **STAGING** env) | `NEXT_PUBLIC_BACKEND_BASE_URL` on Vercel **preview** |
+| `BACKEND_ROOT_SEGMENT` | `NEXT_PUBLIC_BACKEND_ROOT_SEGMENT` (path segment before `audio/…`, no slashes) |
 | _(none for site origin)_ | Canonical site origin is resolved from **`@behindthemusictree/assets`** (`resolveOrgSiteHref()`), not from an app-level `NEXT_PUBLIC_SITE_URL` variable. |
-| _(none for API host)_ | API host is resolved from **`@behindthemusictree/assets`** constants (`HTMT_API_SUBDOMAIN` + `readOrgDomain()`/`ORG_DOMAIN`) rather than app-level env. |
 
-Set `HTMT_API_ROOT_SEGMENT` to the path prefix where the API is mounted (e.g. `htmt` if routes live at `https://hear-api.themusictree.org/htmt/audio/metadata/full/`).
+Set `BACKEND_BASE_URL` to the API host only (no trailing slash), e.g. `https://hear-api.themusictree.org`, and `BACKEND_ROOT_SEGMENT` to the path prefix where the API is mounted (e.g. `v2` if routes live at `https://hear-api.themusictree.org/v2/audio/metadata/full/`). Production and staging can use different hosts and/or segments per environment.
 
 The workflow uses `upsert` so it creates or updates each variable, then triggers a deployment via each environment’s `VERCEL_DEPLOY_HOOK` so the new values are baked into the next build.
 

@@ -87,7 +87,7 @@ jobs:
       - name: Build application
         env:
           NEXT_PUBLIC_BACKEND_BASE_URL: ${{ vars.BACKEND_BASE_URL }}
-          NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT: ${{ vars.HTMT_API_ROOT_SEGMENT }}
+          NEXT_PUBLIC_BACKEND_ROOT_SEGMENT: ${{ vars.BACKEND_ROOT_SEGMENT }}
           NEXT_PUBLIC_DOCS_BUNDLE_URL: ${{ vars.AUDIOMETA_DOCS_BUNDLE_URL }}
           AUDIOMETA_PYTHON_GITHUB_REPO_URL: https://github.com/BehindTheMusicTree/audiometa
           # Placeholders satisfy next.config requiredEnv; production/staging use real keys on Vercel.

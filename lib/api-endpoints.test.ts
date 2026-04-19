@@ -10,29 +10,39 @@ describe("buildAudioMetadataFullUrl", () => {
     vi.unstubAllEnvs();
   });
 
-  it("joins derived base, segment, and path with normalized slashes", () => {
-    vi.stubEnv("NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT", "v1");
+  it("joins base, segment, and path with normalized slashes", () => {
+    vi.stubEnv("NEXT_PUBLIC_BACKEND_BASE_URL", "https://api.test");
+    vi.stubEnv("NEXT_PUBLIC_BACKEND_ROOT_SEGMENT", "v1");
     expect(buildAudioMetadataFullUrl()).toBe(
-      "https://hear-api.themusictree.org/v1/audio/metadata/full/",
+      "https://api.test/v1/audio/metadata/full/",
     );
   });
 
-  it("trims whitespace on segment", () => {
-    vi.stubEnv("NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT", "  my-segment  ");
+  it("trims whitespace on base and segment", () => {
+    vi.stubEnv("NEXT_PUBLIC_BACKEND_BASE_URL", "  https://api.test/  ");
+    vi.stubEnv("NEXT_PUBLIC_BACKEND_ROOT_SEGMENT", "  my-segment  ");
     expect(buildAudioMetadataFullUrl()).toBe(
-      "https://hear-api.themusictree.org/my-segment/audio/metadata/full/",
+      "https://api.test/my-segment/audio/metadata/full/",
     );
   });
 
   it("strips leading and trailing slashes from segment", () => {
-    vi.stubEnv("NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT", "/root/");
+    vi.stubEnv("NEXT_PUBLIC_BACKEND_BASE_URL", "https://api.test");
+    vi.stubEnv("NEXT_PUBLIC_BACKEND_ROOT_SEGMENT", "/root/");
     expect(buildAudioMetadataFullUrl()).toBe(
-      "https://hear-api.themusictree.org/root/audio/metadata/full/",
+      "https://api.test/root/audio/metadata/full/",
     );
   });
 
   it("throws when segment is empty after trim", () => {
-    vi.stubEnv("NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT", "   ");
+    vi.stubEnv("NEXT_PUBLIC_BACKEND_BASE_URL", "https://api.test");
+    vi.stubEnv("NEXT_PUBLIC_BACKEND_ROOT_SEGMENT", "   ");
+    expect(() => buildAudioMetadataFullUrl()).toThrow();
+  });
+
+  it("throws when base is empty after trim", () => {
+    vi.stubEnv("NEXT_PUBLIC_BACKEND_BASE_URL", "   ");
+    vi.stubEnv("NEXT_PUBLIC_BACKEND_ROOT_SEGMENT", "v1");
     expect(() => buildAudioMetadataFullUrl()).toThrow();
   });
 });
@@ -43,9 +53,10 @@ describe("buildAudioMetadataSessionUrl", () => {
   });
 
   it("builds session path", () => {
-    vi.stubEnv("NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT", "v1");
+    vi.stubEnv("NEXT_PUBLIC_BACKEND_BASE_URL", "https://api.test");
+    vi.stubEnv("NEXT_PUBLIC_BACKEND_ROOT_SEGMENT", "v1");
     expect(buildAudioMetadataSessionUrl()).toBe(
-      "https://hear-api.themusictree.org/v1/audio/metadata/session/",
+      "https://api.test/v1/audio/metadata/session/",
     );
   });
 });
@@ -56,9 +67,10 @@ describe("buildAudioMetadataSessionDownloadUrl", () => {
   });
 
   it("builds session-download path", () => {
-    vi.stubEnv("NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT", "v1");
+    vi.stubEnv("NEXT_PUBLIC_BACKEND_BASE_URL", "https://api.test");
+    vi.stubEnv("NEXT_PUBLIC_BACKEND_ROOT_SEGMENT", "v1");
     expect(buildAudioMetadataSessionDownloadUrl()).toBe(
-      "https://hear-api.themusictree.org/v1/audio/metadata/session-download/",
+      "https://api.test/v1/audio/metadata/session-download/",
     );
   });
 });
