@@ -1,7 +1,7 @@
 export const audioMetadataEndpoints = {
-  full: "audio/metadata/full/",
-  session: "audio/metadata/session/",
-  sessionDownload: "audio/metadata/session-download/",
+  full: "full/",
+  session: "session/",
+  sessionDownload: "session-download/",
 };
 
 function buildBackendUrl(pathSegment: string): string {

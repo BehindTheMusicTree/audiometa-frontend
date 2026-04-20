@@ -45,7 +45,7 @@ describe("useMetadataSession", () => {
       string,
       { method: string; body: FormData },
     ];
-    expect(call[0]).toBe("https://api.test/v1/audio/metadata/session/");
+    expect(call[0]).toBe("https://api.test/v1/session/");
     expect(call[1].method).toBe("POST");
     expect(call[1].body).toBeInstanceOf(FormData);
     expect(created!.sessionToken).toBe("stok");
@@ -72,7 +72,7 @@ describe("useMetadataSession", () => {
     });
 
     expect(fetchMock).toHaveBeenCalledWith(
-      "https://api.test/v1/audio/metadata/session-download/",
+      "https://api.test/v1/session-download/",
       expect.objectContaining({
         method: "POST",
         headers: {
