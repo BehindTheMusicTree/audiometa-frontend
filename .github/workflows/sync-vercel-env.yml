@@ -6,7 +6,7 @@
 #   AUDIOMETA_PYTHON_GITHUB_REPO_URL, POSTHOG_API_HOST (e.g. https://eu.i.posthog.com);
 #   repo secret POSTHOG_PROJECT_TOKEN (synced to Vercel as NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN);
 #   in each GitHub Environment (PROD, STAGING): BACKEND_BASE_URL, BACKEND_ROOT_SEGMENT,
-#   AUDIOMETA_SUBDOMAIN, DOMAIN_NAME (build NEXT_PUBLIC_SITE_URL as https://<sub>.<domain>, no trailing slash),
+#   AUDIOMETA_API_SUBDOMAIN, DOMAIN_NAME (build NEXT_PUBLIC_SITE_URL as https://<sub>.<domain>, no trailing slash),
 #   secret VERCEL_DEPLOY_HOOK (per env). DOMAIN_NAME may be a repo var if shared. See docs/DEPLOYMENT.md §3.1.
 name: Sync Vercel env
 
@@ -26,7 +26,7 @@ jobs:
       POSTHOG_PROJECT_TOKEN: ${{ secrets.POSTHOG_PROJECT_TOKEN }}
       AUDIOMETA_DOCS_BUNDLE_URL: ${{ vars.AUDIOMETA_DOCS_BUNDLE_URL }}
       AUDIOMETA_PYTHON_GITHUB_REPO_URL: ${{ vars.AUDIOMETA_PYTHON_GITHUB_REPO_URL }}
-      AUDIOMETA_SUBDOMAIN: ${{ vars.AUDIOMETA_SUBDOMAIN }}
+      AUDIOMETA_API_SUBDOMAIN: ${{ vars.AUDIOMETA_API_SUBDOMAIN }}
       DOMAIN_NAME: ${{ vars.DOMAIN_NAME }}
       BACKEND_BASE_URL: ${{ vars.BACKEND_BASE_URL }}
       BACKEND_ROOT_SEGMENT: ${{ vars.BACKEND_ROOT_SEGMENT }}
@@ -40,7 +40,7 @@ jobs:
           [ -z "$VERCEL_DEPLOY_HOOK" ] && missing="$missing VERCEL_DEPLOY_HOOK"
           [ -z "$AUDIOMETA_DOCS_BUNDLE_URL" ] && missing="$missing AUDIOMETA_DOCS_BUNDLE_URL"
           [ -z "$AUDIOMETA_PYTHON_GITHUB_REPO_URL" ] && missing="$missing AUDIOMETA_PYTHON_GITHUB_REPO_URL"
-          [ -z "$AUDIOMETA_SUBDOMAIN" ] && missing="$missing AUDIOMETA_SUBDOMAIN"
+          [ -z "$AUDIOMETA_API_SUBDOMAIN" ] && missing="$missing AUDIOMETA_API_SUBDOMAIN"
           [ -z "$DOMAIN_NAME" ] && missing="$missing DOMAIN_NAME"
           [ -z "$BACKEND_BASE_URL" ] && missing="$missing BACKEND_BASE_URL"
           [ -z "$BACKEND_ROOT_SEGMENT" ] && missing="$missing BACKEND_ROOT_SEGMENT"
@@ -55,7 +55,7 @@ jobs:
       - name: Sync to Vercel production
         run: |
           set -e
-          NEXT_PUBLIC_SITE_URL="https://${AUDIOMETA_SUBDOMAIN}.${DOMAIN_NAME}"
+          NEXT_PUBLIC_SITE_URL="https://${AUDIOMETA_API_SUBDOMAIN}.${DOMAIN_NAME}"
           NEXT_PUBLIC_SITE_URL="${NEXT_PUBLIC_SITE_URL%/}"
           sync_var() {
             local value="$1"
@@ -103,7 +103,7 @@ jobs:
       NPM_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
       AUDIOMETA_DOCS_BUNDLE_URL: ${{ vars.AUDIOMETA_DOCS_BUNDLE_URL }}
       AUDIOMETA_PYTHON_GITHUB_REPO_URL: ${{ vars.AUDIOMETA_PYTHON_GITHUB_REPO_URL }}
-      AUDIOMETA_SUBDOMAIN: ${{ vars.AUDIOMETA_SUBDOMAIN }}
+      AUDIOMETA_API_SUBDOMAIN: ${{ vars.AUDIOMETA_API_SUBDOMAIN }}
       DOMAIN_NAME: ${{ vars.DOMAIN_NAME }}
       BACKEND_BASE_URL: ${{ vars.BACKEND_BASE_URL }}
       BACKEND_ROOT_SEGMENT: ${{ vars.BACKEND_ROOT_SEGMENT }}
@@ -118,7 +118,7 @@ jobs:
           [ -z "$VERCEL_DEPLOY_HOOK" ] && missing="$missing VERCEL_DEPLOY_HOOK"
           [ -z "$AUDIOMETA_DOCS_BUNDLE_URL" ] && missing="$missing AUDIOMETA_DOCS_BUNDLE_URL"
           [ -z "$AUDIOMETA_PYTHON_GITHUB_REPO_URL" ] && missing="$missing AUDIOMETA_PYTHON_GITHUB_REPO_URL"
-          [ -z "$AUDIOMETA_SUBDOMAIN" ] && missing="$missing AUDIOMETA_SUBDOMAIN"
+          [ -z "$AUDIOMETA_API_SUBDOMAIN" ] && missing="$missing AUDIOMETA_API_SUBDOMAIN"
           [ -z "$DOMAIN_NAME" ] && missing="$missing DOMAIN_NAME"
           [ -z "$BACKEND_BASE_URL" ] && missing="$missing BACKEND_BASE_URL"
           [ -z "$BACKEND_ROOT_SEGMENT" ] && missing="$missing BACKEND_ROOT_SEGMENT"
@@ -133,7 +133,7 @@ jobs:
       - name: Sync to Vercel preview
         run: |
           set -e
-          NEXT_PUBLIC_SITE_URL="https://${AUDIOMETA_SUBDOMAIN}.${DOMAIN_NAME}"
+          NEXT_PUBLIC_SITE_URL="https://${AUDIOMETA_API_SUBDOMAIN}.${DOMAIN_NAME}"
           NEXT_PUBLIC_SITE_URL="${NEXT_PUBLIC_SITE_URL%/}"
           sync_var() {
             local value="$1"
