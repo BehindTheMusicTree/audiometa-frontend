@@ -140,7 +140,7 @@ _(Organization site, social defaults, and contact targets for footer / intro lin
 | **GitHub Environment variables** (Settings → Environments → `PROD` / `STAGING`) – can differ per environment: |
 | `HTMT_API_ROOT_SEGMENT` | `NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT` (path segment before `audio/…`, no slashes) |
 | _(none for site origin)_ | Canonical site origin is resolved from **`@behindthemusictree/assets`** (`resolveOrgSiteHref()`), not from an app-level `NEXT_PUBLIC_SITE_URL` variable. |
-| _(none for API host)_ | API host is resolved from **`@behindthemusictree/assets`** constants (`HTMT_API_SUBDOMAIN` + `readOrgDomain()`/`ORG_DOMAIN`) rather than app-level env. |
+| _(none for API host)_ | API host is resolved from **`@behindthemusictree/assets`** constants (`HTMT_API_SUBDOMAIN` + **`ORG_DOMAIN`**, baked in at package build time) rather than app-level env. |
 
 Set `HTMT_API_ROOT_SEGMENT` to the path prefix where the API is mounted (e.g. `htmt` if routes live at `https://hear-api.themusictree.org/htmt/audio/metadata/full/`).
 

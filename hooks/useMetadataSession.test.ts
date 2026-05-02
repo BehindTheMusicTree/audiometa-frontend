@@ -6,6 +6,7 @@ import { useMetadataSession } from "./useMetadataSession";
 
 describe("useMetadataSession", () => {
   beforeEach(() => {
+    vi.stubEnv("NEXT_PUBLIC_DEPLOYMENT_ENV", "production");
     vi.stubEnv("NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT", "v1");
   });
 
