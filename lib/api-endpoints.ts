@@ -1,4 +1,7 @@
-import { HTMT_API_SUBDOMAIN, ORG_DOMAIN } from "@behindthemusictree/assets/components";
+import {
+  HTMT_API_SUBDOMAIN,
+  ORG_DOMAIN,
+} from "@behindthemusictree/assets/components";
 
 export const audioMetadataEndpoints = {
   full: "audio/metadata/full/",
@@ -26,15 +29,28 @@ function apiHostSubdomain(): string {
   return `staging.${HTMT_API_SUBDOMAIN}`;
 }
 
-function buildAudioMetadataUrl(pathSegment: string): string {
+function apiBaseUrl(): string {
+  const override = process.env.NEXT_PUBLIC_BACKEND_URL?.trim();
+  if (override) {
+    return override.replace(/\/+$/, "");
+  }
   const domain = orgHostForApi();
   const subdomain = apiHostSubdomain();
-  const base = `https://${subdomain}.${domain}`.replace(/\/+$/, "");
-  const segment = (process.env.NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT ?? "")
+  if (!subdomain || !domain || domain === "ORG_DOMAIN") {
+    throw new Error(
+      "HTMT API subdomain, org domain, and API root segment must be set",
+    );
+  }
+  return `https://${subdomain}.${domain}`.replace(/\/+$/, "");
+}
+
+function buildAudioMetadataUrl(pathSegment: string): string {
+  const base = apiBaseUrl();
+  const segment = (process.env.NEXT_PUBLIC_BACKEND_ROOT_SEGMENT ?? "")
     .trim()
     .replace(/^\/+|\/+$/g, "");
   const path = pathSegment.replace(/^\/+/, "");
-  if (!subdomain || !domain || domain === "ORG_DOMAIN" || !segment) {
+  if (!segment) {
     throw new Error(
       "HTMT API subdomain, org domain, and API root segment must be set",
     );
