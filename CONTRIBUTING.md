@@ -18,7 +18,7 @@ Contributions are welcome. This document covers development workflow, commit for
    ```bash
    git clone https://github.com/YOUR-ORG/audiometa-frontend.git
    cd audiometa-frontend
-   npm install
+   pnpm install
    ```
 
 2. **Environment** – Copy any `.env.example` to `.env.local` and set variables as needed for local development.
@@ -27,7 +27,7 @@ Contributions are welcome. This document covers development workflow, commit for
 
 4. **Develop** – Follow [docs/STYLE_GUIDE.md](docs/STYLE_GUIDE.md) for code and styling.
 
-5. **Test** – Run `npm run lint`, `npm run test`, and `npm run build` before opening a PR.
+5. **Test** – Run `pnpm run lint`, `pnpm run test`, and `pnpm run build` before opening a PR.
 
 6. **Commit** using [Conventional Commits](#committing).
 
@@ -79,7 +79,7 @@ See [.cursor/rules/commit-message-format.mdc](.cursor/rules/commit-message-forma
 ## Releasing (maintainers)
 
 1. Create `release/vX.Y.Z` from `develop`.
-2. Merge release branch into `main`, then tag: `npm version minor` (or `patch`/`major`), then `git push origin main && git push origin vX.Y.Z`.
+2. Merge release branch into `main`, then tag: `pnpm version minor` (or `patch`/`major`), then `git push origin main && git push origin vX.Y.Z`.
 3. Merge release branch back into `develop` and delete the release branch.
 
 See [docs/VERSIONING.md](docs/VERSIONING.md) and [docs/SEMVER_GUIDE.md](docs/SEMVER_GUIDE.md).

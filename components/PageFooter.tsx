@@ -10,7 +10,7 @@ import {
   MastodonSocialLink,
   PypiSocialLink,
   TipeeeSocialLink,
-} from "@behindthemusictree/assets/components";
+} from "@behindthemusictree/brand/components";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { trackEvent } from "@/lib/track-event";

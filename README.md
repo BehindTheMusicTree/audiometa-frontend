@@ -56,16 +56,16 @@ The portfolio website content lives in **[the-music-tree-frontend](https://githu
 ### Prerequisites
 
 - Node.js 20+
-- npm (or yarn/pnpm)
+- pnpm
 
 ### Install and run
 
 ```bash
 git clone https://github.com/BehindTheMusicTree/audiometa-frontend.git
 cd audiometa-frontend
-npm install
+pnpm install
 cp .env.example .env.local   # if present; set variables as needed
-npm run dev
+pnpm run dev
 ```
 
 App runs at `http://localhost:3001`.
@@ -78,14 +78,14 @@ Create `.env.local` from `.env.example` (when available) and set any required `N
 
 | Command         | Description              |
 | --------------- | ------------------------ |
-| `npm run dev`   | Start development server |
-| `npm run build` | Production build         |
-| `npm run start` | Start production server  |
-| `npm run lint`  | Run ESLint               |
-| `npm run test`  | Run tests                |
-| `npm run demo:assets` | Regenerate demo sample MP3 ([demo/assets/](demo/assets/); needs ffmpeg) |
-| `npm run demo:record` | Playwright hero demo → WebM under [demo/output/](demo/output/) (needs dev server + `npx playwright install chromium`; see [demo/README.md](demo/README.md)) |
-| `npm run demo:record:mp4` | Same as above, then **ffmpeg** → `demo/output/hero-demo.mp4` |
+| `pnpm run dev`   | Start development server |
+| `pnpm run build` | Production build         |
+| `pnpm run start` | Start production server  |
+| `pnpm run lint`  | Run ESLint               |
+| `pnpm run test`  | Run tests                |
+| `pnpm run demo:assets` | Regenerate demo sample MP3 ([demo/assets/](demo/assets/); needs ffmpeg) |
+| `pnpm run demo:record` | Playwright hero demo → WebM under [demo/output/](demo/output/) (needs dev server + `npx playwright install chromium`; see [demo/README.md](demo/README.md)) |
+| `pnpm run demo:record:mp4` | Same as above, then **ffmpeg** → `demo/output/hero-demo.mp4` |
 
 ## CI
 

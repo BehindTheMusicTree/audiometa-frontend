@@ -17,6 +17,10 @@ export default defineConfig({
     setupFiles: ["./vitest.setup.ts"],
     include: ["**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
     exclude: ["**/node_modules/**", "**/demo/e2e/**"],
-    env: nextPublicFromFiles,
+    env: {
+      ...nextPublicFromFiles,
+      NEXT_PUBLIC_DEPLOYMENT_ENV:
+        process.env.NEXT_PUBLIC_DEPLOYMENT_ENV ?? "production",
+    },
   },
 });

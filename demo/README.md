@@ -11,26 +11,26 @@ Everything for **screen recordings, portfolio clips, and embeddable video** for 
 
 **Prerequisites for recording**
 
-1. Copy `.env.example` → `.env.local` and set all required variables (same as for `npm run dev`).
+1. Copy `.env.example` → `.env.local` and set all required variables (same as for `pnpm run dev`).
 2. Install browsers once: `npx playwright install chromium`
-3. Start the app in another terminal: `npm run dev` (default [http://127.0.0.1:3000](http://127.0.0.1:3000); if you use another port, set `DEMO_BASE_URL`, e.g. `DEMO_BASE_URL=http://127.0.0.1:3001`).
+3. Start the app in another terminal: `pnpm run dev` (default [http://127.0.0.1:3000](http://127.0.0.1:3000); if you use another port, set `DEMO_BASE_URL`, e.g. `DEMO_BASE_URL=http://127.0.0.1:3001`).
 
 **Record hero demo (WebM under [output/playwright-results/](output/README.md))**
 
 ```bash
-npm run demo:record
+pnpm run demo:record
 ```
 
 **Record and transcode to H.264 MP4** (requires [ffmpeg](https://ffmpeg.org/); writes `demo/output/hero-demo.mp4`):
 
 ```bash
-npm run demo:record:mp4
+pnpm run demo:record:mp4
 ```
 
 **Regenerate sample media** (requires [ffmpeg](https://ffmpeg.org/)):
 
 ```bash
-npm run demo:assets
+pnpm run demo:assets
 ```
 
 or:

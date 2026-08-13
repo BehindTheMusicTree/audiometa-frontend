@@ -26,7 +26,7 @@ Short synthetic MP3 (~3s tone) with **intentionally rough metadata** for screen 
 Regenerate from the repo root:
 
 ```bash
-npm run demo:assets
+pnpm run demo:assets
 ```
 
 or:

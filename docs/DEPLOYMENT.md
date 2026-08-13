@@ -73,7 +73,7 @@ Result:
 
 ## 3. Environment variables
 
-For **local** runs (`npm run dev`, `npm run launch`): copy `.env.example` to `.env` and set every variable listed there. The build fails if any required env var is missing (see `requiredEnv` in next.config.ts).
+For **local** runs (`pnpm run dev`, `pnpm run launch`): copy `.env.example` to `.env` and set every variable listed there. The build fails if any required env var is missing (see `requiredEnv` in next.config.ts).
 
 On **Vercel**:
 
@@ -89,7 +89,7 @@ PostHog keys (`NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN`, `NEXT_PUBLIC_POSTHOG_HOST`) a
 
 The repo includes a root [`.npmrc`](../.npmrc) that points `@behindthemusictree` at `npm.pkg.github.com` and uses **`${NPM_TOKEN}`** during install. **Vercel** must have a variable named **`NPM_TOKEN`** (mark it **Sensitive**) on **Production**, **Preview**, and **Development** if you use `vercel dev`. Use a GitHub **personal access token** (classic: `read:packages`; or fine-grained: **Packages → Read** for the org that owns the package). The same token works for install only; it is not read by Next.js at runtime.
 
-**Local:** export the token before install, e.g. `export NPM_TOKEN=ghp_…` then `npm ci`, or rely on your machine’s GitHub CLI / credential helper if you use one.
+**Local:** export the token before install, e.g. `export NPM_TOKEN=ghp_…` then `pnpm install`, or rely on your machine’s GitHub CLI / credential helper if you use one.
 
 **Optional:** Add repository secret **`GH_PACKAGES_TOKEN`** with the same PAT. The [Sync Vercel env](../.github/workflows/sync-vercel-env.yml) workflow pushes it to Vercel as **`NPM_TOKEN`** (sensitive) when that secret is set (skips if empty).
 
@@ -135,12 +135,12 @@ _(Organization site, social defaults, and contact targets for footer / intro lin
 | `POSTHOG_PROJECT_TOKEN` | `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` |
 
 | **Repository secret** (optional; used to sync GitHub Packages auth to Vercel): |
-| `GH_PACKAGES_TOKEN` | `NPM_TOKEN` on Vercel (**sensitive**), for `npm install` of `@behindthemusictree/*` |
+| `GH_PACKAGES_TOKEN` | `NPM_TOKEN` on Vercel (**sensitive**), for `pnpm install` of `@behindthemusictree/*` |
 
 | **GitHub Environment variables** (Settings → Environments → `PROD` / `STAGING`) – can differ per environment: |
-| `HTMT_API_ROOT_SEGMENT` | `NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT` (path segment before `audio/…`, no slashes) |
+| `HTMT_API_ROOT_SEGMENT` | `NEXT_PUBLIC_BACKEND_ROOT_SEGMENT` (path segment before `audio/…`, no slashes) |
 | _(none for site origin)_ | Canonical site origin is resolved from **`@behindthemusictree/assets`** (`resolveOrgSiteHref()`), not from an app-level `NEXT_PUBLIC_SITE_URL` variable. |
-| _(none for API host)_ | API host is resolved from **`@behindthemusictree/assets`** constants (`HTMT_API_SUBDOMAIN` + `readOrgDomain()`/`ORG_DOMAIN`) rather than app-level env. |
+| _(none for API host)_ | API host is resolved from **`@behindthemusictree/assets`** constants (`HTMT_API_SUBDOMAIN` + **`ORG_DOMAIN`**, baked in at package build time) rather than app-level env. |
 
 Set `HTMT_API_ROOT_SEGMENT` to the path prefix where the API is mounted (e.g. `htmt` if routes live at `https://hear-api.themusictree.org/htmt/audio/metadata/full/`).
 
@@ -154,7 +154,7 @@ If production or staging shows an old version after you released or pushed to `d
 
 1. **Production branch** – Vercel → **Settings → Git**. Ensure **Production Branch** is `main`. With [vercel.json](../vercel.json), production does not deploy on every `main` push; trigger a build via your **Deploy Hook** ([§2.4](#24-production-deploy-hook-and-vercel-deploy-workflow)) or **Redeploy** the latest production deployment.
 2. **Which URL you’re opening** – Confirm you’re on the right URL. Production domain goes to the latest **production** deployment; preview URLs (e.g. `…-git-develop-….vercel.app`) are tied to a specific branch/commit. If you use a custom staging domain, check **Settings → Domains** and confirm which branch it’s assigned to.
-3. **Builds failing** – In Vercel → **Deployments**, check the latest deployment for your branch. If it’s **Failed**, fix the build (e.g. env vars, Node version, `npm run build` locally). Only successful builds update the live site.
+3. **Builds failing** – In Vercel → **Deployments**, check the latest deployment for your branch. If it’s **Failed**, fix the build (e.g. env vars, Node version, `pnpm run build` locally). Only successful builds update the live site.
 4. **Redeploy** – **Deployments** → open the latest production deployment → **⋯** → **Redeploy**, or run **Actions → Vercel deploy** / POST the Deploy Hook again.
 5. **Cache** – Try a hard refresh (e.g. Ctrl+Shift+R / Cmd+Shift+R) or an incognito window to rule out browser cache.
 6. **Git connection** – **Settings → Git** should show the correct repository. If you renamed the repo or moved it, re-import the project or reconnect the Git integration.

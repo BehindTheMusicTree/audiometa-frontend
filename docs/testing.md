@@ -127,6 +127,6 @@ We use a **hybrid** approach:
 
 Configure scripts in `package.json` as needed, for example:
 
-- `npm run test` or `vitest` for unit/component tests
-- `npm run test:integration` for integration tests (if configured)
-- `npm run test:e2e` for E2E (Playwright/Cypress)
+- `pnpm run test` or `vitest` for unit/component tests
+- `pnpm run test:integration` for integration tests (if configured)
+- `pnpm run test:e2e` for E2E (Playwright/Cypress)

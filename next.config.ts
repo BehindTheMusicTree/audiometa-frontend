@@ -7,7 +7,7 @@ const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 const localePathSegment = routing.locales.join("|");
 
 const requiredEnv = [
-  "NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT",
+  "NEXT_PUBLIC_BACKEND_ROOT_SEGMENT",
   "NEXT_PUBLIC_DOCS_BUNDLE_URL",
   "AUDIOMETA_PYTHON_GITHUB_REPO_URL",
   "NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN",
@@ -28,7 +28,7 @@ const nextConfig: NextConfig = {
   env: {
     NEXT_PUBLIC_DEPLOYMENT_ENV: deploymentEnv,
   },
-  transpilePackages: ["@behindthemusictree/assets"],
+  transpilePackages: ["@behindthemusictree/brand"],
   turbopack: {
     root: __dirname,
   },
