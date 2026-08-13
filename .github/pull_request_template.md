@@ -101,7 +101,7 @@ Fixes #
 
 - [ ] I have not added unnecessary dependencies
 - [ ] All new dependencies are documented in the PR description
-- [ ] The build passes without errors (`npm run build`)
+- [ ] The build passes without errors (`pnpm run build`)
 - [ ] I have verified that environment variables are properly configured (if applicable)
 
 ## Breaking Changes
