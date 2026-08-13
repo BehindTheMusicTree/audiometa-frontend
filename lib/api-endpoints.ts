@@ -1,7 +1,7 @@
 import {
   HTMT_API_SUBDOMAIN,
   ORG_DOMAIN,
-} from "@behindthemusictree/assets/components";
+} from "@behindthemusictree/brand/components";
 
 export const audioMetadataEndpoints = {
   full: "audio/metadata/full/",

@@ -11,7 +11,7 @@ import {
   IconBookOpen,
   socialBrandIconClass,
   TipeeeSocialLink,
-} from "@behindthemusictree/assets/components";
+} from "@behindthemusictree/brand/components";
 import { Link } from "@/i18n/navigation";
 import PageLayout from "@/components/PageLayout";
 import WritableTagsForm from "@/components/WritableTagsForm";

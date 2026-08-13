@@ -28,7 +28,7 @@ const nextConfig: NextConfig = {
   env: {
     NEXT_PUBLIC_DEPLOYMENT_ENV: deploymentEnv,
   },
-  transpilePackages: ["@behindthemusictree/assets"],
+  transpilePackages: ["@behindthemusictree/brand"],
   turbopack: {
     root: __dirname,
   },

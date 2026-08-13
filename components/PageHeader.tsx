@@ -7,7 +7,7 @@ import {
   BTMT_ICON_LINK_DARK_CLASS,
   IconBookOpen,
   ORG_MASTODON_URL,
-} from "@behindthemusictree/assets/components";
+} from "@behindthemusictree/brand/components";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { Link } from "@/i18n/navigation";
 import MusicTreeHorizontalLockup from "@/components/MusicTreeHorizontalLockup";

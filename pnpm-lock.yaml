@@ -8,9 +8,9 @@ importers:
 
   .:
     dependencies:
-      '@behindthemusictree/assets':
-        specifier: ^11.0.1
-        version: 11.0.2(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@behindthemusictree/brand':
+        specifier: ^11.6.0
+        version: 11.6.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       next:
         specifier: 16.2.3
         version: 16.2.3(@babel/core@7.29.0)(@opentelemetry/api@1.9.1)(@playwright/test@1.59.1)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -193,8 +193,8 @@ packages:
     resolution: {integrity: sha512-LwdZHpScM4Qz8Xw2iKSzS+cfglZzJGvofQICy7W7v4caru4EaAmyUuO6BGrbyQ2mYV11W0U8j5mBhd14dd3B0A==}
     engines: {node: '>=6.9.0'}
 
-  '@behindthemusictree/assets@11.0.2':
-    resolution: {integrity: sha512-HxJclad+dZN0AqSg2l511X/+2HeeHDMoPSITYN8QGH982yFlHmewkZ1dYAQqm2IDDO9Lqhni9+R7HbyWgLxqNw==, tarball: https://npm.pkg.github.com/download/@behindthemusictree/assets/11.0.2/bef6efbff5afdd03a039c2cc681f4d82e3131257}
+  '@behindthemusictree/brand@11.6.0':
+    resolution: {integrity: sha512-2IgqqrfLRtxBH54HNk6BG4AYbZV1gxeOVdI66lVuYI6hUJRiS++mo3HFb+lwhS9XW5+an/XI7TBjj6UgsRjJ+Q==, tarball: https://npm.pkg.github.com/download/@behindthemusictree/brand/11.6.0/e11906fcf8895a2eedad085887bc7b08b5767ae5}
     peerDependencies:
       react: '>=18.0.0'
       react-dom: '>=18.0.0'
@@ -3602,7 +3602,7 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
 
-  '@behindthemusictree/assets@11.0.2(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+  '@behindthemusictree/brand@11.6.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
     dependencies:
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
