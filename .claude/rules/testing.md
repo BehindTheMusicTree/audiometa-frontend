@@ -1,11 +1,3 @@
----
-description: Testing best practices for Vitest + Testing Library in this repo
-globs:
-  - "src/**/*.test.{ts,tsx}"
-  - "src/**/*.spec.{ts,tsx}"
-alwaysApply: true
----
-
 # Testing Guide
 
 Follow **docs/testing.md** for overall strategy and **docs/DATA_ATTRIBUTES.md** for `data-*` usage.

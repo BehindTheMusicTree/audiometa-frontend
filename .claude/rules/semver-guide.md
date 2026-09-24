@@ -1,8 +1,3 @@
----
-description: Use the project SemVer guide when deciding version bumps or discussing releases
-globs:
-alwaysApply: true
----
 # Semantic Versioning Guide
 
 Follow **docs/SEMVER_GUIDE.md** for when to bump MAJOR, MINOR, or PATCH in this Next.js application.

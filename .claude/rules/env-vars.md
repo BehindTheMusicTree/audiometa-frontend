@@ -1,8 +1,3 @@
----
-description: Environment variables are required; no optional env vars. Build fails if any are missing.
-globs:
-alwaysApply: true
----
 # Environment variables
 
 - **Env vars are never optional.** Every variable the app uses must be required at build time.

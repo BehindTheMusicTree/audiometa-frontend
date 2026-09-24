@@ -1,8 +1,3 @@
----
-description: 
-globs: 
-alwaysApply: true
----
 Description:
 Do not add comments that are generic, uninformative, or do not help explain the code. Only add comments when they are necessary to clarify complex logic, document important decisions, or provide essential context that is not obvious from the code itself.
 Examples of Comments to Avoid:

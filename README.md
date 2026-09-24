@@ -43,7 +43,7 @@ The portfolio website content lives in **[the-music-tree-frontend](https://githu
 │   └── utils/         # General utilities
 ├── demo/              # Demo recordings: video guide + sample media
 ├── docs/              # Style guide, testing, versioning
-├── .cursor/rules/     # Cursor AI / editor rules
+├── .claude/rules/     # Claude Code agent rules
 ├── .github/
 │   ├── workflows/     # CI (validate, branch-protection)
 │   └── pull_request_template.md

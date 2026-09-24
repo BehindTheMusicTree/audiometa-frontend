@@ -33,6 +33,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Agent rules**: Moved `.cursor/rules/*.mdc` to `.claude/rules/*.md` so Claude Code loads them natively
+  (`globs` → `paths`). Dropped `use-tailwind` and `tailwind-order`, which duplicated the `style-guide` rule and
+  `docs/STYLE_GUIDE.md`.
 - **Env / deploy**: Removed app-level `NEXT_PUBLIC_*` vars for developer credit and org URL; header/footer use **`@behindthemusictree/assets`**. Build now requires `AUDIOMETA_PYTHON_GITHUB_REPO_URL`, `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN`, and `NEXT_PUBLIC_POSTHOG_HOST`, plus existing `NEXT_PUBLIC_BACKEND_ROOT_SEGMENT` and `NEXT_PUBLIC_DOCS_BUNDLE_URL` (see `docs/DEPLOYMENT.md` and `.env.example`).
 - **i18n / App Router**: `[locale]` layout uses `hasLocale` / `notFound()`, `setRequestLocale`, `HtmlLangSync`, and `WebSiteJsonLd`; routing configuration and related types updated for the current `next-intl` setup.
 - **Metadata Manager**: Layout and spacing adjustments; stable `id` attributes on writable tag fields for demos and automation.

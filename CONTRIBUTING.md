@@ -67,13 +67,13 @@ Use [Conventional Commits](https://www.conventionalcommits.org/):
 
 For **changelog-only** commits under `[Unreleased]`, prefer `docs:` (user- or operator-facing notes) or `chore:` (trivial wording). Security-related dependency bumps: `chore(deps):` or `fix(deps):` with the advisory id when known.
 
-See [.cursor/rules/commit-message-format.mdc](.cursor/rules/commit-message-format.mdc) for full guidelines.
+See [.claude/rules/commit-message-format.md](.claude/rules/commit-message-format.md) for full guidelines.
 
 ## Pull Requests
 
 - **Target** – Features/chores → `develop`. Hotfixes → `main`.
 - **Title** – Same format as commit messages, e.g. `feat(metadata): add batch edit`.
-- **Description** – Draft in `.pr-descriptions/<branch-name>.md` (see [.cursor/rules/pr-description-workflow.mdc](.cursor/rules/pr-description-workflow.mdc)); copy into GitHub when opening the PR. Use [.github/pull_request_template.md](.github/pull_request_template.md).
+- **Description** – Draft in `.pr-descriptions/<branch-name>.md` (see [.claude/rules/pr-description-workflow.md](.claude/rules/pr-description-workflow.md)); copy into GitHub when opening the PR. Use [.github/pull_request_template.md](.github/pull_request_template.md).
 - **Checks** – Lint, test, and build must pass. Update [CHANGELOG.md](CHANGELOG.md) under **`[Unreleased]`** for any release-notable work (features, fixes, **security or dependency advisories**—including lockfile-only bumps—env or config changes, meaningful UX/refactors, new docs or demo paths). Use the same section headings as in [*Changelog Best Practices*](CHANGELOG.md#changelog-best-practices): **Security**, **Added**, **Changed**, **Fixed**, **Removed**, **Documentation**, **CI**, etc. Skip only for purely internal edits with no user or operator impact.
 
 ## Releasing (maintainers)

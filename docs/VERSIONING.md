@@ -65,7 +65,7 @@ When a version tag is pushed, the workflow (when configured):
 2. Builds the application
 3. Uses the version for Docker image tags, artifacts, or deployment as configured
 
-**Version extraction:** Prefer extracting from `github.ref` in GitHub Actions (e.g. `GITHUB_REF#refs/tags/v`) rather than hardcoding versions. See `.cursor/rules/versioning.mdc` for extraction logic examples.
+**Version extraction:** Prefer extracting from `github.ref` in GitHub Actions (e.g. `GITHUB_REF#refs/tags/v`) rather than hardcoding versions. See `.claude/rules/versioning.md` for extraction logic examples.
 
 ## Usage Examples
 

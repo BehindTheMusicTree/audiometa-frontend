@@ -1,8 +1,8 @@
 ---
-description: Demo and hero videos — capture, formats, embeds; follow demo/WEB_VIDEO_DEMOS.md
-globs: demo/**
-alwaysApply: false
+paths:
+  - "demo/**"
 ---
+
 # Demo and hero videos
 
 Canonical detail: **demo/WEB_VIDEO_DEMOS.md** (formats, Playwright + ffmpeg, `<video>` embeds, sample assets under **demo/assets/**). The short pointer **docs/WEB_VIDEO_DEMOS.md** redirects there; keep both in sync when moving or renaming the guide. When planning or scripting recordings, apply this summary.
