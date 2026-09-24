@@ -1,10 +1,3 @@
----
-description: Guidelines for creating and managing pull request descriptions
-globs:
-  - "**/*"
-alwaysRun: true
----
-
 # Pull Request Description Workflow
 
 ## PR Description File Management

@@ -71,7 +71,7 @@ Fixes #
 
 - [ ] My code follows the project's code style guidelines (see docs/STYLE_GUIDE.md)
 - [ ] I have performed a self-review of my code
-- [ ] I have commented my code only where necessary (see .cursor/rules/no-useless-comments.mdc)
+- [ ] I have commented my code only where necessary (see .claude/rules/no-useless-comments.md)
 - [ ] My changes generate no new warnings or errors
 - [ ] I have removed unnecessary console.logs and debug code
 
@@ -92,7 +92,7 @@ Fixes #
 ### Git & Workflow
 
 - [ ] My branch follows the naming convention (`feature/*`, `fix/*`, `chore/*`, etc.)
-- [ ] My commits follow the Conventional Commits format (see .cursor/rules/commit-message-format.mdc)
+- [ ] My commits follow the Conventional Commits format (see .claude/rules/commit-message-format.md)
 - [ ] I have rebased my branch on the latest target branch
 - [ ] I have resolved all merge conflicts
 - [ ] My PR targets the correct branch

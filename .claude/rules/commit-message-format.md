@@ -1,10 +1,3 @@
----
-description: Guidelines for commit message format following Conventional Commits
-globs:
-  - "**/*"
-alwaysRun: true
----
-
 # Commit Message Format
 
 All commit messages must follow the Conventional Commits format (see CONTRIBUTING.md when present).

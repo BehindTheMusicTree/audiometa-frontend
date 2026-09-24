@@ -50,3 +50,6 @@ coverage/
 demo/output/playwright-results/
 demo/output/hero-demo.webm
 demo/output/hero-demo.mp4
+
+# graphify
+graphify-out/

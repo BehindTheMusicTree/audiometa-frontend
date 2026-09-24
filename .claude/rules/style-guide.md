@@ -1,8 +1,3 @@
----
-description: Follow the project style guide for code conventions and Tailwind styling
-globs:
-alwaysApply: true
----
 # Style Guide
 
 Follow **docs/STYLE_GUIDE.md** for code and UI conventions.
