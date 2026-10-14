@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@behindthemusictree/assets": "^7.0.2",
-    "next": "16.2.2",
+    "next": "16.4.1",
     "next-intl": "^4.9.0",
     "posthog-js": "^1.365.4",
     "react": "19.2.3",
