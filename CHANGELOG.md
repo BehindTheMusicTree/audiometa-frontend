@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+- **Dependencies**: Bumped `next`/`eslint-config-next` to 16.3.8, `vitest` to ^4.1.11 and `vite` to ~6.4.4, and added scoped `pnpm.overrides` for transitive `undici`, `postcss`, `nanoid`, `dompurify`, `protobufjs`, `js-yaml`, `brace-expansion`, `browserslist`, `baseline-browser-mapping` and `@babel/core` to clear open Dependabot alerts. Added `.github/dependabot.yml` targeting `develop`.
 - **Dependencies**: Bumped `next` and `eslint-config-next` to 16.2.3 to address [GHSA-q4gf-8mx6-v5v3](https://github.com/advisories/GHSA-q4gf-8mx6-v5v3) (denial of service with Server Components). Updated `next-temp/package-lock.json` to the same Next line and added `next-temp/package.json` so that lockfile can be regenerated with npm.
 - **Dependencies**: Bumped `@playwright/test` to ^1.55.1 (Playwright 1.59.x) to address [GHSA-7mvr-c777-76hp](https://github.com/advisories/GHSA-7mvr-c777-76hp) (TLS verification when downloading browsers).
 
