@@ -33,13 +33,12 @@ export default function PageFooter({
         <p className="text-center text-sm leading-snug text-slate-400">
           {t("supportPrompt")}
         </p>
-        <span onClick={() => trackEvent("footer_tipeee_click")}>
-          <TipeeeSocialLink
-            className={BTMT_ICON_LINK_DARK_CLASS}
-            text={t("tipeeeLinkLabel")}
-            title={t("tipeeeLinkLabel")}
-          />
-        </span>
+        <TipeeeSocialLink
+          className={BTMT_ICON_LINK_DARK_CLASS}
+          text={t("tipeeeLinkLabel")}
+          title={t("tipeeeLinkLabel")}
+          onClick={() => trackEvent("footer_tipeee_click")}
+        />
       </div>
       <div className="flex w-full max-w-xl flex-wrap items-center justify-center gap-x-2 gap-y-2 border-t border-amber-500/15 pt-3">
         <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-2">
@@ -50,20 +49,19 @@ export default function PageFooter({
             aria-label={t("pythonLibNavAria")}
             className="flex items-center gap-1"
           >
-            <span onClick={() => trackEvent("footer_github_click")}>
-              <GithubSocialLink
-                href={audiometaPythonGithubUrl}
-                className={BTMT_ICON_LINK_DARK_CLASS}
-                iconClassName="h-5 w-5 shrink-0"
-                aria-label={t("pythonLibGithubAria")}
-                title={t("pythonLibGithubTitle")}
-              />
-            </span>
+            <GithubSocialLink
+              href={audiometaPythonGithubUrl}
+              className={BTMT_ICON_LINK_DARK_CLASS}
+              iconClassName="h-5 w-5 shrink-0"
+              text={t("pythonLibGithubAria")}
+              title={t("pythonLibGithubTitle")}
+              onClick={() => trackEvent("footer_github_click")}
+            />
             <PypiSocialLink
               href={AUDIOMETA_PYTHON_PYPI_URL}
               className={BTMT_ICON_LINK_DARK_CLASS}
               iconClassName="h-5 w-5 shrink-0"
-              aria-label={t("pypiAria")}
+              text={t("pypiAria")}
               title={t("pypiTitle")}
             />
           </nav>
