@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Tipeee and footer link tracking**: Upgraded `@behindthemusictree/brand` to ^12.8.0 (12.0.0 only removed the unused `Button`). The footer Tipeee/GitHub links and the in-flow Tipeee CTA now attach `onClick` directly to the link instead of wrapping it in a `<span onClick>` or a capture listener; events (`footer_tipeee_click`, `footer_github_click`, `tipeee_cta_click`) are unchanged. Added `PageFooter` click-tracking tests.
 - **Agent rules**: Moved `.cursor/rules/*.mdc` to `.claude/rules/*.md` so Claude Code loads them natively
   (`globs` → `paths`). Dropped `use-tailwind` and `tailwind-order`, which duplicated the `style-guide` rule and
   `docs/STYLE_GUIDE.md`.
@@ -45,6 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **Footer link labels**: The AudioMeta Python GitHub and PyPI footer links now announce their own labels ("AudioMeta Python on GitHub", PyPI label) instead of the generic brand default, which made them indistinguishable from the org GitHub link for screen readers.
 - **Sitemap**: `/sitemap.xml` no longer fails entirely when the docs bundle cannot be fetched; core URLs are still emitted and per-doc URLs are omitted until the bundle loads.
 
 ### Documentation

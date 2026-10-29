@@ -417,11 +417,7 @@ export default function MetadataManagerPage({
     tipeeeCtaPosition,
   ]);
 
-  function handleTipeeeCtaClickCapture(
-    event: React.MouseEvent<HTMLDivElement>,
-  ) {
-    const target = event.target as HTMLElement;
-    if (!target.closest("a")) return;
+  function handleTipeeeCtaClick() {
     trackEvent("tipeee_cta_click", {
       cta_position: tipeeeCtaPosition,
       prefers_reduced_motion: prefersReducedMotion,
@@ -443,7 +439,6 @@ export default function MetadataManagerPage({
         data-analytics-event="tipeee_cta_impression"
         data-state={tipeeeCtaPosition}
         data-position={position}
-        onClickCapture={handleTipeeeCtaClickCapture}
       >
         <p className="text-sm font-medium leading-relaxed text-amber-900">
           {t("supportPromptInFlow")}
@@ -454,6 +449,7 @@ export default function MetadataManagerPage({
             title={t("supportOnTipeee")}
             showText
             iconClassName={socialBrandIconClass}
+            onClick={handleTipeeeCtaClick}
           />
         </div>
       </div>
