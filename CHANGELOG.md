@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### CI
+
+- **Node.js**: Pinned Node 24 (the Vercel runtime) via `.nvmrc` and `engines.node`; CI reads `.nvmrc` instead of hard-coding Node 20 (EOL).
+
 ### Security
 
 - **Dependencies**: Bumped `next`/`eslint-config-next` to 16.3.8, `vitest` to ^4.1.11 and `vite` to ~6.4.4, and added scoped `pnpm.overrides` for transitive `undici`, `postcss`, `nanoid`, `dompurify`, `protobufjs`, `js-yaml`, `brace-expansion`, `browserslist`, `baseline-browser-mapping` and `@babel/core` to clear open Dependabot alerts. Added `.github/dependabot.yml` targeting `develop`.
@@ -34,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Tests**: `vitest.setup.ts` stubs `localStorage` per test, so the suite no longer depends on the Node version (Node ≥25's built-in `localStorage` shadowed jsdom's). Test files import messages via the `@/` alias. Added a footer test pinning the AudioMeta Python GitHub and PyPI link names.
 - **Tipeee and footer link tracking**: Upgraded `@behindthemusictree/brand` to ^12.8.0 (12.0.0 only removed the unused `Button`). The footer Tipeee/GitHub links and the in-flow Tipeee CTA now attach `onClick` directly to the link instead of wrapping it in a `<span onClick>` or a capture listener; events (`footer_tipeee_click`, `footer_github_click`, `tipeee_cta_click`) are unchanged. Added `PageFooter` click-tracking tests.
 - **Agent rules**: Moved `.cursor/rules/*.mdc` to `.claude/rules/*.md` so Claude Code loads them natively
   (`globs` → `paths`). Dropped `use-tailwind` and `tailwind-order`, which duplicated the `style-guide` rule and

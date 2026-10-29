@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { NextIntlClientProvider } from "next-intl";
 import PageFooter from "./PageFooter";
-import en from "../messages/en.json";
+import en from "@/messages/en.json";
 
 vi.mock("@/i18n/navigation", () => ({
   Link: ({ children, href }: { children: ReactNode; href: string }) => (
@@ -45,5 +45,15 @@ describe("PageFooter", () => {
       screen.getByRole("link", { name: /audiometa python on github/i }),
     );
     expect(trackMock).toHaveBeenCalledWith("footer_github_click");
+  });
+
+  it("names the AudioMeta Python GitHub and PyPI links distinctly", () => {
+    renderFooter();
+    expect(
+      screen.getByRole("link", { name: "AudioMeta Python on GitHub" }),
+    ).toHaveAttribute("href", "https://github.com/example/audiometa-python");
+    expect(
+      screen.getByRole("link", { name: "PyPI package" }),
+    ).toHaveAttribute("href", "https://pypi.org/project/audiometa-python/");
   });
 });
