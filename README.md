@@ -55,7 +55,7 @@ The portfolio website content lives in **[the-music-tree-frontend](https://githu
 
 ### Prerequisites
 
-- Node.js 20+
+- Node.js 24 (see `.nvmrc`)
 - pnpm
 
 ### Install and run
