@@ -1,3 +1,8 @@
+---
+paths:
+  - "**/*"
+---
+
 # Testing Guide
 
 Follow **docs/testing.md** for overall strategy and **docs/DATA_ATTRIBUTES.md** for `data-*` usage.

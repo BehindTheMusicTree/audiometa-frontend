@@ -1,3 +1,8 @@
+---
+paths:
+  - "**/*"
+---
+
 # Pull Request Description Workflow
 
 ## PR Description File Management

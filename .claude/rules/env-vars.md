@@ -1,3 +1,8 @@
+---
+paths:
+  - "**/*"
+---
+
 # Environment variables
 
 - **Env vars are never optional.** Every variable the app uses must be required at build time.

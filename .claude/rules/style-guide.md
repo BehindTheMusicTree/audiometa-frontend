@@ -1,3 +1,8 @@
+---
+paths:
+  - "**/*"
+---
+
 # Style Guide
 
 Follow **docs/STYLE_GUIDE.md** for code and UI conventions.

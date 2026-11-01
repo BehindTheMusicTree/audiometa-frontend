@@ -1,0 +1,60 @@
+# Commit Message Format
+
+All commit messages must follow the Conventional Commits format (see CONTRIBUTING.md when present).
+
+## Required Format
+
+```
+<type>(<scope>): <summary>
+```
+
+## Commit Types
+
+- `feat` - New feature
+- `fix` - Bug fix
+- `refactor` - Code restructuring
+- `docs` - Documentation update
+- `chore` - Maintenance / infrastructure
+- `test` - Adding or updating tests
+- `style` - Formatting / lint-only changes
+- `perf` - Performance improvement
+- `ci` - CI/CD pipeline changes
+
+### Changelog-only and dependency commits
+
+- **Changelog edits** (`CHANGELOG.md` → `[Unreleased]`): prefer **`docs:`** when the notes are user- or operator-facing; use **`chore:`** for trivial wording-only tweaks.
+- **Security-related dependency bumps**: prefer **`chore(deps):`** or **`fix(deps):`** and name the advisory (e.g. `GHSA-…`) or CVE in the summary when known.
+
+## Rules
+
+- **Always prefix with type**: Every commit message must start with one of the allowed types
+- **Use imperative mood**: "Add…", "Fix…", "Update…" (not "Added", "Fixed", "Updates")
+- **Keep summary under ~70 characters**
+- **Scope is optional**: Use parentheses for scope when relevant (e.g., `feat(player):`, `fix(metadata):`)
+- **Lowercase**: Use lowercase for type and scope
+- **Include issue IDs when applicable**: `fix(#42): handle null values`
+
+## Examples
+
+✅ **Correct:**
+- `feat(metadata): add batch edit`
+- `fix(audio): handle empty file list`
+- `docs: update setup instructions`
+- `chore: update dependencies`
+- `chore(deps): bump @playwright/test for GHSA-7mvr-c777-76hp`
+- `docs: add unreleased changelog entries for demo tooling`
+- `test(metadata): add unit tests for validation`
+
+❌ **Incorrect:**
+- `Align changelog with branch changes` (missing type prefix)
+- `Updated changelog` (missing type prefix, past tense)
+- `FEAT: Add shuffle mode` (uppercase type)
+- `feat: Added shuffle mode` (past tense)
+
+## Enforcement
+
+When creating commits:
+- Always use the format: `<type>(<scope>): <summary>`
+- Verify the type matches the change
+- Use imperative mood in the summary
+- Keep it concise and descriptive

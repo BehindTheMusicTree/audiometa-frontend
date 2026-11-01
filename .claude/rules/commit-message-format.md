@@ -1,3 +1,8 @@
+---
+paths:
+  - "**/*"
+---
+
 # Commit Message Format
 
 All commit messages must follow the Conventional Commits format (see CONTRIBUTING.md when present).

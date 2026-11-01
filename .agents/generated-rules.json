@@ -1,0 +1,12 @@
+{
+  "commit-message-format": "e5fbf428d7ef18d48099529a4241cc0f909df8f160757d20a4526f412a1aaa84",
+  "demo-video": "e2543a5053df9eab35bf70a21832011463554380df8a024a41153ee4c1fad5f0",
+  "env-vars": "bd1729c31bf97fa57fb3a47ebd0e561e9cb3f4857dc197f62f7734b03b3d9f03",
+  "i18n-alignment": "c4a24ada5731ed052ae4bb6da97380af699d7d5d19e25cbfb92ed2f3089fbca8",
+  "no-useless-comments": "747afa506e6d9fbb9da724b2ad32ea7ae35ca14f2090d75896cd41c170c33a10",
+  "pr-description-workflow": "2715d9b2c18747f4d7b654b83bd2bf562a177acbff567579d6ca12358ec6b66b",
+  "semver-guide": "06d53e8a392bbee7e73b97fb982e7cf1cf06255abf85dd9bbdf7266be4d5baaa",
+  "style-guide": "94df629fc38ded40126b3d12d7a86b35da60c47d62033eb14b7e51923d3528f9",
+  "testing": "1ba5bfb59e466ae597b500889b97af6593372e6aa59465ff7b746012839acdf9",
+  "versioning": "b8a51bf20c60aee16b7f6b88056b532c1399f6f7df105962f8704e189c7c913a"
+}

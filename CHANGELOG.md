@@ -56,6 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Documentation
 
+- Share project agent rules and the PostHog skill across Claude and Codex, with CI checking adapters for drift.
 - README: ecosystem links to themusictree.org, AudioMeta Webapp project page, and the-music-tree-frontend portfolio source.
 - Demo video workflow: `docs/WEB_VIDEO_DEMOS.md`, `demo/WEB_VIDEO_DEMOS.md`, and README files under `demo/` (assets, output, e2e); `.cursor/rules/demo-video.mdc` for the same workflow in-editor.
 
