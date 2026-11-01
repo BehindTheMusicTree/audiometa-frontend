@@ -1,3 +1,8 @@
+---
+paths:
+  - "**/*"
+---
+
 # Translation Alignment
 
 When updating user-facing copy in `messages/*.json`:
