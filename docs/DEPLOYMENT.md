@@ -85,13 +85,9 @@ PostHog keys (`NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN`, `NEXT_PUBLIC_POSTHOG_HOST`) a
    - **Preview** – for all non-production deployments (staging, PR previews). Use this for staging.
    - **Development** – for `vercel dev` (local).
 
-### GitHub Packages (`@behindthemusictree/*`)
+### `@behindthemusictree/*` packages
 
-The repo includes a root [`.npmrc`](../.npmrc) that points `@behindthemusictree` at `npm.pkg.github.com` and uses **`${NPM_TOKEN}`** during install. **Vercel** must have a variable named **`NPM_TOKEN`** (mark it **Sensitive**) on **Production**, **Preview**, and **Development** if you use `vercel dev`. Use a GitHub **personal access token** (classic: `read:packages`; or fine-grained: **Packages → Read** for the org that owns the package). The same token works for install only; it is not read by Next.js at runtime.
-
-**Local:** export the token before install, e.g. `export NPM_TOKEN=ghp_…` then `pnpm install`, or rely on your machine’s GitHub CLI / credential helper if you use one.
-
-**Optional:** Add repository secret **`GH_PACKAGES_TOKEN`** with the same PAT. The [Sync Vercel env](../.github/workflows/sync-vercel-env.yml) workflow pushes it to Vercel as **`NPM_TOKEN`** (sensitive) when that secret is set (skips if empty).
+The packages are public on npmjs.com, so installs need no token, no `.npmrc` and no Vercel `NPM_TOKEN`.
 
 Recommended:
 
@@ -129,18 +125,15 @@ Use the workflow [`.github/workflows/sync-vercel-env.yml`](../.github/workflows/
 | `AUDIOMETA_PYTHON_GITHUB_REPO_URL`                                                                         | `AUDIOMETA_PYTHON_GITHUB_REPO_URL` (AudioMeta Python repo URL for footer / docs; no trailing slash) |
 | `POSTHOG_API_HOST`                                                                                         | `NEXT_PUBLIC_POSTHOG_HOST` (PostHog ingest API origin, e.g. `https://eu.i.posthog.com`)             |
 
-_(Organization site, social defaults, and contact targets for footer / intro links come from **`@behindthemusictree/assets`** at package build time; this app does not set other `NEXT*PUBLIC*_` vars for those.)\*
+_(Organization site, social defaults, and contact targets for footer / intro links come from **`@behindthemusictree/brand`** at package build time; this app does not set other `NEXT*PUBLIC*_` vars for those.)\*
 
 | **Repository secret** (PostHog; required to run [Sync Vercel env](../.github/workflows/sync-vercel-env.yml)): |
 | `POSTHOG_PROJECT_TOKEN` | `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` |
 
-| **Repository secret** (optional; used to sync GitHub Packages auth to Vercel): |
-| `GH_PACKAGES_TOKEN` | `NPM_TOKEN` on Vercel (**sensitive**), for `pnpm install` of `@behindthemusictree/*` |
-
 | **GitHub Environment variables** (Settings → Environments → `PROD` / `STAGING`) – can differ per environment: |
 | `HTMT_API_ROOT_SEGMENT` | `NEXT_PUBLIC_BACKEND_ROOT_SEGMENT` (path segment before `audio/…`, no slashes) |
-| _(none for site origin)_ | Canonical site origin is resolved from **`@behindthemusictree/assets`** (`resolveOrgSiteHref()`), not from an app-level `NEXT_PUBLIC_SITE_URL` variable. |
-| _(none for API host)_ | API host is resolved from **`@behindthemusictree/assets`** constants (`HTMT_API_SUBDOMAIN` + **`ORG_DOMAIN`**, baked in at package build time) rather than app-level env. |
+| _(none for site origin)_ | Canonical site origin is resolved from **`@behindthemusictree/brand`** (`resolveOrgSiteHref()`), not from an app-level `NEXT_PUBLIC_SITE_URL` variable. |
+| _(none for API host)_ | API host is resolved from **`@behindthemusictree/brand`** constants (`HTMT_API_SUBDOMAIN` + **`ORG_DOMAIN`**, baked in at package build time) rather than app-level env. |
 
 Set `HTMT_API_ROOT_SEGMENT` to the path prefix where the API is mounted (e.g. `htmt` if routes live at `https://hear-api.themusictree.org/htmt/audio/metadata/full/`).
 

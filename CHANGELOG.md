@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **Packages**: `@behindthemusictree/brand` is now installed from the public npmjs registry; removed `.npmrc`, the `NPM_TOKEN` env in CI and the Vercel `NPM_TOKEN` sync.
+
 ### CI
 
 - **Node.js**: Pinned Node 24 (the Vercel runtime) via `.nvmrc` and `engines.node`; CI reads `.nvmrc` instead of hard-coding Node 20 (EOL).

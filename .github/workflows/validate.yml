@@ -16,8 +16,6 @@ jobs:
   lint:
     name: Lint Code
     runs-on: ubuntu-latest
-    env:
-      NPM_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN_READ }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -40,8 +38,6 @@ jobs:
   test:
     name: Run Tests
     runs-on: ubuntu-latest
-    env:
-      NPM_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN_READ }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -66,8 +62,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: [lint, test]
     environment: ${{ github.base_ref == 'main' && 'PROD' || 'STAGING' }}
-    env:
-      NPM_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN_READ }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
