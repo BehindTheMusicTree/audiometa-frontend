@@ -22,7 +22,6 @@ jobs:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
-      NPM_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN_READ }}
       POSTHOG_PROJECT_TOKEN: ${{ secrets.POSTHOG_PROJECT_TOKEN }}
       AUDIOMETA_DOCS_BUNDLE_URL: ${{ vars.AUDIOMETA_DOCS_BUNDLE_URL }}
       AUDIOMETA_PYTHON_GITHUB_REPO_URL: ${{ vars.AUDIOMETA_PYTHON_GITHUB_REPO_URL }}
@@ -86,7 +85,6 @@ jobs:
           sync_var "$HTMT_API_ROOT_SEGMENT" "NEXT_PUBLIC_BACKEND_ROOT_SEGMENT"
           sync_var "$POSTHOG_PROJECT_TOKEN" "NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN"
           sync_var "$POSTHOG_API_HOST" "NEXT_PUBLIC_POSTHOG_HOST"
-          sync_secret_var "$NPM_TOKEN" "NPM_TOKEN"
           echo "Production sync done."
 
       - name: Trigger Vercel production deploy
@@ -100,7 +98,6 @@ jobs:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
-      NPM_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN_READ }}
       AUDIOMETA_DOCS_BUNDLE_URL: ${{ vars.AUDIOMETA_DOCS_BUNDLE_URL }}
       AUDIOMETA_PYTHON_GITHUB_REPO_URL: ${{ vars.AUDIOMETA_PYTHON_GITHUB_REPO_URL }}
       AUDIOMETA_SUBDOMAIN: ${{ vars.AUDIOMETA_FRONT_SUBDOMAIN }}
@@ -164,7 +161,6 @@ jobs:
           sync_var "$HTMT_API_ROOT_SEGMENT" "NEXT_PUBLIC_BACKEND_ROOT_SEGMENT"
           sync_var "$POSTHOG_PROJECT_TOKEN" "NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN"
           sync_var "$POSTHOG_API_HOST" "NEXT_PUBLIC_POSTHOG_HOST"
-          sync_secret_var "$NPM_TOKEN" "NPM_TOKEN"
           echo "Preview sync done."
 
       - name: Trigger Vercel preview (staging) deploy
