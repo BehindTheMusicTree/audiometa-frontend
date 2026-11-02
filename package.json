@@ -39,7 +39,7 @@
     "jsdom": "^29",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "vite": "~6.4.2",
+    "vite": "~6.4.5",
     "vitest": "^3"
   },
   "overrides": {
