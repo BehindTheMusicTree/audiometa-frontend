@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - **Packages**: `@behindthemusictree/brand` is now installed from the public npmjs registry; removed `.npmrc`, the `NPM_TOKEN` env in CI and the Vercel `NPM_TOKEN` sync.
+- Removed the local pull request template; the organization-wide template from `BehindTheMusicTree/.github` applies.
 
 ### CI
 

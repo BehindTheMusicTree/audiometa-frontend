@@ -21,13 +21,12 @@ When creating or working on a pull request, **NEVER** write the PR description d
    - This directory is git-ignored for local drafting
 
 3. **Use the PR template structure**
-   - Start from `.github/pull_request_template.md`
+   - Start from the organization pull request template (`BehindTheMusicTree/.github`)
    - Fill in all relevant sections
    - Remove sections marked as "None" or not applicable
 
 4. **Draft and refine locally**
    - Keep the description file updated as you make changes
-   - Update the checklist as you complete items
    - Add screenshots/notes as you progress
 
 5. **Copy to GitHub when ready**
@@ -39,7 +38,7 @@ When creating or working on a pull request, **NEVER** write the PR description d
    - For any PR that changes behavior users or operators care about, update **`[Unreleased]`** in the same branch (do not wait for release).
    - **When to update**: new or removed features, bug fixes, security or dependency fixes (including lockfile-only advisories), breaking env/config, analytics or demo tooling that ships in-repo, meaningful refactors with user impact, documentation or demo paths added or moved.
    - **Sections**: Use the same headings as in *Changelog Best Practices* at the top of `CHANGELOG.md`—**Security**, **Added**, **Changed**, **Fixed**, **Removed**, **Documentation**, **CI**, etc.—so PR reviewers can map bullets to the file.
-   - **Consistency**: Where the PR template lists concrete changes under "Changes Made", the changelog should cover the same scope (one changelog entry can summarize several files).
+   - **Consistency**: Where the PR template lists concrete changes under "Changes", the changelog should cover the same scope (one changelog entry can summarize several files).
    - Leave `[Unreleased]` unchanged only for truly internal-only edits (e.g. typo in a non-user-facing comment with no release note value).
 
 ### File Location Rules
@@ -57,7 +56,7 @@ git checkout -b feature/metadata-batch-edit
 
 # 2. Create PR description file
 mkdir -p .pr-descriptions
-cp .github/pull_request_template.md .pr-descriptions/feature-metadata-batch-edit.md
+gh api repos/BehindTheMusicTree/.github/contents/.github/pull_request_template.md -H 'Accept: application/vnd.github.raw+json' > .pr-descriptions/feature-metadata-batch-edit.md
 
 # 3. Work on your feature and update the PR description file as you go
 # Edit .pr-descriptions/feature-metadata-batch-edit.md
@@ -70,7 +69,7 @@ cat .pr-descriptions/feature-metadata-batch-edit.md | pbcopy  # macOS
 
 ## Enforcement
 
-- **Changelog**: When implementing or reviewing a PR, confirm `CHANGELOG.md` `[Unreleased]` is updated when the "when to update" criteria above apply; align with the PR template Documentation checklist.
+- **Changelog**: When implementing or reviewing a PR, confirm `CHANGELOG.md` `[Unreleased]` is updated when the "when to update" criteria above apply; align with the Changelog rules in `CONTRIBUTING.md`.
 - **PR title required**: When providing a PR description, always provide a PR title as well
 - AI assistant should always suggest creating/updating files in `.pr-descriptions/`
 - Always reference the PR template when creating descriptions
