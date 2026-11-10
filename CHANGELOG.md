@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Removed the graphify `merge=graphify` git attribute, which pointed at a machine-specific merge driver; the global agent-config freshness hook keeps the graph fresh.
 - **Packages**: `@behindthemusictree/brand` is now installed from the public npmjs registry; removed `.npmrc`, the `NPM_TOKEN` env in CI and the Vercel `NPM_TOKEN` sync.
 - Removed the local pull request template; the organization-wide template from `BehindTheMusicTree/.github` applies.
 
