@@ -45,8 +45,7 @@ The portfolio website content lives in **[the-music-tree-frontend](https://githu
 ├── docs/              # Style guide, testing, versioning
 ├── .claude/rules/     # Claude Code agent rules
 ├── .github/
-│   ├── workflows/     # CI (validate, branch-protection)
-│   └── pull_request_template.md
+│   └── workflows/     # CI (validate, branch-protection)
 ├── playwright.config.ts  # Playwright (demo screen recordings)
 └── README.md
 ```
