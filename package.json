@@ -25,7 +25,7 @@
     "posthog-js": "^1.447.3",
     "react": "19.3.1",
     "react-dom": "19.3.1",
-    "react-markdown": "^9",
+    "react-markdown": "^10",
     "remark-gfm": "^4",
     "zod": "^4.6"
   },
