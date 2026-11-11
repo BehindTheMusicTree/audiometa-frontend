@@ -29,10 +29,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### CI
 
+- **Dependabot**: Grouped minor and patch updates into a single PR so dead or noisy PRs no longer saturate the open-PR limit.
 - **Node.js**: Pinned Node 24 (the Vercel runtime) via `.nvmrc` and `engines.node`; CI reads `.nvmrc` instead of hard-coding Node 20 (EOL).
 
 ### Security
 
+- **Dependencies**: Bumped `next`/`eslint-config-next` to 16.4.1 to address [GHSA-2464-fhr4-w9xw](https://github.com/advisories/GHSA-2464-fhr4-w9xw), [GHSA-673q-mjm6-r5xr](https://github.com/advisories/GHSA-673q-mjm6-r5xr) (critical) and [GHSA-p3m5-59mp-jv5r](https://github.com/advisories/GHSA-p3m5-59mp-jv5r), and removed the stray `next-temp/` scaffold (its npm lockfile only produced duplicate alerts).
 - **Dependencies**: Bumped `next`/`eslint-config-next` to 16.3.8, `vitest` to ^4.1.11 and `vite` to ~6.4.4, and added scoped `pnpm.overrides` for transitive `undici`, `postcss`, `nanoid`, `dompurify`, `protobufjs`, `js-yaml`, `brace-expansion`, `browserslist`, `baseline-browser-mapping` and `@babel/core` to clear open Dependabot alerts. Added `.github/dependabot.yml` targeting `develop`.
 - **Dependencies**: Bumped `next` and `eslint-config-next` to 16.2.3 to address [GHSA-q4gf-8mx6-v5v3](https://github.com/advisories/GHSA-q4gf-8mx6-v5v3) (denial of service with Server Components). Updated `next-temp/package-lock.json` to the same Next line and added `next-temp/package.json` so that lockfile can be regenerated with npm.
 - **Dependencies**: Bumped `@playwright/test` to ^1.55.1 (Playwright 1.59.x) to address [GHSA-7mvr-c777-76hp](https://github.com/advisories/GHSA-7mvr-c777-76hp) (TLS verification when downloading browsers).
