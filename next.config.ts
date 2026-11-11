@@ -7,10 +7,8 @@ const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 const localePathSegment = routing.locales.join("|");
 
 const requiredEnv = [
-  "NEXT_PUBLIC_BACKEND_BASE_URL",
-  "NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT",
+  "NEXT_PUBLIC_BACKEND_ROOT_SEGMENT",
   "NEXT_PUBLIC_DOCS_BUNDLE_URL",
-  "NEXT_PUBLIC_SITE_URL",
   "AUDIOMETA_PYTHON_GITHUB_REPO_URL",
   "NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN",
   "NEXT_PUBLIC_POSTHOG_HOST",
@@ -24,14 +22,13 @@ if (missing.length > 0) {
 
 const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST!.trim();
 
-const deploymentEnv =
-  process.env.VERCEL_ENV?.trim() || "development";
+const deploymentEnv = process.env.VERCEL_ENV?.trim() || "development";
 
 const nextConfig: NextConfig = {
   env: {
     NEXT_PUBLIC_DEPLOYMENT_ENV: deploymentEnv,
   },
-  transpilePackages: ["@behindthemusictree/assets"],
+  transpilePackages: ["@behindthemusictree/brand"],
   turbopack: {
     root: __dirname,
   },

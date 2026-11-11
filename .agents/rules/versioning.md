@@ -1,8 +1,3 @@
----
-description: Versioning and git tagging strategy for this project
-globs:
-alwaysApply: true
----
 # Versioning and Tagging
 
 This rule defines how versioning and git tagging should be handled in this project. All versioning follows the strategy documented in `docs/VERSIONING.md`.

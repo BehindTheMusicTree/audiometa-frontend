@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [Changelog Best Practices](#changelog-best-practices)
 - [Unreleased](#unreleased)
+- [0.2.0 - 2026-11-11](#020---2026-11-11)
 - [0.1.0 - 2025-03-12](#010---2025-03-12)
 
 ## Changelog Best Practices
@@ -21,8 +22,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-11
+
+### Changed
+
+- Removed the graphify `merge=graphify` git attribute, which pointed at a machine-specific merge driver; the global agent-config freshness hook keeps the graph fresh.
+- **Packages**: `@behindthemusictree/brand` is now installed from the public npmjs registry; removed `.npmrc`, the `NPM_TOKEN` env in CI and the Vercel `NPM_TOKEN` sync.
+- Removed the local pull request template; the organization-wide template from `BehindTheMusicTree/.github` applies.
+
+### CI
+
+- **Dependabot**: Grouped minor and patch updates into a single PR so dead or noisy PRs no longer saturate the open-PR limit.
+- **Node.js**: Pinned Node 24 (the Vercel runtime) via `.nvmrc` and `engines.node`; CI reads `.nvmrc` instead of hard-coding Node 20 (EOL).
+
 ### Security
 
+- **Dependencies**: Bumped `next`/`eslint-config-next` to 16.4.1 to address [GHSA-2464-fhr4-w9xw](https://github.com/advisories/GHSA-2464-fhr4-w9xw), [GHSA-673q-mjm6-r5xr](https://github.com/advisories/GHSA-673q-mjm6-r5xr) (critical) and [GHSA-p3m5-59mp-jv5r](https://github.com/advisories/GHSA-p3m5-59mp-jv5r), and removed the stray `next-temp/` scaffold (its npm lockfile only produced duplicate alerts).
+- **Dependencies**: Bumped `next`/`eslint-config-next` to 16.3.8, `vitest` to ^4.1.11 and `vite` to ~6.4.4, and added scoped `pnpm.overrides` for transitive `undici`, `postcss`, `nanoid`, `dompurify`, `protobufjs`, `js-yaml`, `brace-expansion`, `browserslist`, `baseline-browser-mapping` and `@babel/core` to clear open Dependabot alerts. Added `.github/dependabot.yml` targeting `develop`.
+- **Dependencies**: Bumped `next` and `eslint-config-next` to 16.2.3 to address [GHSA-q4gf-8mx6-v5v3](https://github.com/advisories/GHSA-q4gf-8mx6-v5v3) (denial of service with Server Components). Updated `next-temp/package-lock.json` to the same Next line and added `next-temp/package.json` so that lockfile can be regenerated with npm.
 - **Dependencies**: Bumped `@playwright/test` to ^1.55.1 (Playwright 1.59.x) to address [GHSA-7mvr-c777-76hp](https://github.com/advisories/GHSA-7mvr-c777-76hp) (TLS verification when downloading browsers).
 
 ### Added
@@ -32,7 +49,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- **Env / deploy**: Removed app-level `NEXT_PUBLIC_*` vars for developer credit and org URL; header/footer use **`@behindthemusictree/assets`**. Build now also requires `NEXT_PUBLIC_SITE_URL`, `AUDIOMETA_PYTHON_GITHUB_REPO_URL`, `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN`, and `NEXT_PUBLIC_POSTHOG_HOST`, plus existing `NEXT_PUBLIC_BACKEND_BASE_URL`, `NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT`, and `NEXT_PUBLIC_DOCS_BUNDLE_URL` (see `docs/DEPLOYMENT.md` and `.env.example`).
+- **Tests**: `vitest.setup.ts` stubs `localStorage` per test, so the suite no longer depends on the Node version (Node ≥25's built-in `localStorage` shadowed jsdom's). Test files import messages via the `@/` alias. Added a footer test pinning the AudioMeta Python GitHub and PyPI link names.
+- **Tipeee and footer link tracking**: Upgraded `@behindthemusictree/brand` to ^12.8.0 (12.0.0 only removed the unused `Button`). The footer Tipeee/GitHub links and the in-flow Tipeee CTA now attach `onClick` directly to the link instead of wrapping it in a `<span onClick>` or a capture listener; events (`footer_tipeee_click`, `footer_github_click`, `tipeee_cta_click`) are unchanged. Added `PageFooter` click-tracking tests.
+- **Agent rules**: Moved `.cursor/rules/*.mdc` to `.claude/rules/*.md` so Claude Code loads them natively
+  (`globs` → `paths`). Dropped `use-tailwind` and `tailwind-order`, which duplicated the `style-guide` rule and
+  `docs/STYLE_GUIDE.md`.
+- **Env / deploy**: Removed app-level `NEXT_PUBLIC_*` vars for developer credit and org URL; header/footer use **`@behindthemusictree/assets`**. Build now requires `AUDIOMETA_PYTHON_GITHUB_REPO_URL`, `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN`, and `NEXT_PUBLIC_POSTHOG_HOST`, plus existing `NEXT_PUBLIC_BACKEND_ROOT_SEGMENT` and `NEXT_PUBLIC_DOCS_BUNDLE_URL` (see `docs/DEPLOYMENT.md` and `.env.example`).
 - **i18n / App Router**: `[locale]` layout uses `hasLocale` / `notFound()`, `setRequestLocale`, `HtmlLangSync`, and `WebSiteJsonLd`; routing configuration and related types updated for the current `next-intl` setup.
 - **Metadata Manager**: Layout and spacing adjustments; stable `id` attributes on writable tag fields for demos and automation.
 - **Vitest**: Load `NEXT_PUBLIC_*` from `.env*` in `test` mode; exclude `demo/e2e` (Playwright) from Vitest file discovery.
@@ -40,10 +62,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **Footer link labels**: The AudioMeta Python GitHub and PyPI footer links now announce their own labels ("AudioMeta Python on GitHub", PyPI label) instead of the generic brand default, which made them indistinguishable from the org GitHub link for screen readers.
 - **Sitemap**: `/sitemap.xml` no longer fails entirely when the docs bundle cannot be fetched; core URLs are still emitted and per-doc URLs are omitted until the bundle loads.
 
 ### Documentation
 
+- Share project agent rules and the PostHog skill across Claude and Codex, with CI checking adapters for drift.
 - README: ecosystem links to themusictree.org, AudioMeta Webapp project page, and the-music-tree-frontend portfolio source.
 - Demo video workflow: `docs/WEB_VIDEO_DEMOS.md`, `demo/WEB_VIDEO_DEMOS.md`, and README files under `demo/` (assets, output, e2e); `.cursor/rules/demo-video.mdc` for the same workflow in-editor.
 
@@ -54,5 +78,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Metadata Manager page** at `/audio-metadata-manager`: file picker to choose an audio file, POST to `NEXT_PUBLIC_BACKEND_BASE_URL/audio/metadata/full/`, display full metadata in six sections (Technical information, Unified metadata, By metadata format, Format priorities, Formats headers, Metadata raw). Inline loading and error display; no popup. Includes unit tests.
 - **Project setup**: Cursor rules (style, Tailwind, testing, SemVer, versioning, commit format, PR workflow), docs (STYLE_GUIDE, SEMANTIC_HTML, DATA_ATTRIBUTES, testing, SEMVER_GUIDE, VERSIONING), GitHub workflows (validate, branch-protection, publish), CONTRIBUTING.md, README, PR template, `.gitignore`. Vitest + Testing Library for tests. Reusable `PageLayout` component and `useGetFullMetadata` hook with Zod schema for response validation.
 
-[Unreleased]: https://github.com/your-org/audiometa-frontend/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/your-org/audiometa-frontend/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/your-org/audiometa-frontend/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/your-org/audiometa-frontend/releases/tag/v0.1.0

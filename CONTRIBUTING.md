@@ -18,7 +18,7 @@ Contributions are welcome. This document covers development workflow, commit for
    ```bash
    git clone https://github.com/YOUR-ORG/audiometa-frontend.git
    cd audiometa-frontend
-   npm install
+   pnpm install
    ```
 
 2. **Environment** – Copy any `.env.example` to `.env.local` and set variables as needed for local development.
@@ -27,7 +27,7 @@ Contributions are welcome. This document covers development workflow, commit for
 
 4. **Develop** – Follow [docs/STYLE_GUIDE.md](docs/STYLE_GUIDE.md) for code and styling.
 
-5. **Test** – Run `npm run lint`, `npm run test`, and `npm run build` before opening a PR.
+5. **Test** – Run `pnpm run lint`, `pnpm run test`, and `pnpm run build` before opening a PR.
 
 6. **Commit** using [Conventional Commits](#committing).
 
@@ -67,19 +67,19 @@ Use [Conventional Commits](https://www.conventionalcommits.org/):
 
 For **changelog-only** commits under `[Unreleased]`, prefer `docs:` (user- or operator-facing notes) or `chore:` (trivial wording). Security-related dependency bumps: `chore(deps):` or `fix(deps):` with the advisory id when known.
 
-See [.cursor/rules/commit-message-format.mdc](.cursor/rules/commit-message-format.mdc) for full guidelines.
+See [.claude/rules/commit-message-format.md](.claude/rules/commit-message-format.md) for full guidelines.
 
 ## Pull Requests
 
 - **Target** – Features/chores → `develop`. Hotfixes → `main`.
 - **Title** – Same format as commit messages, e.g. `feat(metadata): add batch edit`.
-- **Description** – Draft in `.pr-descriptions/<branch-name>.md` (see [.cursor/rules/pr-description-workflow.mdc](.cursor/rules/pr-description-workflow.mdc)); copy into GitHub when opening the PR. Use [.github/pull_request_template.md](.github/pull_request_template.md).
+- **Description** – Draft in `.pr-descriptions/<branch-name>.md` (see [.claude/rules/pr-description-workflow.md](.claude/rules/pr-description-workflow.md)); copy into GitHub when opening the PR. Use [organization pull request template](https://github.com/BehindTheMusicTree/.github/blob/main/.github/pull_request_template.md).
 - **Checks** – Lint, test, and build must pass. Update [CHANGELOG.md](CHANGELOG.md) under **`[Unreleased]`** for any release-notable work (features, fixes, **security or dependency advisories**—including lockfile-only bumps—env or config changes, meaningful UX/refactors, new docs or demo paths). Use the same section headings as in [*Changelog Best Practices*](CHANGELOG.md#changelog-best-practices): **Security**, **Added**, **Changed**, **Fixed**, **Removed**, **Documentation**, **CI**, etc. Skip only for purely internal edits with no user or operator impact.
 
 ## Releasing (maintainers)
 
 1. Create `release/vX.Y.Z` from `develop`.
-2. Merge release branch into `main`, then tag: `npm version minor` (or `patch`/`major`), then `git push origin main && git push origin vX.Y.Z`.
+2. Merge release branch into `main`, then tag: `pnpm version minor` (or `patch`/`major`), then `git push origin main && git push origin vX.Y.Z`.
 3. Merge release branch back into `develop` and delete the release branch.
 
 See [docs/VERSIONING.md](docs/VERSIONING.md) and [docs/SEMVER_GUIDE.md](docs/SEMVER_GUIDE.md).

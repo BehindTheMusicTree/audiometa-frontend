@@ -95,4 +95,4 @@ Example:
 - Implement error boundaries for error handling
 - Use React Query for API data fetching when applicable
 - Follow the Tailwind class order in this guide
-- Avoid useless comments (see `.cursor/rules/no-useless-comments.mdc`)
+- Avoid useless comments (see `.claude/rules/no-useless-comments.md`)

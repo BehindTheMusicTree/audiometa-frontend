@@ -65,15 +65,15 @@ Repository secrets (same as sync workflow): **`VERCEL_TOKEN`**, **`VERCEL_PROJEC
 
 Result:
 
-| Environment | Branch    | Deploys when                                      | URL example                            |
-| ----------- | --------- | ------------------------------------------------- | -------------------------------------- |
+| Environment | Branch    | Deploys when                                     | URL example                            |
+| ----------- | --------- | ------------------------------------------------ | -------------------------------------- |
 | Production  | `main`    | **Deploy Hook** (release tag workflow or manual) | `app.audiometa.com`                    |
-| Staging     | `develop` | Push to develop                                   | `staging.audiometa.com` or preview URL |
-| PR previews | any       | Open PR                                           | `…-git-branch-…vercel.app`             |
+| Staging     | `develop` | Push to develop                                  | `staging.audiometa.com` or preview URL |
+| PR previews | any       | Open PR                                          | `…-git-branch-…vercel.app`             |
 
 ## 3. Environment variables
 
-For **local** runs (`npm run dev`, `npm run launch`): copy `.env.example` to `.env` and set every variable listed there. The build fails if any required env var is missing (see `requiredEnv` in next.config.ts).
+For **local** runs (`pnpm run dev`, `pnpm run launch`): copy `.env.example` to `.env` and set every variable listed there. The build fails if any required env var is missing (see `requiredEnv` in next.config.ts).
 
 On **Vercel**:
 
@@ -85,13 +85,9 @@ PostHog keys (`NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN`, `NEXT_PUBLIC_POSTHOG_HOST`) a
    - **Preview** – for all non-production deployments (staging, PR previews). Use this for staging.
    - **Development** – for `vercel dev` (local).
 
-### GitHub Packages (`@behindthemusictree/*`)
+### `@behindthemusictree/*` packages
 
-The repo includes a root [`.npmrc`](../.npmrc) that points `@behindthemusictree` at `npm.pkg.github.com` and uses **`${NPM_TOKEN}`** during install. **Vercel** must have a variable named **`NPM_TOKEN`** (mark it **Sensitive**) on **Production**, **Preview**, and **Development** if you use `vercel dev`. Use a GitHub **personal access token** (classic: `read:packages`; or fine-grained: **Packages → Read** for the org that owns the package). The same token works for install only; it is not read by Next.js at runtime.
-
-**Local:** export the token before install, e.g. `export NPM_TOKEN=ghp_…` then `npm ci`, or rely on your machine’s GitHub CLI / credential helper if you use one.
-
-**Optional:** Add repository secret **`GH_PACKAGES_TOKEN`** with the same PAT. The [Sync Vercel env](../.github/workflows/sync-vercel-env.yml) workflow pushes it to Vercel as **`NPM_TOKEN`** (sensitive) when that secret is set (skips if empty).
+The packages are public on npmjs.com, so installs need no token, no `.npmrc` and no Vercel `NPM_TOKEN`.
 
 Recommended:
 
@@ -122,30 +118,24 @@ Use the workflow [`.github/workflows/sync-vercel-env.yml`](../.github/workflows/
 
 **How the sync works:** The workflow has two jobs. Each job runs in a **GitHub Environment** (`PROD` or `STAGING`), so it sees that environment’s variables. It syncs only to the matching Vercel target.
 
-| Source | → Vercel env |
-|--------|----------------|
+| Source                                                                                                     | → Vercel env                                                                                        |
+| ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
 | **Repo variables** (Settings → Secrets and variables → Actions → Variables) – same value for both targets: |
-| `AUDIOMETA_DOCS_BUNDLE_URL` | `NEXT_PUBLIC_DOCS_BUNDLE_URL` |
-| `AUDIOMETA_PYTHON_GITHUB_REPO_URL` | `AUDIOMETA_PYTHON_GITHUB_REPO_URL` (AudioMeta Python repo URL for footer / docs; no trailing slash) |
-| `POSTHOG_API_HOST` | `NEXT_PUBLIC_POSTHOG_HOST` (PostHog ingest API origin, e.g. `https://eu.i.posthog.com`) |
+| `AUDIOMETA_DOCS_BUNDLE_URL`                                                                                | `NEXT_PUBLIC_DOCS_BUNDLE_URL`                                                                       |
+| `AUDIOMETA_PYTHON_GITHUB_REPO_URL`                                                                         | `AUDIOMETA_PYTHON_GITHUB_REPO_URL` (AudioMeta Python repo URL for footer / docs; no trailing slash) |
+| `POSTHOG_API_HOST`                                                                                         | `NEXT_PUBLIC_POSTHOG_HOST` (PostHog ingest API origin, e.g. `https://eu.i.posthog.com`)             |
 
-*(Organization site, social defaults, and contact targets for footer / intro links come from **`@behindthemusictree/assets`** at package build time; this app does not set other `NEXT_PUBLIC_*` vars for those.)*
+_(Organization site, social defaults, and contact targets for footer / intro links come from **`@behindthemusictree/brand`** at package build time; this app does not set other `NEXT*PUBLIC*_` vars for those.)\*
 
 | **Repository secret** (PostHog; required to run [Sync Vercel env](../.github/workflows/sync-vercel-env.yml)): |
 | `POSTHOG_PROJECT_TOKEN` | `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` |
 
-| **Repository secret** (optional; used to sync GitHub Packages auth to Vercel): |
-| `GH_PACKAGES_TOKEN` | `NPM_TOKEN` on Vercel (**sensitive**), for `npm install` of `@behindthemusictree/*` |
-
 | **GitHub Environment variables** (Settings → Environments → `PROD` / `STAGING`) – can differ per environment: |
-| `BACKEND_BASE_URL` (in **PROD** env) | `NEXT_PUBLIC_BACKEND_BASE_URL` on Vercel **production** |
-| `BACKEND_BASE_URL` (in **STAGING** env) | `NEXT_PUBLIC_BACKEND_BASE_URL` on Vercel **preview** |
-| `HTMT_API_ROOT_SEGMENT` | `NEXT_PUBLIC_HTMT_API_ROOT_SEGMENT` (path segment before `audio/…`, no slashes) |
-| `AUDIOMETA_SUBDOMAIN`, `DOMAIN_NAME` (host label + registrable domain, no `https://`, no slashes) | `NEXT_PUBLIC_SITE_URL` = `https://<AUDIOMETA_SUBDOMAIN>.<DOMAIN_NAME>` (trailing slash stripped if present) |
+| `HTMT_API_ROOT_SEGMENT` | `NEXT_PUBLIC_BACKEND_ROOT_SEGMENT` (path segment before `audio/…`, no slashes) |
+| _(none for site origin)_ | Canonical site origin is resolved from **`@behindthemusictree/brand`** (`resolveOrgSiteHref()`), not from an app-level `NEXT_PUBLIC_SITE_URL` variable. |
+| _(none for API host)_ | API host is resolved from **`@behindthemusictree/brand`** constants (`HTMT_API_SUBDOMAIN` + **`ORG_DOMAIN`**, baked in at package build time) rather than app-level env. |
 
-`DOMAIN_NAME` can be a **repository** variable instead if it is the same for production and staging (e.g. `example.org`); set `AUDIOMETA_SUBDOMAIN` per environment (e.g. `app` vs `staging`) so each target gets the correct public origin.
-
-Set `BACKEND_BASE_URL` to the API host only (no trailing slash), e.g. `https://hear-api.themusictree.org`, and `HTMT_API_ROOT_SEGMENT` to the path prefix where the API is mounted (e.g. `htmt` if routes live at `https://hear-api.themusictree.org/htmt/audio/metadata/full/`). Production and Staging can use different hosts and/or segments per environment.
+Set `HTMT_API_ROOT_SEGMENT` to the path prefix where the API is mounted (e.g. `htmt` if routes live at `https://hear-api.themusictree.org/htmt/audio/metadata/full/`).
 
 The workflow uses `upsert` so it creates or updates each variable, then triggers a deployment via each environment’s `VERCEL_DEPLOY_HOOK` so the new values are baked into the next build.
 
@@ -157,7 +147,7 @@ If production or staging shows an old version after you released or pushed to `d
 
 1. **Production branch** – Vercel → **Settings → Git**. Ensure **Production Branch** is `main`. With [vercel.json](../vercel.json), production does not deploy on every `main` push; trigger a build via your **Deploy Hook** ([§2.4](#24-production-deploy-hook-and-vercel-deploy-workflow)) or **Redeploy** the latest production deployment.
 2. **Which URL you’re opening** – Confirm you’re on the right URL. Production domain goes to the latest **production** deployment; preview URLs (e.g. `…-git-develop-….vercel.app`) are tied to a specific branch/commit. If you use a custom staging domain, check **Settings → Domains** and confirm which branch it’s assigned to.
-3. **Builds failing** – In Vercel → **Deployments**, check the latest deployment for your branch. If it’s **Failed**, fix the build (e.g. env vars, Node version, `npm run build` locally). Only successful builds update the live site.
+3. **Builds failing** – In Vercel → **Deployments**, check the latest deployment for your branch. If it’s **Failed**, fix the build (e.g. env vars, Node version, `pnpm run build` locally). Only successful builds update the live site.
 4. **Redeploy** – **Deployments** → open the latest production deployment → **⋯** → **Redeploy**, or run **Actions → Vercel deploy** / POST the Deploy Hook again.
 5. **Cache** – Try a hard refresh (e.g. Ctrl+Shift+R / Cmd+Shift+R) or an incognito window to rule out browser cache.
 6. **Git connection** – **Settings → Git** should show the correct repository. If you renamed the repo or moved it, re-import the project or reconnect the Git integration.

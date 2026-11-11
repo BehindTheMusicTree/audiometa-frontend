@@ -1,0 +1,62 @@
+{
+  "commit-message-format": {
+    "source": ".agents/rules/commit-message-format.md",
+    "paths": [
+      "**/*"
+    ]
+  },
+  "demo-video": {
+    "source": ".agents/rules/demo-video.md",
+    "paths": [
+      "demo/**"
+    ]
+  },
+  "env-vars": {
+    "source": ".agents/rules/env-vars.md",
+    "paths": [
+      "**/*"
+    ]
+  },
+  "i18n-alignment": {
+    "source": ".agents/rules/i18n-alignment.md",
+    "paths": [
+      "**/*"
+    ]
+  },
+  "no-useless-comments": {
+    "source": ".agents/rules/no-useless-comments.md",
+    "paths": [
+      "**/*"
+    ]
+  },
+  "pr-description-workflow": {
+    "source": ".agents/rules/pr-description-workflow.md",
+    "paths": [
+      "**/*"
+    ]
+  },
+  "semver-guide": {
+    "source": ".agents/rules/semver-guide.md",
+    "paths": [
+      "**/*"
+    ]
+  },
+  "style-guide": {
+    "source": ".agents/rules/style-guide.md",
+    "paths": [
+      "**/*"
+    ]
+  },
+  "testing": {
+    "source": ".agents/rules/testing.md",
+    "paths": [
+      "**/*"
+    ]
+  },
+  "versioning": {
+    "source": ".agents/rules/versioning.md",
+    "paths": [
+      "**/*"
+    ]
+  }
+}

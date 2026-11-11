@@ -1,6 +1,6 @@
 "use client";
 
-import { TheMusicTreeMarkLink } from "@behindthemusictree/assets/components";
+import { TheMusicTreeMarkLink } from "@behindthemusictree/brand/components";
 import type { ComponentProps } from "react";
 
 export default function MusicTreeMarkLockup(

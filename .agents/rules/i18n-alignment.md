@@ -1,8 +1,3 @@
----
-description: Keep locale message files aligned when text changes
-alwaysApply: true
----
-
 # Translation Alignment
 
 When updating user-facing copy in `messages/*.json`:

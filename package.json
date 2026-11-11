@@ -1,12 +1,16 @@
 {
   "name": "audiometa-frontend",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
+  "engines": {
+    "node": "24.x"
+  },
+  "packageManager": "pnpm@10.33.2+sha512.a90faf6feeab71ad6c6e57f94e0fe1a12f5dcc22cd754db40ae9593eb6a3e0b6b12e3540218bb37ae083404b1f2ce6db2a4121e979829b4aff94b99f49da1cf8",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "launch": "npm run build && npm run start",
+    "launch": "pnpm run build && pnpm run start",
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -15,34 +19,49 @@
     "demo:record:mp4": "bash demo/scripts/record-hero-to-mp4.sh"
   },
   "dependencies": {
-    "@behindthemusictree/assets": "^7.0.2",
-    "next": "16.2.2",
-    "next-intl": "^4.9.0",
-    "posthog-js": "^1.365.4",
-    "react": "19.2.3",
-    "react-dom": "19.2.3",
-    "react-markdown": "^9",
+    "@behindthemusictree/brand": "^12.10.1",
+    "next": "16.4.5",
+    "next-intl": "^4.14.9",
+    "posthog-js": "^1.447.3",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "react-markdown": "^10",
     "remark-gfm": "^4",
-    "zod": "^3.23"
+    "zod": "^4.6"
   },
   "devDependencies": {
-    "@playwright/test": "^1.55.1",
+    "@playwright/test": "^1.65.0",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6",
     "@testing-library/react": "^16",
-    "@types/node": "^20",
+    "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@vitejs/plugin-react": "^4",
+    "@vitejs/plugin-react": "^5",
     "eslint": "^9",
-    "eslint-config-next": "16.2.2",
+    "eslint-config-next": "16.4.5",
     "jsdom": "^29",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "vite": "~6.4.2",
-    "vitest": "^3"
+    "vite": "~6.4.4",
+    "vitest": "^5.1.0"
   },
   "overrides": {
     "esbuild": "^0.25.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "undici@7": "^7.29.1",
+      "postcss@8": "^8.5.23",
+      "nanoid@3": "^3.3.20",
+      "dompurify@3": "^3.4.7",
+      "protobufjs@7": "^7.6.5",
+      "js-yaml@4": "^4.3.2",
+      "brace-expansion@1": "^1.1.16",
+      "brace-expansion@5": "^5.0.7",
+      "browserslist@4": "^4.28.7",
+      "baseline-browser-mapping@2": "^2.11.0",
+      "@babel/core@7": "^7.29.6"
+    }
   }
 }

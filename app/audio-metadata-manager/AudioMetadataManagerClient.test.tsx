@@ -40,7 +40,7 @@ import {
 } from "@testing-library/react";
 import { NextIntlClientProvider } from "next-intl";
 import MetadataManagerPage from "./AudioMetadataManagerClient";
-import en from "../../messages/en.json";
+import en from "@/messages/en.json";
 
 const TEST_AUDIOMETA_PYTHON_GITHUB_URL =
   "https://github.com/BehindTheMusicTree/audiometa";

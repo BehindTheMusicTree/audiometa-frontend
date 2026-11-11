@@ -83,7 +83,7 @@ For **repeatable** demos of the **real app** in a browser (same flow after every
 
 - **Playwright** – [playwright.config.ts](../playwright.config.ts) turns on **`video: "on"`**, uses a 1280×720 viewport, and writes artifacts under `demo/output/playwright-results/`.
 - **Spec** – [demo/e2e/hero-demo.spec.ts](./e2e/hero-demo.spec.ts) drives the hero flow: upload [demo/assets/audiometa-hero-demo-messy-tags.mp3](./assets/audiometa-hero-demo-messy-tags.mp3), wait for metadata, edit title and artist, then download.
-- **Commands** – `npm run demo:record` (WebM only) and `npm run demo:record:mp4` (WebM + **ffmpeg** → `demo/output/hero-demo.mp4`). Prerequisites: `.env.local`, `npm run dev`, `npx playwright install chromium`, and **ffmpeg** on `PATH` for the MP4 script. Optional: `DEMO_BASE_URL` if the dev server is not at `http://127.0.0.1:3000`. Details: [demo/README.md](./README.md).
+- **Commands** – `pnpm run demo:record` (WebM only) and `pnpm run demo:record:mp4` (WebM + **ffmpeg** → `demo/output/hero-demo.mp4`). Prerequisites: `.env.local`, `pnpm run dev`, `npx playwright install chromium`, and **ffmpeg** on `PATH` for the MP4 script. Optional: `DEMO_BASE_URL` if the dev server is not at `http://127.0.0.1:3000`. Details: [demo/README.md](./README.md).
 
 ### ffmpeg examples
 
