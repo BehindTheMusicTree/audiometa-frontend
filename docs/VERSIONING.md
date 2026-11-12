@@ -69,34 +69,28 @@ When a version tag is pushed, the workflow (when configured):
 
 ## Usage Examples
 
-### Using npm version
+### Setting the version
+
+The git tag is the source of truth; `package.json` `version` mirrors it and is set by the release PR, never by `npm version` (which would create a local commit and tag).
 
 ```bash
-npm version patch   # 0.1.0 → 0.1.1
-npm version minor   # 0.1.0 → 0.2.0
-npm version major   # 0.1.0 → 1.0.0
-npm version 1.3.0 --no-git-tag-version   # set exact version (no commit/tag)
+npm pkg set version=0.2.0   # edit package.json only: no commit, no tag
 ```
-
-Use `--no-git-tag-version` when you only want to change `package.json` without creating a commit or tag.
 
 ### Creating a Release
 
-1. Ensure [CHANGELOG.md](../CHANGELOG.md) has `[Unreleased]` entries for the release; they will be moved into the new version section when you run `npm version` (if you use a postversion script) or do it manually.
-2. Then:
+1. Branch `release/0.2.0` from `develop`.
+2. In one commit (`chore(release): prepare 0.2.0`), set `package.json` `version` and move the `[Unreleased]` entries of [CHANGELOG.md](../CHANGELOG.md) into a dated `## [0.2.0]` section.
+3. Open a PR into `main` and merge it.
+4. Tag the merge commit on `main` and push the tag:
 
 ```bash
-# 1. Create release branch
-git checkout -b release/v0.2.0
-
-# 2. Merge to main (or default branch)
-git checkout main
-git merge release/v0.2.0
-
-# 3. On main: bump version and tag
-npm version minor
+git fetch origin main
+git tag v0.2.0 origin/main
 git push origin v0.2.0
 ```
+
+5. Merge `main` back into `develop` through a PR.
 
 ### Development Version Tag Testing
 

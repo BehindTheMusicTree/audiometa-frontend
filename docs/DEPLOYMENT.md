@@ -9,7 +9,7 @@ This guide covers deploying the app to Vercel with **develop → staging** and *
 3. Leave framework preset as **Next.js** and root directory as **./**.
 4. Deploy. The first deployment will use your default branch.
 
-After this, configure production and staging as below. **Production** updates use a **Deploy Hook** (see [§2.4](#24-production-deploy-hook-and-vercel-deploy-workflow)); **develop** still deploys via Git as preview/staging.
+After this, configure production and staging as below. Both **production** (`main`) and **develop** (staging) deploy through Vercel's Git integration on push; a per-environment **Deploy Hook** is also triggered by [Sync Vercel env](../.github/workflows/sync-vercel-env.yml) (see [§2.4](#24-deploy-hooks-and-sync-vercel-env)).
 
 ## 2. Vercel project configuration
 
@@ -18,7 +18,7 @@ After this, configure production and staging as below. **Production** updates us
 1. Open the project on Vercel → **Settings**.
 2. In the left sidebar, go to **Environments** (or **Git** → production branch, depending on UI).
 3. Set **Production Branch** to `main`. Save.
-4. The repo includes [vercel.json](../vercel.json) with **`main` Git deployments disabled** for production, matching the “hook-only production” flow: pushes to `main` do **not** auto-deploy production. Production is built when the [**Vercel deploy**](../.github/workflows/vercel-deploy.yml) workflow runs (release tag or manual) and **POSTs your Deploy Hook** (see [§2.4](#24-production-deploy-hook-and-vercel-deploy-workflow)).
+4. The repo has no `vercel.json`: a push to `main` deploys production through the Git integration. A `vX.Y.Z` tag does not trigger a deployment (see [VERSIONING.md](VERSIONING.md)).
 
 ### 2.2 Production domain
 
@@ -38,38 +38,20 @@ Staging works on the **free (Hobby) plan**: use **Domains** to assign a custom U
   3. When adding the domain, set **Git Branch** to `develop`. Only deployments from `develop` will be served on this domain.
   4. Add the CNAME record (and any other DNS) Vercel shows at your DNS provider.
 
-### 2.4 Production Deploy Hook and **Vercel deploy** workflow
+### 2.4 Deploy Hooks and Sync Vercel env
 
-Production builds are triggered by a **[Deploy Hook](https://vercel.com/docs/deploy-hooks)** (not by a plain push to `main`), so `NEXT_PUBLIC_APP_VERSION` can be set from the release tag before the build.
+[Sync Vercel env](../.github/workflows/sync-vercel-env.yml) pushes the variables of [§3.1](#31-automating-env-vars) to Vercel, then POSTs the environment's **`VERCEL_DEPLOY_HOOK`** so the next build bakes them in.
 
 **On Vercel**
 
-1. Open the project → **Settings → Git → Deploy Hooks** (or **Settings → Deploy Hooks**, depending on UI).
-2. Create a hook: name e.g. `production-main`, set branch to **`main`**, create, and copy the **full hook URL**.
+1. Open the project → **Settings → Git → Deploy Hooks**.
+2. Create one hook for **`main`** (production) and one for **`develop`** (staging), and copy each full hook URL.
 
-**On GitHub (environment `PROD`)**
+**On GitHub**
 
-1. **Settings → Environments → `PROD`** → **Environment secrets**.
-2. Add **`VERCEL_DEPLOY_HOOK`** = the hook URL from step 2 (use a **separate** hook URL for `STAGING` if you use one for preview sync).
-
-The workflow [`.github/workflows/vercel-deploy.yml`](../.github/workflows/vercel-deploy.yml) runs when you push a **semver release tag** `vMAJOR.MINOR.PATCH` (e.g. `v0.2.0`) or on **manual** “Run workflow”. It:
-
-1. Upserts **`NEXT_PUBLIC_APP_VERSION`** on Vercel **production** to match `package.json`, and requires the tag (if any) to match that version.
-2. **POSTs** `VERCEL_DEPLOY_HOOK` so Vercel runs a production build from `main`.
-
-Repository secrets (same as sync workflow): **`VERCEL_TOKEN`**, **`VERCEL_PROJECT_ID`** on the repo; **`VERCEL_DEPLOY_HOOK`** on the **PROD** environment.
-
-**Optional env for UI:** add `NEXT_PUBLIC_APP_VERSION` to Vercel manually or rely on the workflow; the app does not require it in `next.config.ts` until you read it in code.
-
-**If you want Git to deploy production on every `main` push again**, remove or edit [vercel.json](../vercel.json) (`git.deploymentEnabled.main`) and rely on Vercel’s default behavior; you can still run **Vercel deploy** for version bumps only.
-
-Result:
-
-| Environment | Branch    | Deploys when                                     | URL example                            |
-| ----------- | --------- | ------------------------------------------------ | -------------------------------------- |
-| Production  | `main`    | **Deploy Hook** (release tag workflow or manual) | `app.audiometa.com`                    |
-| Staging     | `develop` | Push to develop                                  | `staging.audiometa.com` or preview URL |
-| PR previews | any       | Open PR                                          | `…-git-branch-…vercel.app`             |
+1. **Settings → Environments → `PROD`** (and `STAGING`) → **Environment secrets**.
+2. Add **`VERCEL_DEPLOY_HOOK`** = the matching hook URL.
+3. Repository secrets **`VERCEL_TOKEN`** and **`VERCEL_PROJECT_ID`** are shared by both environments.
 
 ## 3. Environment variables
 
@@ -139,23 +121,23 @@ Set `HTMT_API_ROOT_SEGMENT` to the path prefix where the API is mounted (e.g. `h
 
 The workflow uses `upsert` so it creates or updates each variable, then triggers a deployment via each environment’s `VERCEL_DEPLOY_HOOK` so the new values are baked into the next build.
 
-**Relation to [vercel-deploy.yml](../.github/workflows/vercel-deploy.yml):** **Sync Vercel env** pushes the variables in the table above to Vercel and redeploys. **Vercel deploy** only updates **`NEXT_PUBLIC_APP_VERSION`** and redeploys—use it on every **release tag** (or manually) so production shows the correct version.
+Run **Sync Vercel env** manually (Actions → Sync Vercel env → Run workflow) whenever one of these variables changes.
 
 ## 4. Troubleshooting: Vercel shows old version
 
 If production or staging shows an old version after you released or pushed to `develop`:
 
-1. **Production branch** – Vercel → **Settings → Git**. Ensure **Production Branch** is `main`. With [vercel.json](../vercel.json), production does not deploy on every `main` push; trigger a build via your **Deploy Hook** ([§2.4](#24-production-deploy-hook-and-vercel-deploy-workflow)) or **Redeploy** the latest production deployment.
+1. **Production branch** – Vercel → **Settings → Git**. Ensure **Production Branch** is `main`. Every `main` push deploys production; otherwise **Redeploy** the latest production deployment or POST the Deploy Hook ([§2.4](#24-deploy-hooks-and-sync-vercel-env)).
 2. **Which URL you’re opening** – Confirm you’re on the right URL. Production domain goes to the latest **production** deployment; preview URLs (e.g. `…-git-develop-….vercel.app`) are tied to a specific branch/commit. If you use a custom staging domain, check **Settings → Domains** and confirm which branch it’s assigned to.
 3. **Builds failing** – In Vercel → **Deployments**, check the latest deployment for your branch. If it’s **Failed**, fix the build (e.g. env vars, Node version, `pnpm run build` locally). Only successful builds update the live site.
-4. **Redeploy** – **Deployments** → open the latest production deployment → **⋯** → **Redeploy**, or run **Actions → Vercel deploy** / POST the Deploy Hook again.
+4. **Redeploy** – **Deployments** → open the latest production deployment → **⋯** → **Redeploy**, or run **Actions → Sync Vercel env** / POST the Deploy Hook again.
 5. **Cache** – Try a hard refresh (e.g. Ctrl+Shift+R / Cmd+Shift+R) or an incognito window to rule out browser cache.
 6. **Git connection** – **Settings → Git** should show the correct repository. If you renamed the repo or moved it, re-import the project or reconnect the Git integration.
 
 ## 5. Summary
 
-- **Deploy**: Push to `develop` → staging (Git). **Production**: [Deploy Hook](https://vercel.com/docs/deploy-hooks) on branch `main`, triggered by [vercel-deploy.yml](../.github/workflows/vercel-deploy.yml) after a **release tag** `vX.Y.Z` (or manual run)—see [§2.4](#24-production-deploy-hook-and-vercel-deploy-workflow). [vercel.json](../vercel.json) disables automatic production Git deploys from `main` so hooks control prod builds.
+- **Deploy**: Push to `develop` → staging (Git). Push to `main` → production (Git). [Sync Vercel env](../.github/workflows/sync-vercel-env.yml) also triggers each environment's [Deploy Hook](https://vercel.com/docs/deploy-hooks)—see [§2.4](#24-deploy-hooks-and-sync-vercel-env).
 - **Domains**: **Settings → Domains**; assign production domain to production, staging domain to branch `develop`.
 - **Env vars**: **Settings → Environment Variables**; use Production for prod, Preview for staging and PR previews. Sync from GitHub via [sync-vercel-env.yml](../.github/workflows/sync-vercel-env.yml).
-- **Releases**: Bump `package.json`, tag `vX.Y.Z` on that commit, push the tag → **Vercel deploy** sets `NEXT_PUBLIC_APP_VERSION` and triggers production. See [VERSIONING.md](VERSIONING.md).
+- **Releases**: Merging the release PR into `main` deploys production; the `vX.Y.Z` tag does not trigger a deployment. See [VERSIONING.md](VERSIONING.md).
 - **Old version showing**: See [§4 Troubleshooting](#4-troubleshooting-vercel-shows-old-version).
