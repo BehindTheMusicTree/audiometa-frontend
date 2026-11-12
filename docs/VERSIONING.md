@@ -82,14 +82,7 @@ npm pkg set version=0.2.0   # edit package.json only: no commit, no tag
 1. Branch `release/0.2.0` from `develop`.
 2. In one commit (`chore(release): prepare 0.2.0`), set `package.json` `version` and move the `[Unreleased]` entries of [CHANGELOG.md](../CHANGELOG.md) into a dated `## [0.2.0]` section.
 3. Open a PR into `main` and merge it.
-4. Tag the merge commit on `main` and push the tag:
-
-```bash
-git fetch origin main
-git tag v0.2.0 origin/main
-git push origin v0.2.0
-```
-
+4. The `Release tag` workflow tags the merge commit with `v0.2.0` (from `package.json` `version`) when the PR lands on `main`; no manual tag.
 5. Merge `main` back into `develop` through a PR.
 
 ### Development Version Tag Testing
