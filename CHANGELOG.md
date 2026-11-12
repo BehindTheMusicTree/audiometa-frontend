@@ -22,6 +22,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **CI**: [Release tag](.github/workflows/release-tag.yml) workflow creates the `vX.Y.Z` tag on the merge commit when a release PR lands on `main` (shared reusable workflow, pinned by SHA).
+
 ### Changed
 
 - **CI**: [Sync Vercel env](.github/workflows/sync-vercel-env.yml) no longer requires or syncs `AUDIOMETA_FRONT_SUBDOMAIN`, `DOMAIN_NAME` and `BACKEND_BASE_URL` (the site and API origins come from `@behindthemusictree/brand`), and the validate build no longer sets `NEXT_PUBLIC_SITE_URL`.
@@ -30,7 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Documentation
 
 - **Deployment**: `docs/DEPLOYMENT.md` no longer cites the non-existent `vercel-deploy.yml` and `vercel.json`; it describes the real flow (Git deploys for `develop` and `main`, Deploy Hooks triggered by Sync Vercel env).
-- **Versioning**: `docs/VERSIONING.md` replaces the `npm version` instructions with the release-PR flow (`package.json` set in the release commit, tag on the merge commit).
+- **Versioning**: `docs/VERSIONING.md` replaces the `npm version` instructions with the release-PR flow (`package.json` set in the release commit, tag created by CI on the merge commit).
 - **Changelog**: the two `### Changed` sections of 0.2.0 are merged.
 
 ## [0.2.0] - 2026-11-11

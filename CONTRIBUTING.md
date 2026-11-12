@@ -79,7 +79,7 @@ See [.claude/rules/commit-message-format.md](.claude/rules/commit-message-format
 ## Releasing (maintainers)
 
 1. Create `release/X.Y.Z` from `develop`, set `package.json` `version` and move the `[Unreleased]` changelog entries in one `chore(release): prepare X.Y.Z` commit (no `pnpm version`/`npm version`).
-2. Merge the release PR into `main`, then tag the merge commit: `git tag vX.Y.Z origin/main && git push origin vX.Y.Z`.
+2. Merge the release PR into `main`; the `Release tag` workflow creates the `vX.Y.Z` tag (no manual tag).
 3. Merge `main` back into `develop` through a PR.
 
 See [docs/VERSIONING.md](docs/VERSIONING.md) and [docs/SEMVER_GUIDE.md](docs/SEMVER_GUIDE.md).
