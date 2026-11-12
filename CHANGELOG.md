@@ -24,7 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **CI**: [Release tag](.github/workflows/release-tag.yml) workflow creates the `vX.Y.Z` tag on the merge commit when a release PR lands on `main` (shared reusable workflow, pinned by SHA). Its contract (version from `package.json`, `v` tag prefix, `CHANGELOG.md`) is declared in [`.github/release-policy.json`](.github/release-policy.json). Activated on `main` without a version bump, so the next release is the first one tagged by CI.
+- **CI**: [Release tag](.github/workflows/release-tag.yml) workflow creates the `vX.Y.Z` tag on the merge commit when a release PR lands on `main` (shared reusable workflow, pinned by SHA).
 
 ## [0.2.0] - 2026-11-11
 
