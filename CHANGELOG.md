@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [Changelog Best Practices](#changelog-best-practices)
 - [Unreleased](#unreleased)
+- [0.2.1 - 2026-11-12](#021---2026-11-12)
 - [0.2.0 - 2026-11-11](#020---2026-11-11)
 - [0.1.0 - 2025-03-12](#010---2025-03-12)
 
@@ -21,6 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - During releases, move `[Unreleased]` content into a new versioned section. See [docs/VERSIONING.md](docs/VERSIONING.md).
 
 ## [Unreleased]
+
+## [0.2.1] - 2026-11-12
 
 ### Added
 
@@ -90,6 +93,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Metadata Manager page** at `/audio-metadata-manager`: file picker to choose an audio file, POST to `NEXT_PUBLIC_BACKEND_BASE_URL/audio/metadata/full/`, display full metadata in six sections (Technical information, Unified metadata, By metadata format, Format priorities, Formats headers, Metadata raw). Inline loading and error display; no popup. Includes unit tests.
 - **Project setup**: Cursor rules (style, Tailwind, testing, SemVer, versioning, commit format, PR workflow), docs (STYLE_GUIDE, SEMANTIC_HTML, DATA_ATTRIBUTES, testing, SEMVER_GUIDE, VERSIONING), GitHub workflows (validate, branch-protection, publish), CONTRIBUTING.md, README, PR template, `.gitignore`. Vitest + Testing Library for tests. Reusable `PageLayout` component and `useGetFullMetadata` hook with Zod schema for response validation.
 
-[Unreleased]: https://github.com/your-org/audiometa-frontend/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/your-org/audiometa-frontend/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/your-org/audiometa-frontend/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/your-org/audiometa-frontend/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/your-org/audiometa-frontend/releases/tag/v0.1.0
