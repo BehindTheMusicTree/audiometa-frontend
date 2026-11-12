@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [Changelog Best Practices](#changelog-best-practices)
 - [Unreleased](#unreleased)
+- [0.2.1 - 2026-11-12](#021---2026-11-12)
 - [0.2.0 - 2026-11-11](#020---2026-11-11)
 - [0.1.0 - 2025-03-12](#010---2025-03-12)
 
@@ -22,9 +23,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-11-12
+
 ### Added
 
 - **CI**: [Release tag](.github/workflows/release-tag.yml) workflow creates the `vX.Y.Z` tag on the merge commit when a release PR lands on `main` (shared reusable workflow, pinned by SHA).
+
+### Changed
+
+- **CI**: [Sync Vercel env](.github/workflows/sync-vercel-env.yml) no longer requires or syncs `AUDIOMETA_FRONT_SUBDOMAIN`, `DOMAIN_NAME` and `BACKEND_BASE_URL` (the site and API origins come from `@behindthemusictree/brand`), and the validate build no longer sets `NEXT_PUBLIC_SITE_URL`.
+- Removed the `overrides` block from `package.json`: pnpm ignores it (the active overrides are under `pnpm.overrides`).
+
+### Documentation
+
+- **Deployment**: `docs/DEPLOYMENT.md` no longer cites the non-existent `vercel-deploy.yml` and `vercel.json`; it describes the real flow (Git deploys for `develop` and `main`, Deploy Hooks triggered by Sync Vercel env).
+- **Versioning**: `docs/VERSIONING.md` replaces the `npm version` instructions with the release-PR flow (`package.json` set in the release commit, tag created by CI on the merge commit).
+- **Changelog**: the two `### Changed` sections of 0.2.0 are merged.
 
 ## [0.2.0] - 2026-11-11
 
@@ -50,9 +64,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Analytics**: PostHog (`posthog-js`) with `/ingest` rewrites in `next.config.ts`, `instrumentation-client.ts` init (including `NEXT_PUBLIC_DEPLOYMENT_ENV` from `VERCEL_ENV`), `PostHogProvider` for `$pageview`, choose-file click tracking on the metadata manager, and client-side exception capture on metadata errors.
 - **Demo recordings**: Playwright config for `demo/e2e`, hero flow spec, reference MP3 under `demo/assets`, and shell scripts to regenerate the asset and record MP4 output.
-
-### Changed
-
 - **Tests**: `vitest.setup.ts` stubs `localStorage` per test, so the suite no longer depends on the Node version (Node ≥25's built-in `localStorage` shadowed jsdom's). Test files import messages via the `@/` alias. Added a footer test pinning the AudioMeta Python GitHub and PyPI link names.
 - **Tipeee and footer link tracking**: Upgraded `@behindthemusictree/brand` to ^12.8.0 (12.0.0 only removed the unused `Button`). The footer Tipeee/GitHub links and the in-flow Tipeee CTA now attach `onClick` directly to the link instead of wrapping it in a `<span onClick>` or a capture listener; events (`footer_tipeee_click`, `footer_github_click`, `tipeee_cta_click`) are unchanged. Added `PageFooter` click-tracking tests.
 - **Agent rules**: Moved `.cursor/rules/*.mdc` to `.claude/rules/*.md` so Claude Code loads them natively
@@ -82,6 +93,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Metadata Manager page** at `/audio-metadata-manager`: file picker to choose an audio file, POST to `NEXT_PUBLIC_BACKEND_BASE_URL/audio/metadata/full/`, display full metadata in six sections (Technical information, Unified metadata, By metadata format, Format priorities, Formats headers, Metadata raw). Inline loading and error display; no popup. Includes unit tests.
 - **Project setup**: Cursor rules (style, Tailwind, testing, SemVer, versioning, commit format, PR workflow), docs (STYLE_GUIDE, SEMANTIC_HTML, DATA_ATTRIBUTES, testing, SEMVER_GUIDE, VERSIONING), GitHub workflows (validate, branch-protection, publish), CONTRIBUTING.md, README, PR template, `.gitignore`. Vitest + Testing Library for tests. Reusable `PageLayout` component and `useGetFullMetadata` hook with Zod schema for response validation.
 
-[Unreleased]: https://github.com/your-org/audiometa-frontend/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/your-org/audiometa-frontend/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/your-org/audiometa-frontend/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/your-org/audiometa-frontend/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/your-org/audiometa-frontend/releases/tag/v0.1.0
