@@ -78,9 +78,9 @@ See [.claude/rules/commit-message-format.md](.claude/rules/commit-message-format
 
 ## Releasing (maintainers)
 
-1. Create `release/vX.Y.Z` from `develop`.
-2. Merge release branch into `main`, then tag: `pnpm version minor` (or `patch`/`major`), then `git push origin main && git push origin vX.Y.Z`.
-3. Merge release branch back into `develop` and delete the release branch.
+1. Create `release/X.Y.Z` from `develop`, set `package.json` `version` and move the `[Unreleased]` changelog entries in one `chore(release): prepare X.Y.Z` commit (no `pnpm version`/`npm version`).
+2. Merge the release PR into `main`, then tag the merge commit: `git tag vX.Y.Z origin/main && git push origin vX.Y.Z`.
+3. Merge `main` back into `develop` through a PR.
 
 See [docs/VERSIONING.md](docs/VERSIONING.md) and [docs/SEMVER_GUIDE.md](docs/SEMVER_GUIDE.md).
 
