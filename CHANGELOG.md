@@ -7,21 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Table of Contents
 
-- [Changelog Best Practices](#changelog-best-practices)
 - [Unreleased](#unreleased)
 - [0.2.1 - 2026-11-12](#021---2026-11-12)
 - [0.2.0 - 2026-11-11](#020---2026-11-11)
 - [0.1.0 - 2025-03-12](#010---2025-03-12)
 
-## Changelog Best Practices
-
-- Add entries to the **`[Unreleased]`** section when opening or updating a PR.
-- Group changes under: **Security**, **Added**, **Changed**, **Fixed**, **Removed**, **Documentation**, **CI**, etc. (Use **Security** for dependency or supply-chain advisories, not only app code fixes.)
-- Use ISO 8601 dates: YYYY-MM-DD.
-- Mention tests within the related feature or fix entry when relevant.
-- During releases, move `[Unreleased]` content into a new versioned section. See [docs/VERSIONING.md](docs/VERSIONING.md).
-
 ## [Unreleased]
+
+### Documentation
+
+- Removed the "Changelog Best Practices" section from `CHANGELOG.md`; the conventions now live in the `create-pr` skill.
 
 ## [0.2.1] - 2026-11-12
 
