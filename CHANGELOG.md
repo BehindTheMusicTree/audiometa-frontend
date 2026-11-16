@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **Node.js**: Upgrade development, CI and the Vercel runtime from Node 24 to Node 26; align Node type definitions with the runtime.
+
 ### Documentation
 
 - Removed the "Changelog Best Practices" section from `CHANGELOG.md`; the conventions now live in the `create-pr` skill.
