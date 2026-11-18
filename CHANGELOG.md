@@ -19,6 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ignore local agent plans and temporary files while keeping their directory rules tracked.
 - **Node.js**: Upgrade development, CI and the Vercel runtime from Node 24 to Node 26; align Node type definitions with the runtime.
 
+### Removed
+
+- Drop the tracked `.agent-plans/.gitignore`: plans now live in the common git directory.
+
 ### Documentation
 
 - Removed the "Changelog Best Practices" section from `CHANGELOG.md`; the conventions now live in the `create-pr` skill.
