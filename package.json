@@ -19,10 +19,10 @@
     "demo:record:mp4": "bash demo/scripts/record-hero-to-mp4.sh"
   },
   "dependencies": {
-    "@behindthemusictree/brand": "^12.10.1",
-    "next": "16.4.5",
-    "next-intl": "^4.14.9",
-    "posthog-js": "^1.447.3",
+    "@behindthemusictree/brand": "^12.14.0",
+    "next": "16.4.6",
+    "next-intl": "^4.15.1",
+    "posthog-js": "^1.450.0",
     "react": "19.3.1",
     "react-dom": "19.3.1",
     "react-markdown": "^10",
@@ -30,7 +30,7 @@
     "zod": "^4.6"
   },
   "devDependencies": {
-    "@playwright/test": "^1.65.0",
+    "@playwright/test": "^1.65.1",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6",
     "@testing-library/react": "^16",
@@ -39,7 +39,7 @@
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^5",
     "eslint": "^9",
-    "eslint-config-next": "16.4.5",
+    "eslint-config-next": "16.4.6",
     "jsdom": "^29",
     "tailwindcss": "^4",
     "typescript": "^5",
