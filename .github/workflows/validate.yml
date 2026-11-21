@@ -12,6 +12,10 @@ permissions:
   contents: read
   packages: read
 
+concurrency:
+  group: validate-${{ github.head_ref || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   lint:
     name: Lint Code
