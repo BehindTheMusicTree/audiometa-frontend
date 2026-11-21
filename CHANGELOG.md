@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### CI
+
+- **Workflow concurrency**: Add canonical `concurrency` groups to `agent-drift`, `branch-protection`, `validate` (superseded pull request runs are cancelled) and `release-tag` (one run per pushed commit, never cancelled).
+
 ### Changed
 
 - Ignore local agent plans and temporary files while keeping their directory rules tracked.
