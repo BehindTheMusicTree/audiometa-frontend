@@ -11,6 +11,6 @@ concurrency:
 
 jobs:
   org-conformance:
-    uses: BehindTheMusicTree/github-workflows/.github/workflows/org-conformance.yml@c1c5d1c8e36902d83e60fb5188e83bf7660c034b # v6.4.1
+    uses: BehindTheMusicTree/github-workflows/.github/workflows/org-conformance.yml@8b14220516dc4476ff5ac4f83fefcb7a6e623b0b # v6.4.1
     permissions:
       contents: read
