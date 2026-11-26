@@ -62,4 +62,4 @@ When creating or updating GitHub Actions workflows that need version information
 - **Creating workflows**: Always extract version from git tags, never use hardcoded versions
 - **Tagging**: Follow the naming conventions for development, pre-release, and release tags
 - **Documentation**: Reference `docs/VERSIONING.md` for tag/CI strategy; reference `docs/SEMVER_GUIDE.md` for when to bump MAJOR, MINOR, or PATCH
-- **Changelog**: While developing, add release notes under **`CHANGELOG.md` → `[Unreleased]`** (see that file’s *Changelog Best Practices*). On release, move `[Unreleased]` into a dated version section per `docs/VERSIONING.md`.
+- **Changelog and version**: release-please generates `CHANGELOG.md` and bumps `package.json` `version` from the PR titles merged into `main` (see `docs/VERSIONING.md`). Never edit them by hand.

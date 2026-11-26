@@ -5,7 +5,7 @@ Contributions are welcome. This document covers development workflow, commit for
 ## Table of Contents
 
 - [Development Workflow](#development-workflow)
-- [Branching (Git Flow)](#branching-git-flow)
+- [Branching](#branching)
 - [Committing](#committing)
 - [Pull Requests](#pull-requests)
 - [Releasing (maintainers)](#releasing-maintainers)
@@ -23,7 +23,7 @@ Contributions are welcome. This document covers development workflow, commit for
 
 2. **Environment** – Copy any `.env.example` to `.env.local` and set variables as needed for local development.
 
-3. **Branch** from `develop` for features/chores, or from `main` for hotfixes (see [Branching](#branching-git-flow)).
+3. **Branch** from `main` (see [Branching](#branching)).
 
 4. **Develop** – Follow [docs/STYLE_GUIDE.md](docs/STYLE_GUIDE.md) for code and styling.
 
@@ -31,18 +31,12 @@ Contributions are welcome. This document covers development workflow, commit for
 
 6. **Commit** using [Conventional Commits](#committing).
 
-7. **Open a PR** – Target `develop` for features/chores, `main` for hotfixes. Use the [PR workflow](#pull-requests).
+7. **Open a PR** – Target `main`. Use the [PR workflow](#pull-requests).
 
-## Branching (Git Flow)
+## Branching
 
-- **`main`** – Production-ready. Only receives merges from `release/*`, `hotfix/*`, and `vercel/*`. No direct commits.
-- **`develop`** – Integration branch. Only receives merges from `feature/*`, `chore/*`, `dependabot/*`.
-- **`feature/<name>`** – New features. Branch from `develop`, merge back into `develop`.
-- **`chore/<name>`** – Maintenance, deps, tooling. Branch from `develop`, merge into `develop`.
-- **`hotfix/<name>`** – Urgent production fixes. Branch from `main`, merge into `main` (and back into `develop`).
-- **`release/<version>`** – Release preparation. Branch from `develop`, merge into `main` and `develop`.
-
-Branch protection is enforced by [.github/workflows/branch-protection.yml](.github/workflows/branch-protection.yml): PRs to `main` must be from `hotfix/`, `release/`, or `vercel/`; PRs to `develop` must be from `feature/`, `chore/`, or `dependabot/`.
+- **`main`** – Trunk and production. Changes arrive only through squash-merged PRs; each merge deploys production on Vercel.
+- **`feature/<name>`**, **`fix/<name>`**, **`chore/<name>`** – Short-lived branches from `main`, merged back into `main`. Each PR gets a Vercel preview deployment.
 
 ## Committing
 
@@ -63,30 +57,27 @@ Use [Conventional Commits](https://www.conventionalcommits.org/):
 - `docs: update setup instructions`
 - `chore: update dependencies`
 - `chore(deps): bump @playwright/test for GHSA-7mvr-c777-76hp`
-- `docs: add unreleased changelog entries for demo tooling`
 
-For **changelog-only** commits under `[Unreleased]`, prefer `docs:` (user- or operator-facing notes) or `chore:` (trivial wording). Security-related dependency bumps: `chore(deps):` or `fix(deps):` with the advisory id when known.
+Security-related dependency bumps: `chore(deps):` or `fix(deps):` with the advisory id when known.
 
 See [.claude/rules/commit-message-format.md](.claude/rules/commit-message-format.md) for full guidelines.
 
 ## Pull Requests
 
-- **Target** – Features/chores → `develop`. Hotfixes → `main`.
-- **Title** – Same format as commit messages, e.g. `feat(metadata): add batch edit`.
+- **Target** – `main`.
+- **Title** – Same format as commit messages, e.g. `feat(metadata): add batch edit`. The squash merge uses it, so release-please derives the version and changelog entry from it: `feat` → minor, `fix` → patch, `!` → major; other types release nothing. The `pr-title` check enforces the format.
 - **Description** – Draft in `.pr-descriptions/<branch-name>.md` (see [.claude/rules/pr-description-workflow.md](.claude/rules/pr-description-workflow.md)); copy into GitHub when opening the PR. Use [organization pull request template](https://github.com/BehindTheMusicTree/.github/blob/main/.github/pull_request_template.md).
-- **Checks** – Lint, test, and build must pass. Update [CHANGELOG.md](CHANGELOG.md) under **`[Unreleased]`** for any release-notable work (features, fixes, **security or dependency advisories**—including lockfile-only bumps—env or config changes, meaningful UX/refactors, new docs or demo paths). Use the same section headings as in [*Changelog Best Practices*](CHANGELOG.md#changelog-best-practices): **Security**, **Added**, **Changed**, **Fixed**, **Removed**, **Documentation**, **CI**, etc. Skip only for purely internal edits with no user or operator impact.
+- **Checks** – Lint, test, and build must pass. Do not edit [CHANGELOG.md](CHANGELOG.md) by hand.
 
 ## Releasing (maintainers)
 
-1. Create `release/X.Y.Z` from `develop`, set `package.json` `version` and move the `[Unreleased]` changelog entries in one `chore(release): prepare X.Y.Z` commit (no `pnpm version`/`npm version`).
-2. Merge the release PR into `main`; the `Release tag` workflow creates the `vX.Y.Z` tag (no manual tag).
-3. Merge `main` back into `develop` through a PR.
+Release-please derives the version and `CHANGELOG.md` from PR titles (Conventional Commits). The [Release](.github/workflows/release.yml) workflow keeps a release PR open on `main` and arms its auto-merge: once its required checks pass it merges, which deploys production and creates the `vX.Y.Z` tag. Never edit the changelog or `package.json` version by hand, and never tag manually.
 
 See [docs/VERSIONING.md](docs/VERSIONING.md) and [docs/SEMVER_GUIDE.md](docs/SEMVER_GUIDE.md).
 
 ## Documentation
 
-- **Changelog** – [CHANGELOG.md](CHANGELOG.md): version history; update **`[Unreleased]`** in the same PR as the code change. Follow [*Changelog Best Practices*](CHANGELOG.md#changelog-best-practices) (including **Security** for advisory-driven dependency updates). On release, move `[Unreleased]` into a dated version per [docs/VERSIONING.md](docs/VERSIONING.md).
+- **Changelog** – [CHANGELOG.md](CHANGELOG.md) (version history, generated by release-please)
 - **Code & UI** – [docs/STYLE_GUIDE.md](docs/STYLE_GUIDE.md)
 - **Semantic HTML** – [docs/SEMANTIC_HTML.md](docs/SEMANTIC_HTML.md)
 - **Data attributes & testing** – [docs/DATA_ATTRIBUTES.md](docs/DATA_ATTRIBUTES.md), [docs/testing.md](docs/testing.md)

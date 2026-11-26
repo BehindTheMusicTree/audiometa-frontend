@@ -25,9 +25,9 @@ All commit messages must follow the Conventional Commits format (see CONTRIBUTIN
 - `perf` - Performance improvement
 - `ci` - CI/CD pipeline changes
 
-### Changelog-only and dependency commits
+### Pull request titles and dependency commits
 
-- **Changelog edits** (`CHANGELOG.md` → `[Unreleased]`): prefer **`docs:`** when the notes are user- or operator-facing; use **`chore:`** for trivial wording-only tweaks.
+- **PR titles** use the same format: the squash merge into `main` uses the title, and release-please derives the version (`feat` minor, `fix` patch, `!` major) and the `CHANGELOG.md` entry from it. Choose the type from the effect on users. Never edit `CHANGELOG.md` by hand.
 - **Security-related dependency bumps**: prefer **`chore(deps):`** or **`fix(deps):`** and name the advisory (e.g. `GHSA-…`) or CVE in the summary when known.
 
 ## Rules
@@ -47,7 +47,6 @@ All commit messages must follow the Conventional Commits format (see CONTRIBUTIN
 - `docs: update setup instructions`
 - `chore: update dependencies`
 - `chore(deps): bump @playwright/test for GHSA-7mvr-c777-76hp`
-- `docs: add unreleased changelog entries for demo tooling`
 - `test(metadata): add unit tests for validation`
 
 ❌ **Incorrect:**
