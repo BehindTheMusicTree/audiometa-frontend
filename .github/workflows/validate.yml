@@ -1,11 +1,10 @@
-# Lint, test, and build on develop (staging) and main (production).
-# Vercel deploys: develop → staging, main → production (see docs/DEPLOYMENT.md).
+# Lint, test, and build on pull requests to main (production).
+# Vercel deploys main to production and each pull request to a preview (see docs/DEPLOYMENT.md).
 name: Validate
 
 on:
   pull_request:
     branches:
-      - develop
       - main
 
 permissions:
@@ -61,11 +60,22 @@ jobs:
       - name: Run tests
         run: pnpm run test
 
+  tests-success:
+    name: Tests success
+    needs: [test]
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Require tests to pass
+        env:
+          NEEDS: ${{ toJSON(needs) }}
+        run: jq -e 'all(.[]; .result == "success")' <<<"$NEEDS"
+
   build-check:
     name: Build Check
     runs-on: ubuntu-latest
     needs: [lint, test]
-    environment: ${{ github.base_ref == 'main' && 'PROD' || 'STAGING' }}
+    environment: PROD
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -82,21 +92,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Set build env (staging vs production)
-        run: |
-          BRANCH="${{ github.base_ref || github.ref_name }}"
-          if [[ "$BRANCH" == "main" ]]; then
-            echo "VERCEL_ENV=production" >> "$GITHUB_ENV"
-          else
-            echo "VERCEL_ENV=preview" >> "$GITHUB_ENV"
-          fi
-
       - name: Build application
         env:
+          VERCEL_ENV: production
           NEXT_PUBLIC_BACKEND_ROOT_SEGMENT: ${{ vars.HTMT_API_ROOT_SEGMENT }}
           NEXT_PUBLIC_DOCS_BUNDLE_URL: ${{ vars.AUDIOMETA_DOCS_BUNDLE_URL }}
           AUDIOMETA_PYTHON_GITHUB_REPO_URL: https://github.com/BehindTheMusicTree/audiometa
-          # Placeholders satisfy next.config requiredEnv; production/staging use real keys on Vercel.
+          # Placeholders satisfy next.config requiredEnv; Vercel deployments use real keys.
           NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN: phc_ci_build_placeholder
           NEXT_PUBLIC_POSTHOG_HOST: https://us.i.posthog.com
         run: pnpm run build

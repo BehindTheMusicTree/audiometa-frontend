@@ -45,7 +45,7 @@ The portfolio website content lives in **[the-music-tree-frontend](https://githu
 ├── docs/              # Style guide, testing, versioning
 ├── .claude/rules/     # Claude Code agent rules
 ├── .github/
-│   └── workflows/     # CI (validate, branch-protection)
+│   └── workflows/     # CI (validate, pr-title, release)
 ├── playwright.config.ts  # Playwright (demo screen recordings)
 └── README.md
 ```
@@ -88,20 +88,21 @@ Create `.env.local` from `.env.example` (when available) and set any required `N
 
 ## CI
 
-- **Validate** – On push/PR to `main` and `develop`: lint, test, build. [.github/workflows/validate.yml](.github/workflows/validate.yml)
-- **Branch protection** – PRs to `main` must be from `hotfix/` or `release/`; PRs to `develop` from `feature/`, `chore/`, or `dependabot/`. [.github/workflows/branch-protection.yml](.github/workflows/branch-protection.yml)
+- **Validate** – On PRs to `main`: lint, test, build, and the `Tests success` gate. [.github/workflows/validate.yml](.github/workflows/validate.yml)
+- **PR title** – Checks the Conventional Commits title that release-please reads. [.github/workflows/pr-title.yml](.github/workflows/pr-title.yml)
+- **Release** – On push to `main`: tags a merged version bump, then opens or updates the auto-merged release-please PR. [.github/workflows/release.yml](.github/workflows/release.yml)
 
 ## Documentation
 
 - **[CHANGELOG.md](CHANGELOG.md)** – Version history and notable changes
-- **[CONTRIBUTING.md](CONTRIBUTING.md)** – Git Flow, commits, PRs, releasing
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** – Branching, commits, PRs, releasing
 - **[docs/STYLE_GUIDE.md](docs/STYLE_GUIDE.md)** – TypeScript, React, Tailwind, naming
 - **[docs/SEMANTIC_HTML.md](docs/SEMANTIC_HTML.md)** – Semantic layout elements
 - **[docs/DATA_ATTRIBUTES.md](docs/DATA_ATTRIBUTES.md)** – `data-testid`, `data-page`, etc.
 - **[docs/testing.md](docs/testing.md)** – Testing strategy and structure
 - **[docs/VERSIONING.md](docs/VERSIONING.md)** – Tags and version format
 - **[docs/SEMVER_GUIDE.md](docs/SEMVER_GUIDE.md)** – When to bump MAJOR/MINOR/PATCH
-- **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** – Vercel staging and production setup
+- **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** – Vercel production and preview setup
 - **[docs/SEO_AND_AEO.md](docs/SEO_AND_AEO.md)** – SEO and AEO strategy and opportunities
 - **[demo/README.md](demo/README.md)** – demo hub (video guide, sample media)
 - **[demo/WEB_VIDEO_DEMOS.md](demo/WEB_VIDEO_DEMOS.md)** – formats, capture, ffmpeg, embeds

@@ -7,7 +7,8 @@
 #   AUDIOMETA_PYTHON_GITHUB_REPO_URL, POSTHOG_API_HOST (e.g. https://eu.i.posthog.com);
 #   repo secret POSTHOG_PROJECT_TOKEN (synced to Vercel as NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN);
 #   in each GitHub Environment (PROD, STAGING): HTMT_API_ROOT_SEGMENT (synced as NEXT_PUBLIC_BACKEND_ROOT_SEGMENT),
-#   secret VERCEL_DEPLOY_HOOK (per env). See docs/DEPLOYMENT.md §3.1.
+#   PROD secret VERCEL_DEPLOY_HOOK (production redeploy). Previews are rebuilt by the next push to their pull request.
+#   See docs/DEPLOYMENT.md §3.1.
 name: Sync Vercel env
 
 on:
@@ -81,13 +82,12 @@ jobs:
         run: curl -f -sS -X POST "$VERCEL_DEPLOY_HOOK"
 
   sync-staging:
-    name: Sync to Vercel preview (staging)
+    name: Sync to Vercel preview (pull request previews)
     runs-on: ubuntu-latest
     environment: STAGING
     env:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-      VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
       AUDIOMETA_DOCS_BUNDLE_URL: ${{ vars.AUDIOMETA_DOCS_BUNDLE_URL }}
       AUDIOMETA_PYTHON_GITHUB_REPO_URL: ${{ vars.AUDIOMETA_PYTHON_GITHUB_REPO_URL }}
       HTMT_API_ROOT_SEGMENT: ${{ vars.HTMT_API_ROOT_SEGMENT }}
@@ -99,7 +99,6 @@ jobs:
           missing=""
           [ -z "$VERCEL_TOKEN" ] && missing="$missing VERCEL_TOKEN"
           [ -z "$VERCEL_PROJECT_ID" ] && missing="$missing VERCEL_PROJECT_ID"
-          [ -z "$VERCEL_DEPLOY_HOOK" ] && missing="$missing VERCEL_DEPLOY_HOOK"
           [ -z "$AUDIOMETA_DOCS_BUNDLE_URL" ] && missing="$missing AUDIOMETA_DOCS_BUNDLE_URL"
           [ -z "$AUDIOMETA_PYTHON_GITHUB_REPO_URL" ] && missing="$missing AUDIOMETA_PYTHON_GITHUB_REPO_URL"
           [ -z "$HTMT_API_ROOT_SEGMENT" ] && missing="$missing HTMT_API_ROOT_SEGMENT"
@@ -142,6 +141,3 @@ jobs:
           sync_var "$POSTHOG_PROJECT_TOKEN" "NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN"
           sync_var "$POSTHOG_API_HOST" "NEXT_PUBLIC_POSTHOG_HOST"
           echo "Preview sync done."
-
-      - name: Trigger Vercel preview (staging) deploy
-        run: curl -f -sS -X POST "$VERCEL_DEPLOY_HOOK"

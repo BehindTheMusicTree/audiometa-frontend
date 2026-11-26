@@ -1,0 +1,33 @@
+name: Release
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+
+# One run per pushed commit, never cancelled or replaced: a replaced run could drop a pending release bump.
+concurrency:
+  group: release-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  tag:
+    permissions:
+      contents: write
+    uses: BehindTheMusicTree/github-workflows/.github/workflows/release-tag.yml@18b90bc9c64b9abab0a86e7ea74f65acac93aec1 # v6.6.0
+    with:
+      app-id: ${{ vars.RELEASE_APP_ID }}
+    secrets:
+      release-app-private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+
+  release-please:
+    needs: tag
+    if: ${{ !cancelled() && needs.tag.result == 'success' }}
+    uses: BehindTheMusicTree/github-workflows/.github/workflows/release-please.yml@18b90bc9c64b9abab0a86e7ea74f65acac93aec1 # v6.6.0
+    with:
+      app-id: ${{ vars.RELEASE_PR_APP_ID }}
+      # Publishes with no human review: the release PR merges once the required checks pass.
+      auto-merge: true
+      release-policies: .github/release-policy.json
+    secrets:
+      release-pr-app-private-key: ${{ secrets.RELEASE_PR_APP_PRIVATE_KEY }}
