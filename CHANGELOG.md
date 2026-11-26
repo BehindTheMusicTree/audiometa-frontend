@@ -7,21 +7,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Table of Contents
 
-- [Changelog Best Practices](#changelog-best-practices)
 - [Unreleased](#unreleased)
+- [0.2.2 - 2026-11-27](#022---2026-11-27)
 - [0.2.1 - 2026-11-12](#021---2026-11-12)
 - [0.2.0 - 2026-11-11](#020---2026-11-11)
 - [0.1.0 - 2025-03-12](#010---2025-03-12)
 
-## Changelog Best Practices
-
-- Add entries to the **`[Unreleased]`** section when opening or updating a PR.
-- Group changes under: **Security**, **Added**, **Changed**, **Fixed**, **Removed**, **Documentation**, **CI**, etc. (Use **Security** for dependency or supply-chain advisories, not only app code fixes.)
-- Use ISO 8601 dates: YYYY-MM-DD.
-- Mention tests within the related feature or fix entry when relevant.
-- During releases, move `[Unreleased]` content into a new versioned section. See [docs/VERSIONING.md](docs/VERSIONING.md).
-
 ## [Unreleased]
+
+## [0.2.2] - 2026-11-27
+
+### CI
+
+- **Workflow concurrency**: Add canonical `concurrency` groups to `agent-drift`, `branch-protection`, `validate` (superseded pull request runs are cancelled) and `release-tag` (one run per pushed commit, never cancelled).
+- **Org conformance**: Add the `org-conformance` caller (github-workflows v6.5.0) and key pull request concurrency groups by PR number.
+
+### Changed
+
+- Ignore local agent plans and temporary files while keeping their directory rules tracked.
+- **Node.js**: Upgrade development, CI and the Vercel runtime from Node 24 to Node 26; align Node type definitions with the runtime.
+
+### Removed
+
+- Drop the tracked `.agent-plans/.gitignore`: plans now live in the common git directory.
+
+### Documentation
+
+- Removed the "Changelog Best Practices" section from `CHANGELOG.md`; the conventions now live in the `create-pr` skill.
 
 ## [0.2.1] - 2026-11-12
 
@@ -93,7 +105,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Metadata Manager page** at `/audio-metadata-manager`: file picker to choose an audio file, POST to `NEXT_PUBLIC_BACKEND_BASE_URL/audio/metadata/full/`, display full metadata in six sections (Technical information, Unified metadata, By metadata format, Format priorities, Formats headers, Metadata raw). Inline loading and error display; no popup. Includes unit tests.
 - **Project setup**: Cursor rules (style, Tailwind, testing, SemVer, versioning, commit format, PR workflow), docs (STYLE_GUIDE, SEMANTIC_HTML, DATA_ATTRIBUTES, testing, SEMVER_GUIDE, VERSIONING), GitHub workflows (validate, branch-protection, publish), CONTRIBUTING.md, README, PR template, `.gitignore`. Vitest + Testing Library for tests. Reusable `PageLayout` component and `useGetFullMetadata` hook with Zod schema for response validation.
 
-[Unreleased]: https://github.com/your-org/audiometa-frontend/compare/v0.2.1...HEAD
+[Unreleased]: https://github.com/your-org/audiometa-frontend/compare/v0.2.2...HEAD
+[0.2.2]: https://github.com/your-org/audiometa-frontend/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/your-org/audiometa-frontend/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/your-org/audiometa-frontend/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/your-org/audiometa-frontend/releases/tag/v0.1.0
