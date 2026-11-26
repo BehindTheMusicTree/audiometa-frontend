@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### CI
 
 - **Workflow concurrency**: Add canonical `concurrency` groups to `agent-drift`, `branch-protection`, `validate` (superseded pull request runs are cancelled) and `release-tag` (one run per pushed commit, never cancelled).
+- **Org conformance**: Add the `org-conformance` caller (github-workflows v6.5.0) and key pull request concurrency groups by PR number.
 
 ### Changed
 
