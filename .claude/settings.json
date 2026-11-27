@@ -1,0 +1,5 @@
+{
+  "permissions": {
+    "deny": ["Skill(agent-config:release)"]
+  }
+}
