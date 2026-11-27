@@ -25,13 +25,15 @@ A version number is structured as:
 - **MINOR**: New backward-compatible features or notable improvements
 - **PATCH**: Backward-compatible bug fixes and small improvements
 
-When updating [CHANGELOG.md](../CHANGELOG.md) or choosing a release version, use this guide to decide whether to bump MAJOR, MINOR, or PATCH. For tag format and CI/CD behavior, see [VERSIONING.md](VERSIONING.md).
+Use this guide to choose the Conventional Commits PR title. The squash merge
+carries the title into `main`, where Release Please determines the version and
+updates [CHANGELOG.md](../CHANGELOG.md). See [VERSIONING.md](VERSIONING.md).
 
 ---
 
 ## MAJOR Version Changes
 
-Bump **MAJOR** when the change is breaking or has high impact:
+Mark a breaking change with `!` in the PR title, for example `feat(config)!: require explicit audio settings`.
 
 - **Breaking API or contract changes**: Backend API contract changes that require frontend or client updates
 - **Removed features or routes**: Removing a page, feature, or public capability that users or integrations rely on
@@ -45,7 +47,7 @@ When in doubt, prefer MAJOR if existing deployments or integrations could break 
 
 ## MINOR Version Changes
 
-Bump **MINOR** when adding new functionality in a backward-compatible way:
+Use `feat` for backward-compatible functionality.
 
 - **New features**: New pages, components, or user-facing capabilities
 - **New API usage or endpoints**: Frontend starts using new backend endpoints or options without removing support for existing behavior
@@ -57,24 +59,25 @@ Bump **MINOR** when adding new functionality in a backward-compatible way:
 
 ## PATCH Version Changes
 
-Bump **PATCH** when fixing issues or making small, safe improvements:
+Use `fix` for backward-compatible fixes.
 
 - **Bug fixes**: Fixing incorrect behavior, UI bugs, or API usage bugs
 - **Error handling improvements**: Better validation, error messages, or recovery without changing success behavior
 - **Performance fixes**: Fixing memory leaks, unnecessary re-renders, or redundant requests
 - **Accessibility or UX polish**: Fixes that do not change feature set
-- **Documentation or comments**: Doc-only or comment-only changes that do not affect runtime behavior
 - **Dependency patch updates**: Security or patch-level dependency updates that do not change public behavior
 
 ---
 
 ## Examples
 
+Use `docs` for documentation-only PRs.
+
 | Change | Bump | Reason |
 |--------|------|--------|
 | Fix API endpoint path | PATCH | Bug fix, no API contract change |
 | Add new "Export" action on metadata page | MINOR | New feature, backward compatible |
-| Require new required env var for build | MAJOR | Breaking for deployments |
+| Require a new env var for builds | MAJOR | Breaking for deployments |
 | Session restore so users don't reconnect on refresh | PATCH | Bug fix / behavior fix |
 | Drop support for an old API response shape | MAJOR | Breaking contract change |
 | Next.js major upgrade with no breaking code changes | MAJOR | Major dependency upgrade |
