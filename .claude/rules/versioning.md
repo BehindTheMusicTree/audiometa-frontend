@@ -14,13 +14,9 @@ This rule defines how versioning and git tagging should be handled in this proje
 3. **Semantic versioning** with `v` prefix: `v<major>.<minor>.<patch>`
 4. **The `v` prefix is stripped** when used in workflows (e.g., `v0.2.0` → `0.2.0`)
 
-## Version Format
+## Release Tag Format
 
-- **Release versions**: `v<major>.<minor>.<patch>` (e.g., `v0.2.0`, `v1.0.0`)
-- **Development tags**: `v<version>-dev-<branch-name>` (e.g., `v0.3.0-dev-improve-ui`)
-  - Use branch name **without** type prefix (`feature/`, `hotfix/`, etc.)
-  - Example: Branch `feature/improve-ui` → Tag `v0.3.0-dev-improve-ui`
-- **Pre-release tags**: `v<version>-<identifier><number>` (e.g., `v0.2.0-rc1`, `v0.2.0-beta1`, `v0.2.0-alpha1`)
+The release workflow creates `v<major>.<minor>.<patch>` tags, for example `v0.2.0`.
 
 ## Version Extraction in Workflows
 
@@ -51,15 +47,8 @@ When creating or updating GitHub Actions workflows that need version information
 2. **Use extracted version** throughout the workflow (Docker tags, job outputs, etc.).
 3. **Never hardcode versions** or use GitHub variables for `APP_VERSION` in workflows
 
-## Tag Naming Guidelines
-
-- **Development**: `v<version>-dev-<branch-name>` (remove branch type prefix)
-- **Pre-release**: `v0.2.0-rc1`, `v0.2.0-beta1`, `v0.2.0-alpha1`
-- **Release**: `v0.2.0`, `v1.0.0`
-
 ## When Working with Versions
 
-- **Creating workflows**: Always extract version from git tags, never use hardcoded versions
-- **Tagging**: Follow the naming conventions for development, pre-release, and release tags
-- **Documentation**: Reference `docs/VERSIONING.md` for tag/CI strategy; reference `docs/SEMVER_GUIDE.md` for when to bump MAJOR, MINOR, or PATCH
-- **Changelog and version**: release-please generates `CHANGELOG.md` and bumps `package.json` `version` from the PR titles merged into `main` (see `docs/VERSIONING.md`). Never edit them by hand.
+- **Workflows**: Extract the released version from Git tags.
+- **PR titles**: Follow `docs/SEMVER_GUIDE.md`. Squash merges carry the title into `main`.
+- **Release files**: Leave `CHANGELOG.md`, `package.json` version and `.release-please-manifest.json` to Release Please. CI auto-merges the release PR and creates the tag. See `docs/VERSIONING.md`.

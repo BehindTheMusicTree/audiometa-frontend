@@ -2,7 +2,10 @@
 
 AudioMeta is a Next.js App Router frontend. Read `README.md` for setup and
 `CONTRIBUTING.md` for branching, validation and releases. All work targets
-`main` through squash-merged PRs; release-please owns versions and `CHANGELOG.md`.
+`main` through squash-merged PRs. The Conventional Commits PR title becomes the
+squash commit subject. Use `feat` for a minor release, `fix` for a patch, and
+`!` for a breaking change. Release Please owns the version, manifest and
+`CHANGELOG.md`. CI merges the generated release PR and creates the tag.
 
 Before the relevant work, read the shared project rules below. Paths are relative
 to the repository root; `**/` includes files at the root. Claude `paths:` metadata

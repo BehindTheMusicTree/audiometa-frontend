@@ -9,6 +9,8 @@ Follow **docs/SEMVER_GUIDE.md** for when to bump MAJOR, MINOR, or PATCH in this 
 
 - **MAJOR**: Breaking or high-impact changes (removed features, incompatible API/config, required env changes, major dependency upgrades).
 - **MINOR**: New backward-compatible features, new endpoints or options, new optional config.
-- **PATCH**: Bug fixes, error-handling improvements, performance fixes, UX polish, doc-only changes.
+- **PATCH**: Bug fixes, error-handling improvements, performance fixes and UX fixes.
 
-When suggesting a release version, updating CHANGELOG version headings, or discussing impact of changes, use the guide to choose the appropriate bump. For tag format and CI/CD (e.g. `v0.2.0`, `-dev`, `-rc`), see the versioning rule and **docs/VERSIONING.md**.
+Choose a Conventional Commits PR title based on the change's effect. Use `docs`
+for documentation-only changes. Release Please generates the changelog and
+version updates from squash commits. See **docs/VERSIONING.md** for the CI flow.
